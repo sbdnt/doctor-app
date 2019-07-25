@@ -1,0 +1,44 @@
+- if @credit_card.errors
+  %ul
+    - @credit_card.errors.full_messages.each do |error|
+      %li= error
+
+.row
+  .col-lg-6.col-lg-offset-2
+    .card-wrapper.pull-left
+
+= form_for @credit_card, url: url, html: { class: "form-horizontal", id: "credit_card_form" } do |f|
+  .form-group
+    = hidden_field_tag :method, 'credit_card'
+  .form-group
+    = f.label :cc_num, "Card Number", class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.text_field :cc_num, value: @credit_card.persisted? ? @credit_card.masking_credit_number : f.object.cc_num,placeholder: "---- ---- ---- ----", class: "form-control avenir-regular"
+  .form-group
+    = f.label :expiry, "Expiration date", class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.text_field :expiry, placeholder: "-- / --", class: "form-control avenir-regular", pattern: "[0-9]{2}\s\/\s[0-9]{2}"
+  .form-group
+    = f.label :cvc, "CVC", class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.text_field :cvc, value: @credit_card.persisted? ? nil : f.object.cvc, placeholder: "---", class: "form-control avenir-regular"
+  .form-group
+    = f.label :bill_address, class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.text_field :bill_address, class: "form-control avenir-regular show-bill-addresses"
+    = f.hidden_field :lat_bill_address
+    = f.hidden_field :lng_bill_address
+
+  - if current_patient.bill_addresses
+    .form-group.credit-card-last-bill-addresses
+      .col-lg-5.col-lg-offset-2
+        %p
+          %b Or select last billing addresses
+        - current_patient.bill_addresses.each do |address|
+          .credit-card-bill-address
+            %span= address.address
+            %span.hide= address.latitude
+            %span.hide= address.longitude
+  .form-group
+    .col-lg-3.col-lg-offset-2
+      = f.submit "Confirm", class: "btn btn-primary btn-red"

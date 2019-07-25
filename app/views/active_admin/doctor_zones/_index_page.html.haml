@@ -1,0 +1,57 @@
+
+= simple_form_for(@doctor_zone, url: admin_doctor_zones_path, html: { method: :get, class: "form-horizontal" }) do |f|
+  = f.button :submit, 'Reload Zones', class: "btn btn-primary pull-left reload-zone-btn"
+
+%table
+
+.table-responsive
+  %table.table-hover.table-bordered.table-striped.doctor-available-table
+    %thead
+      %tr
+        %th{colspan: '3'}
+        %th.text-left{colspan: "#{@zones.count}"} Travel Time to Center of Postcode
+      %tr
+        %th{ class: "#{ params[:sort] == 'name' && params[:sort_direction] == 'asc' ? 'dropup' : '' }"}
+          = link_to 'Doctors', sort: 'name', sort_direction: params[:sort] == 'name' ? params[:sort_direction] : 'desc'
+          %span.caret
+        %th.next-available{class: "#{ params[:sort] == 'available_time' && params[:sort_direction] == 'asc' ? 'dropup' : '' }"} 
+          = link_to 'Next Available', sort: 'available_time', sort_direction: params[:sort] == 'available_time' ? params[:sort_direction] : 'desc'
+          %span.caret
+        %th.available-location Location when available
+        - @zones.each do |zone|
+          %th.zone-name
+            = zone.name
+            / = select_tag "zone_ids[]", options_for_select(@zone_list.map{|z| [z.name, z.id]}, zone.id), include_blank: false, class: "form-control select-doctor-zone", 'data-select-id' => "#{zone.id}"
+
+    %tbody
+      - @doctors.each do |doctor|
+        %tr
+          %td
+            = doctor.name
+          %td
+            = doctor.next_available
+          %td
+            = doctor.available_location
+          - @zones.each do |zone|
+            %td
+              = doctor.get_zone_eta(zone.id)
+
+// :javascript
+//   $(document).ready(function() {
+//     $('.select-doctor-zone').on('change', function (e) {
+//       var old_zone_id = $(this).attr('data-select-id')
+//       var current_zone_id = $(this).val()
+//       var count = 0
+//       $.each( $('.select-doctor-zone :selected'), function(e) {
+//         if ($(this).val() == current_zone_id) {
+//           count += 1
+//         }
+//       });
+//       if ( count > 1 ) {
+//         alert('The selected zone is duplicated. Please select another ones!');
+//         $(this).val(old_zone_id);
+//       } else {
+//         $(this).attr('data-select-id', current_zone_id);
+//       }
+//     });
+//   });

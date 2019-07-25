@@ -1,0 +1,18 @@
+common: &COMMON
+  provider: 'AWS'
+  access_key: 'AKIAJWLPLQUQD5664ANA'
+  secret_access_key: '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'
+  directory: 'gpdq-dev'
+  region: 'us-west-2'
+
+development:
+  <<: *COMMON
+  directory: 'gpdq-dev'
+
+production:
+  <<: *COMMON
+  directory: 'doctor-app'
+
+test:
+  <<: *COMMON
+  directory: 'doctor-app-test'

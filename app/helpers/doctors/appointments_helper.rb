@@ -1,0 +1,2 @@
+module Doctors::AppointmentsHelper
+end

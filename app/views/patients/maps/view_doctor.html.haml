@@ -1,0 +1,38 @@
+%center
+  .show-map
+    #map
+
+:javascript
+  window.handler = Gmaps.build('Google');
+  window.markers = []
+  window.handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    //window.markers = window.handler.addMarkers(#{@markers.to_json})
+    // window.handler.bounds.extendWith(window.markers)
+    // window.handler.fitMapToBounds()
+    // window.handler.getMap().setZoom(6)
+    return
+    
+  });
+  
+  var box_width, circle, content, marker, myOptions, pos;
+  pos = new google.maps.LatLng(#{@doctor.latitude}, #{@doctor.longitude});
+  circle = "<div class='circle pull-left'> <img src=#{@doctor.avatar.url}/></div>";
+
+  content = circle + "<div class='pull-left text-window'> #{@doctor.name} in " + #{@min_eta.second} + " min</div>";
+
+  box_width = "150px";
+
+  myOptions = drawInfoWindow(content, box_width);
+
+  window.ib = new InfoBox(myOptions);
+
+  marker = new google.maps.Marker({
+    map: window.handler.getMap(),
+    position: pos,
+    icon: "/assets/doctor_marker.png"
+  });
+  //marker = window.markers[0]
+  ib.open(window.handler.getMap(), marker);
+  window.handler.bounds.extendWith(window.markers)
+  window.handler.fitMapToBounds()
+  window.handler.getMap().setZoom(16)

@@ -1,0 +1,229 @@
+- if current_doctor.present? && !resource.new_record?
+  .form-group
+    = form.label :name, "Doctor Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :name, label: false, disabled: true, input_html: {class: "form-control"}
+  .form-group
+    = form.label :first_name, "First Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :first_name, label: false, disabled: true, input_html: {class: "form-control"}
+  .form-group
+    = form.label :last_name, "Last Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :last_name, label: false, disabled: true, input_html: {class: "form-control"}
+
+  .form-group
+    = form.label :email, "Email", class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :email, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+- else
+  .form-group
+    = form.label :name, "Doctor Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+  .form-group
+    = form.label :first_name, "First Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :first_name, label: false, input_html: {class: "form-control"}
+  .form-group
+    = form.label :last_name, "Last Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :last_name, label: false, input_html: {class: "form-control"}
+  .form-group
+    = form.label :role, "Role", class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :role, required: true, label: false, collection: Doctor.roles.keys.select{|a| a == "GP"}, include_blank: false, input_html: {class: "form-control input-double input-single"}
+
+  .form-group
+    = form.label :email, "Email", class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :email, required: true, label: false, input_html: {class: "form-control"}
+
+- if resource.new_record?
+  .form-group
+    = form.label :password, "Password", class: "control-label col-md-3 col-lg-3 label-required"
+    .col-md-9.col-lg-9
+      = form.input :password, required: true, label: false, input_html: {class: "form-control"}
+  .form-group
+    = form.label :password_confirmation, "Password confirmation", class: "control-label col-md-3 col-lg-3"
+    .col-md-9.col-lg-9
+      = form.input :password_confirmation, required: true, label: false, input_html: {class: "form-control"}
+
+.form-group
+  = form.label :phone_number, "Mobile phone", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+  .col-md-9.col-lg-9
+    = form.input :phone_number, required: true, label: false, input_html: {class: "form-control"}
+.form-group
+  = form.label :gender, "Gender", class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :gender, label: false, collection: Doctor.genders.keys, include_blank: false, input_html: {class: "form-control input-double input-single"}
+.form-group
+  = form.label :phone_landline, "Landline phone", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :phone_landline, required: true, label: false, input_html: {class: "form-control"}
+
+- if current_agency.nil?
+  .form-group
+    = form.label :agency_id, "Agency", required: true, class: "control-label col-md-3 col-lg-3"
+    .col-md-9.col-lg-9
+      = form.input :agency_id, label: false, :collection => [resource.agency || 'N/A'], :include_blank => false, disabled: true, input_html: { class: "form-control agency-select2" }
+- else
+  / = form.input :agency_id, as: :hidden, input_html: {value: current_agency.id}
+  .form-group
+    = form.label :agency_id, "Agency", required: true, class: "control-label col-md-3 col-lg-3"
+    .col-md-9.col-lg-9.agency-default
+      = form.input :agency_id, label: false, :collection => [current_agency], :include_blank => false, input_html: { class: "form-control agency-select2" }
+.form-group
+  = form.label :avatar, "Avatar", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :avatar, required: true, label: false, input_html: {class: "form-control photo-upload"}
+    = form.input :avatar_cache, as: :hidden
+  .col-md-9.col-md-offset-3.photo-preview
+    = image_tag(resource.avatar, size: '100x100', class: "existed-image pull-left" ) if !resource.new_record? && resource.avatar.present?
+    .image-preview-wrapper.clearfix{style: "display: none"}
+      %img{src: "#", width: "100px", height: "100px", class: "image-preview"}
+
+.form-group
+  = form.label :gmc_cert, "GMC certificate", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :gmc_cert, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :gmc_cert_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('gmc_cert')}", resource.gmc_cert.url if resource.gmc_cert.present? && resource.gmc_cert.url.present?
+
+.form-group
+  = form.label :gmc_cert_exp, "GMC certificate expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :gmc_cert_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :dbs_cert, "DBS certificate", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :dbs_cert, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :dbs_cert_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('dbs_cert')}", resource.dbs_cert.url if resource.dbs_cert.present? && resource.dbs_cert.url.present?
+
+.form-group
+  = form.label :dbs_cert_exp, "DBS certificate expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :dbs_cert_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :mdu_mps_cert, "MDU/MPS certificate", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :mdu_mps_cert, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :mdu_mps_cert_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('mdu_mps_cert')}", resource.mdu_mps_cert.url if resource.mdu_mps_cert.present? && resource.mdu_mps_cert.url.present?
+
+.form-group
+  = form.label :mdu_mps_cert_exp, "MDU/MPS certificate expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :mdu_mps_cert_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :passport, "Passport scan", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :passport, required: true, label: false, input_html: {class: "form-control photo-upload"}
+    = form.input :passport_cache, as: :hidden
+  .col-md-9.col-md-offset-3.photo-preview
+    = image_tag(resource.passport, size: '100x100', class: "existed-image pull-left" ) if !resource.new_record? && resource.passport.present?
+    .image-preview-wrapper.clearfix{style: "display: none"}
+      %img{src: "#", width: "100px", height: "100px", class: "image-preview"}
+
+.form-group
+  = form.label :last_appraisal_summary, "Appraisal summary", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :last_appraisal_summary, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :last_appraisal_summary_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('last_appraisal_summary')}", resource.last_appraisal_summary.url if resource.last_appraisal_summary.present? && resource.last_appraisal_summary.url.present?
+
+.form-group
+  = form.label :last_appraisal_summary_exp, "Appraisal summary expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :last_appraisal_summary_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :reference_gp, "Reference from another GP", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :reference_gp, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :reference_gp_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('reference_gp')}", resource.reference_gp.url if resource.reference_gp.present? && resource.reference_gp.url.present?
+
+.form-group
+  = form.label :hepatitis_b_status, "Hepatitis B status", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :hepatitis_b_status, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :hepatitis_b_status_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('hepatitis_b_status')}", resource.hepatitis_b_status.url if resource.hepatitis_b_status.present? && resource.hepatitis_b_status.url.present?
+
+.form-group
+  = form.label :hepatitis_b_status_exp, "Hepatitis B status expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :hepatitis_b_status_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :child_protection_cert, "Child protection certificate", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :child_protection_cert, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :child_protection_cert_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('child_protection_cert')}", resource.child_protection_cert.url if resource.child_protection_cert.present? && resource.child_protection_cert.url.present?
+
+.form-group
+  = form.label :child_protection_cert_exp, "Child protection certificate expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :child_protection_cert_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+.form-group
+  = form.label :adult_safeguarding_cert, "Adult safeguarding certificate", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :adult_safeguarding_cert, required: true, label: false, input_html: {class: "form-control file-upload"}
+    = form.input :adult_safeguarding_cert_cache, as: :hidden
+  .col-md-9.col-md-offset-3.document-link
+    = link_to "Current Document: #{resource.get_document_link('adult_safeguarding_cert')}", resource.adult_safeguarding_cert.url if resource.adult_safeguarding_cert.present? && resource.adult_safeguarding_cert.url.present?
+
+.form-group
+  = form.label :adult_safeguarding_cert_exp, "Adult safeguarding certificate expiration date", required: true, class: "control-label col-md-3 col-lg-3"
+  .col-md-9.col-lg-9
+    = form.input :adult_safeguarding_cert_exp, as: :string, required: true, label: false, input_html: {class: "form-control datepicker"}
+
+- if current_doctor.present? && !resource.new_record?
+  .form-group
+    = form.fields_for :doctor_zones do |zone_form|
+      / %p Extra Title
+      .extra-title-field.clearfix
+        = form.label "Zone covered", class: 'control-label col-md-3 extra-label'
+        .col-md-9
+          = zone_form.input :zone_id, label: false, :collection => Zone.order('name'), class: "form-control new-zone-input", :include_blank => false, disabled: true, input_html: {class: "zone-select2"}
+
+  .form-group
+    = form.label :default_start_location, "Default start location", class: "control-label col-md-3"
+    .col-md-9.col-lg-9
+      = form.input :default_start_location, label: false, :collection => [ resource.default_start_location || 'N/A' ], :include_blank => false, disabled: true, input_html: {class: "form-control select-tag"}
+- else
+  .form-group
+    = form.fields_for :doctor_zones do |zone_form|
+      / %p Extra Title
+      .extra-title-field.clearfix
+        = form.label "Zone covered", class: 'control-label col-md-3 extra-label'
+        .col-md-9
+          = zone_form.input :zone_id, label: false, :collection => Zone.order('name'), class: "form-control new-zone-input", :include_blank => false, input_html: {class: "zone-select2"}
+      .col-md-9.col-md-offset-3.remove-zone
+        = zone_form.link_to_remove "Remove This Zone"
+    %p{style: "display: block"}
+      = form.link_to_add "Add Zone Covered", :doctor_zones, class: "add-zone col-md-3 text-right"
+
+  .form-group
+    = form.label :default_start_location, "Default start location", class: "control-label col-md-3"
+    .col-md-9.col-lg-9
+      = form.input :default_start_location, label: false, :collection => Zone.order('name'), :label_method => :name, :value_method => :name, :include_blank => false, input_html: {class: "form-control select-tag"}
+
+.form-group
+  = form.label :description, "Description", class: "control-label col-md-3 col-lg-3 label-required"
+  .col-md-9.col-lg-9
+    = form.input :description, label: false, input_html: {class: "form-control"}

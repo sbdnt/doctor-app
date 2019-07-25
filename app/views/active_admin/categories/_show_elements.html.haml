@@ -1,0 +1,17 @@
+%h3 Elements
+%table
+  %thead
+    %tr
+    %th= "Name"
+    %th= "Phone"
+    %th= "Address"
+    - if category.kind == Element::INFORMATION
+      %th Open at
+      %th Close at
+  - category.elements.each do |e|
+    %tr
+      %td= e.name
+      %td= e.phone
+      %td= e.address
+      / - if category.kind == Element::INFORMATION
+      /   - e.working_days.each do |wd|

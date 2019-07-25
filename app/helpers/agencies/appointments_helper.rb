@@ -1,0 +1,2 @@
+module Agencies::AppointmentsHelper
+end

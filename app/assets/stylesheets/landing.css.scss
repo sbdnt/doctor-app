@@ -1,0 +1,878 @@
+//colors
+$white_10: rgba(255, 255, 255, 0.1);
+$color_mountain_mist_approx: #999999;
+$color_log_cabin_5_approx: rgba(34, 34, 34, 0.05);
+$white: #fff;
+$color_log_cabin_approx: #222;
+$color_outrageous_orange_approx: #f05f40;
+$mercury: #e5e5e5;
+$color_pomegranate_approx: #eb3812;
+$color_storm_dust_approx: #666666;
+$color_cerulean_approx: #00aeef;
+$wild_sand: #f4f4f4;
+$color_cararra_approx: #ebebeb;
+$color_celeste_approx: #cccccc;
+$color_pacific_blue_approx: #0190c6;
+
+//fonts
+$font_0: Open Sans;
+$font_1: sans-serif;
+//urls
+$url_0: url(../img/header.jpg);
+
+//@extend-elements
+//original selectors
+//hr.pricing, hr.contact-us
+%extend_1 {
+  max-width: 100vw;
+  border-color: $mercury;
+  border-width: 1px;
+  margin-bottom: 0;
+}
+
+//original selectors
+//.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary
+%extend_2 {
+  border-color: $color_pomegranate_approx;
+  color: $white;
+  background-color: $color_pomegranate_approx;
+}
+
+//original selectors
+//.navbar-default .nav > li > a, .navbar-default .nav > li > a:focus
+%extend_3 {
+  /*text-transform: uppercase;*/
+  font-weight: 700;
+  color: $color_log_cabin_approx;
+}
+
+//original selectors
+//.footer-bottom .copy-right, .footer-bottom .tc, .footer-bottom .prp, .footer-bottom .partner
+%extend_4 {
+  width: 100%;
+  margin-bottom: 6px;
+  margin-top: 0;
+}
+
+@font-face {
+  font-family: 'AvenirNext Bold';
+  src: url('/assets/AvenirNext-Bold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AvenirNext Regular';
+  src: url('/assets/AvenirNext-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AvenirNext DemiBold';
+  src: url('/assets/AvenirNext-DemiBold.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'AvenirNext Black';
+  src: url('/assets/avenirltstd-black-webfont.ttf') format('truetype');
+}
+
+html {
+  width: 100%;
+  height: 100%;
+}
+body.landing-page{
+  padding-top: 87px;
+  width: 1280px;
+  height: 100%;
+  font-family: $font_0, $font_1;
+  margin-left: auto;
+  margin-right: auto;
+  hr {
+    max-width: 50px;
+    border-color: $color_outrageous_orange_approx;
+    border-width: 3px;
+    &.light {
+      border-color: $white;
+    }
+    &.pricing {
+      @extend %extend_1;
+    }
+    &.contact-us {
+      @extend %extend_1;
+    }
+  }
+  a {
+    color: $color_outrageous_orange_approx;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all .35s;
+    &:hover {
+      color: $color_pomegranate_approx;
+    }
+    &:focus {
+      color: $color_pomegranate_approx;
+    }
+  }
+  h1 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+  }
+  h2 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+    font-size: 50px;
+  }
+  h3 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+  }
+  h4 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+  }
+  h5 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+  }
+  h6 {
+    font-family: $font_0, $font_1;
+    color: $color_storm_dust_approx;
+  }
+  p {
+    margin-bottom: 20px;
+    font-size: 21px;
+    line-height: 1.5;
+    color: $color_storm_dust_approx;
+    font-family: $font_0, $font_1;
+  }
+  .btn-primary {
+    border-color: $color_outrageous_orange_approx;
+    color: $white;
+    background-color: $color_cerulean_approx;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all .35s;
+    &:hover {
+      @extend %extend_2;
+    }
+    &:focus {
+      @extend %extend_2;
+    }
+    &.focus {
+      @extend %extend_2;
+    }
+    &:active {
+      @extend %extend_2;
+    }
+    &.active {
+      @extend %extend_2;
+    }
+  }
+  .btn {
+    border: 0;
+    font-family: $font_0, $font_1;
+    font-weight: 700;
+  }
+  .image-responsive {
+    width: 100%;
+    height: auto;
+  }
+  .bg-about-gpdq {
+    background-color: white;
+    padding-top: 40px;
+    .section-heading {
+      font-size: 18px;
+      color: #4b1e57;
+      font-family: AvenirNext Bold;
+    }
+    .title {
+      color: #4b1e57;
+      font-family: AvenirNext Bold;
+      font-size: 15px;
+    }
+    .description {
+      color: #666666;
+      font-family: AvenirNext Regular;
+      font-size: 15px;
+    }
+  }
+  #tell-me-more.bg-tell-me-more {
+    background-color: #fff;
+    padding: 40px 5% 70px;
+    .device-image > img{
+      position: absolute;
+    }
+    .available {
+      margin-top: 68px;
+    }
+    .title {
+      color: #4b1e57;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .description {
+      margin-bottom: 15px;
+    }
+    .store-group {
+      span.first {
+        margin-right: 5px;
+      }
+    }
+    .email-form {
+      padding: 35px;
+      margin-top: 68px;
+      background-color: #ff0050;
+      .title, .description {
+        color: white;
+      }
+      .btn-email-go {
+        background-color: white;
+        color: #666666;
+        padding: 9px 28px;
+        font-family: AvenirNext Regular;
+        margin-bottom: 2px;
+        margin-left: 5px;
+
+      }
+      #email {
+        padding: 8px 18px;
+        width: 69%;
+        border-radius: 5px;
+        border: 1px solid white;
+        font-family: AvenirNext Regular;
+      }
+    }
+  }
+  .gpdq-is-for {
+    /*padding-top: 64px;*/
+    background-color: $white;
+    .top-title {
+      .title {
+        color: #f50450;
+      }
+    }
+  }
+  .bg-security {
+    padding-top: 64px;
+    background-color: $white;
+  }
+  .bg-contact-us {
+    padding-top: 64px;
+    background-color: $white;
+  }
+  .bg-dark {
+    color: $white;
+    background-color: $color_log_cabin_approx;
+  }
+  .navbar-default {
+    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: 1px 5px 7px -1px $wild_sand;
+    border: none !important;
+    margin-bottom: 0;
+    padding: 0 14%;
+    background-color: $white;
+    //Instead of the line below you could use @includetransition($transition-1, $transition-2, $transition-3, $transition-4, $transition-5, $transition-6, $transition-7, $transition-8, $transition-9, $transition-10)
+    transition: all .35s;
+    a {
+      &.call-us {
+        color: $color_cerulean_approx !important;
+        display: inline-block;
+        img {
+          margin-bottom: 4px;
+        }
+      }
+      &.btn-sign-in {
+        background-color: $white;
+        border: 2px solid $color_cararra_approx;
+        padding: 10px 18px;
+        width: 100px;
+      }
+    }
+    .container-fluid {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .navbar-header .navbar-brand {
+      padding: 15px 0;
+      height: auto;
+
+      img {
+        width: 138px;
+      }
+
+    }
+    .nav > li {
+      > a {
+        @extend %extend_3;
+        &:focus {
+          @extend %extend_3;
+          &:hover {
+            color: $color_outrageous_orange_approx;
+          }
+        }
+        &:hover {
+          color: $color_outrageous_orange_approx;
+        }
+      }
+      &.active > a {
+        color: $color_outrageous_orange_approx !important;
+        background-color: transparent;
+        &:focus {
+          color: $color_outrageous_orange_approx !important;
+          background-color: transparent;
+          &:hover {
+            background-color: transparent;
+          }
+        }
+        &:hover {
+          background-color: transparent;
+        }
+      }
+    }
+    ul.navbar-nav {
+      padding: 18px 0;
+    }
+  }
+  .header {
+    position: relative;
+    /*width: 100%;*/
+    min-height: auto;
+    text-align: center;
+    color: $white;
+    background-position: center;
+    background-size: cover;
+    .header-content {
+      position: relative;
+      width: 100%;
+      text-align: center;
+      .title {
+        font-size: 34px;
+        font-family: AvenirNext Bold;
+      }
+      .description {
+        font-family: AvenirNext Regular;
+      }
+      .btn-header-group {
+        margin-top: 20px;
+        font-family: AvenirNext Regular;
+      }
+    }
+  }
+  section {
+    padding: 40px 0;
+  }
+  aside {
+    padding: 50px 0;
+  }
+  .no-padding {
+    padding: 0;
+  }
+}
+/*@media(max-width: 989px) {
+  .navbar-header {
+    float: none;
+  }
+  .navbar-left {
+    float: none !important;
+  }
+  .navbar-right {
+    float: none !important;
+  }
+  .navbar-toggle {
+    display: block;
+  }
+  .navbar-collapse {
+    border-top: 1px solid transparent;
+    //Instead of the line below you could use @includebox-shadow($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10)
+    box-shadow: inset 0 1px 0 $white_10;
+    &.collapse {
+      display: none !important;
+    }
+  }
+  .navbar-fixed-top {
+    top: 0;
+    border-width: 0 0 1px;
+  }
+  .navbar-nav {
+    float: none !important;
+    margin-top: 7.5px;
+    > li {
+      float: none;
+      > a {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+  }
+  .collapse.in {
+    display: block !important;
+  }
+  .navbar-default a.btn-sign-in {
+    width: 100px;
+  }
+}
+@media(max-width: 991px) {
+  .border-right {
+    border-right: none !important;
+  }
+}
+@media(max-width: 767px) {
+  section {
+    padding: 30px 0 !important;
+  }
+  p {
+    font-size: 16px;
+  }
+  .section-heading {
+    font-size: 40px;
+  }
+  header {
+    .header-content {
+      padding: 100px 10% 50px;
+    }
+    .header-content-inner {
+      .video a.btn {
+        padding: 13px 20px 13px 18px;
+      }
+      a.btn {
+        padding: 15px 13px;
+      }
+    }
+  }
+  #pricing a.btn {
+    padding: 15px 25px;
+  }
+}
+@media(min-width: 768px) {
+  .navbar-default {
+    &.affix {
+      border-color: $color_log_cabin_5_approx;
+      background-color: $white;
+      .nav > li > a {
+        color: $color_log_cabin_approx;
+        &:focus {
+          color: $color_log_cabin_approx;
+          &:hover {
+            color: $color_outrageous_orange_approx;
+          }
+        }
+        &:hover {
+          color: $color_outrageous_orange_approx;
+        }
+      }
+    }
+    .nav > li > a {
+      color: $color_mountain_mist_approx;
+      &:focus {
+        color: $color_mountain_mist_approx;
+        &:hover {
+        }
+      }
+      &:hover {
+      }
+    }
+  }
+}
+@media(max-width: 776px) {
+  .footer-bottom {
+    .copy-right, .tc, .prp, .partner {
+      width: 100%;
+      margin-bottom: 6px;
+      margin-top: 0;
+    }
+  }
+}*/
+
+.open > .dropdown-toggle.btn-primary {
+  @extend %extend_2;
+}
+/*Custom*/
+body {
+  .container {
+    width: 100% !important;
+  }
+}
+
+/*Nvbar*/
+.navbar-nav {
+  a.page-scroll {
+    color: #42224b !important;
+    font-family: AvenirNext DemiBold;
+  }
+}
+
+#gps-involved.bg-gps-involved {
+  background-color: #493147;
+  .top-row {
+    margin-bottom: 40px;
+  }
+  .section-heading {
+    margin-bottom: 50px;
+    font-family: AvenirNext Bold;
+  }
+  .steps {
+    .step {
+      position: relative;
+      width: 20%;
+      margin-right: 2%;
+      margin-left: 1%;
+      .number-over {
+        position: absolute;
+        top: -1px;
+        color: white;
+        left: 19px;
+      }
+      .text {
+        width: 5%;
+        color: #7c60c3;
+        margin-left: 5px;
+        font-family: AvenirNext Bold;
+      }
+    }
+  }
+  .section-heading {
+    color: white;
+    font-size: 18px;
+  }
+  .slider-image.first {
+    background: image-url("landing/pass-device.jpg") no-repeat;
+    background-size: 100%;
+    .title {
+      font-size: 16px;
+      color: #ff0050;
+
+    }
+    .description {
+      color: #666666;
+      font-size: 15px;
+    }
+    ul {
+      padding-left: 20px;
+      li {
+        font-size: 15px;
+        color: #666666;
+      }
+    }
+    .pass-left {
+      padding: 105px 0;
+    }
+  }
+}
+
+section#gpdq-is-for {
+  padding: 0;
+  .who-user-left {
+    padding-left: 0;
+  }
+  .top-title {
+    .title {
+      font-size: 16px;
+      margin: 25px 0;
+    }
+    .description {
+      font-size: 17px;
+    }
+    margin: 35px 0;
+  }
+  .bellow-title {
+    .title {
+      margin: 15px 0;
+    }
+    .item {
+      margin-bottom: 40px;
+    }
+  }
+}
+
+section#register {
+  padding: 0;
+  .row {
+    position: relative;
+    .wrapper-over {
+      position: absolute;
+      top: 35%;
+      left: 25%;
+      .title {
+        color: white;
+        font-size: 24px;
+      }
+      .description {
+        color: white;
+      }
+      .btn-sign-up {
+        margin-top: 25px;
+        border-radius: 300px;
+        background-color: #ff284f !important;
+        font-size: 12px;
+        padding: 13px 28px;
+      }
+    }
+  }
+}
+
+.border-left {
+  border-left: 1px solid $mercury;
+}
+
+.btn-tell-me-more {
+  border-radius: 300px;
+  background-color: #571e58 !important;
+  font-size: 12px;
+  padding: 13px 28px;
+  margin-right: 15px;
+  font-family: AvenirNext Bold !important;
+}
+.btn-get-involved {
+  border-radius: 300px;
+  background-color: #ff284f !important;
+  font-size: 12px;
+  padding: 13px 28px;
+  font-family: AvenirNext Bold !important;
+}
+.header, .header-content {
+  padding: 0;
+  slick-header {
+    margin-bottom: 0;
+  }
+  .slick-header {
+    .slider-image {
+      position: relative;
+    }
+    .wrapper-over {
+      position: absolute;
+      top: 38%;
+      left: 34%;
+    }
+    .title {
+      color: white;
+    }
+    .description {
+      color: white;
+      font-size: 16px;
+    }
+    .carousel-indicators {
+      bottom: 50px;
+      li.active {
+        background-color: #fcffff;
+      }
+    }
+  }
+}
+.color-purple {
+  color: #571e58;
+}
+.go-btn {
+  background-color: white;
+  font-size: 15px;
+  padding: 13px 44px;
+  font-weight: normal;
+}
+
+/*For Sign up doctor/agency*/
+.signup-now {
+  .links {
+    a:hover {
+      text-decoration: none !important;
+    }
+    .active {
+      color: red;
+    }
+    .disable {
+      color: grey;
+    }
+  }
+  .btn-primary {
+    border-color: #f05f40 !important;
+  }
+}
+
+.header-content {
+  padding: 0;
+  .slick-header {
+    margin-bottom: 0 !important;
+    .slider-image {
+      position: relative;
+    }
+    .wrapper-over {
+      position: absolute;
+      top: 38%;
+      left: 33%;
+    }
+    .title {
+      color: white;
+      font-size: 32px;
+    }
+    .description {
+      color: white;
+      margin-bottom: 20px;
+    }
+    .carousel-indicators {
+      bottom: 50px;
+      li.active {
+        background-color: #fcffff;
+      }
+    }
+  }
+}
+
+section#screens.bg-screens {
+  background-color: #d0405d;
+  padding: 80px 0;
+  .slick-slider {
+    margin-bottom: 0;
+    .slider-image {
+      .arrow, .text {
+        display: none;
+      }
+      .top-tip {
+        margin-bottom: 40px;
+        height: 60px;
+      }
+      .bot-tip {
+        margin-top: 40px;
+        height: 60px;
+        .text {
+          margin-left: -50px;
+        }
+      }
+    }
+    .slick-center {
+      .arrow, .text {
+        display: inline-block !important;
+      }
+      .top-arrow {
+        margin-top: 10px;
+      }
+      .bot-arrow {
+        margin-top: -10px;
+      }
+    }
+    img {
+      margin: 10px;
+      padding: 2%;
+    }
+    .screen-img {
+      margin: 0 auto;
+    }
+    .slick-center {
+      .slider-wrapper, img {
+        -webkit-transform: scale(1.08);
+        -moz-transform: scale(1.08);
+        -ms-transform: scale(1.08);
+        -o-transform: scale(1.08);
+        transform: scale(1.08);
+      }
+    }
+    .title, .description {
+      color: white;
+    }
+  }
+}
+
+.slick-prev{
+  left: 55px !important;
+  background: image-url("landing/prev-icon.png") no-repeat !important;
+  &:before{
+    content: none !important;
+  }
+  &:focus{
+    outline: none !important;
+  }
+}
+.slick-prev::-moz-focus-inner {
+  border: 0;
+}
+.slick-next{
+  right: 44px !important;
+  background: image-url("landing/next-icon.png") no-repeat !important;
+  &:before{
+    content: none !important;
+  }
+  &:focus{
+    outline: none !important;
+  }
+}
+.slick-next::-moz-focus-inner {
+  border: 0;
+}
+
+/*Landing page Footer*/
+.footer {
+  background-color: #eeeeee;
+  height: auto;
+  .content {
+    padding: 45px 0;
+  }
+  span.logo{
+    margin-left: 30px;
+  }
+  span.description {
+    margin-left: 10px;
+  }
+  span.linkedin {
+    margin-right: 30px;
+  }
+}
+
+.row-mg-top {
+  margin-top: 50px;
+}
+.arrow-down {
+  margin-top: 120px
+}
+.mg-right {
+  margin-right: 33px;
+}
+.agency-doctor-form {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  .input-double {
+    height: 50px;
+    width: 100%;
+  }
+  .input-single {
+    width: 100%;
+  }
+  .btn-ok {
+    background-color: #FF0151 !important;
+    font-size: 15px;
+    padding: 13px 44px;
+    font-weight: normal;
+    border-color: #f05f40 !important;
+  }
+  .mg-top {
+    margin-top: 15px;
+  }
+  .obset-2 {
+    margin-left: 12.6%
+  }
+}
+.bold {
+  font-weight: bold;
+}
+.color-magenta {
+  color: #ff0050 !important;
+}
+.avenir-bold {
+  font-family: AvenirNext Bold !important;
+}
+.avenir-regular {
+  font-family: AvenirNext Regular !important;
+}
+.avenir-demibold {
+  font-family: AvenirNext DemiBold !important;
+}
+
+/*For sign up success page*/
+.sign-up-success {
+  .text-wrapper {
+    margin: 35px 0 45px 0;
+    .text {
+      font-size: 20px;
+      color: #3e095e;
+    }
+  }
+  .return-home {
+    a {
+      color: #3e095e !important;
+      text-decoration: underline;
+      font-size: 15px;
+    }
+  }
+}

@@ -1,0 +1,13 @@
+%h2 Edit Doctor's Profile
+
+#doctor-profile-info
+  = simple_nested_form_for(@doctor, url: doctor_path(@doctor), html: { method: :put, class: "form-horizontal" }) do |f|
+    = f.error_notification
+    - if @doctor.errors.any?
+      %ul
+        - @doctor.errors.full_messages.each do |msg|
+          %li{style: "color: red"}
+            = msg
+    = render 'doctors/registrations/form', form: f, resource: @doctor
+    .form-actions
+      = f.button :submit, "Save Changes", class: "btn btn-primary edit-doctor-profile-btn"

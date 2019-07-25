@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body.landing-page
+    %center.sign-up-success
+      = image_tag asset_url("landing/logo.png"), width: '25%'
+      .text-wrapper
+        .text.avenir-regular
+          Thank you for your interest in GPDQ.
+        .text.avenir-regular
+          A member of our team will be in touch with you shortly
+      .return-home.avenir-regular
+        = link_to "Home page", root_path

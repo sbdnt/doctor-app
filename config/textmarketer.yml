@@ -1,0 +1,17 @@
+common: &COMMON
+  username: 'XS2dJv' 
+  password: 'ajCEK9'
+# common: &COMMON
+#   username: 'MjuqmR' 
+#   password: 'dtd2Ns'
+
+development:
+  <<: *COMMON
+
+production:
+  <<: *COMMON
+  # username: 'XS2dJv' 
+  # password: 'ajCEK9'
+
+test:
+  <<: *COMMON

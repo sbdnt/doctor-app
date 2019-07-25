@@ -1,0 +1,64 @@
+
+= simple_form_for(@patient_doctor, url: admin_patient_doctors_path, html: { method: :get, class: "form-horizontal" }) do |f|
+  %strong.title Select Patient to calculate time
+  = f.input :patient_id, as: :select, label: 'Patient', :collection => Patient.all.map{|p| [p.name, p.id]}, :selected => @patient.try(:id), include_blank: true, input_html: {class: "patient-select2"}
+
+  %strong.title Or input latitude, longitude to calculate time
+  = f.input :latitude, as: :decimal, label: 'Latitude', input_html: {value: params[:patient_doctor].present? ? params[:patient_doctor][:latitude] : nil}
+  = f.input :longitude, as: :decimal, label: 'Longitude', input_html: {value: params[:patient_doctor].present? ? params[:patient_doctor][:longitude] : nil}
+
+  = f.button :submit, 'Calculating ETA from now', class: "btn btn-primary calculate-btn"
+
+%table
+
+- if @patient.present?
+  %h4.title
+    = "Patient's Location: #{@patient.address}"
+
+- if @doctors.any?
+  .table-responsive
+    %table.table-hover.table-bordered.table-striped.doctor-available-table
+      %thead
+        %tr
+          %th{ width: '15%', class: "#{ params[:sort] == 'name' && params[:sort_direction] == 'asc' ? 'dropup' : '' }"}
+            = link_to 'Doctors Name', sort: 'name', sort_direction: params[:sort] == 'name' ? params[:sort_direction] : 'desc'
+            %span.caret
+          %th.next-available{ width: '20%', class: "#{ params[:sort] == 'available_time' && params[:sort_direction] == 'asc' ? 'dropup' : '' }"} 
+            = link_to 'Next Available', sort: 'available_time', sort_direction: params[:sort] == 'available_time' ? params[:sort_direction] : 'desc'
+            %span.caret
+          %th.available-location{ width: '25%' } Location after next available
+          / %th{ width: '10%' } Time to Patient (from current location)
+          / %th{ width: '10%' } Distance to Patient
+          %th{ width: '10%' } ETA to Patient
+          %th{ width: '10%' } Holding by patient
+
+      %tbody
+        - @doctors.each do |doctor|
+          - if !@calculate_lat_lng
+            - patient_doctor = PatientDoctor.where(doctor_id: doctor.id, patient_id: @patient.try(:id), transport: 'transit').first
+
+          %tr
+            %td
+              = doctor.name
+            %td
+              = doctor.next_available
+            %td
+              = doctor.available_location
+            / %td
+            /   - if @calculate_lat_lng
+            /     = @patient.show_distance_with_doctor(doctor.id)
+            /   - else
+            /     = patient_doctor.present? ? patient_doctor.show_eta : 'N/A'
+            / %td
+            /   = patient_doctor.present? ? patient_doctor.show_km : 'N/A'
+            %td
+              - if @calculate_lat_lng
+                = @patient.show_eta_with_doctor(doctor.id)
+              - else
+                = doctor.show_eta_to_patient(@patient)
+            %td
+              = doctor.get_held_patient
+
+- else
+  - if @patient.present?
+    %strong.title Currently, there are no available doctors for this patient.

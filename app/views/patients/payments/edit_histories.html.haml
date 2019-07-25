@@ -1,0 +1,33 @@
+.payment-method
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li{:role => "presentation", class: "#{(params[:payment_tab] || 'credit') == 'credit' ? 'active' : ''}"}
+      %a.avenir-regular{"aria-controls" => "home", "data-toggle" => "tab", :href => "#creadit-card", :role => "tab"} CREDIT CARD
+    %li{:role => "presentation", class: "#{params[:payment_tab] == 'paypal' ? 'active' : ''}"}
+      %a.avenir-regular{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#paypal", :role => "tab"} PAYPAL
+  / Tab panes
+  .tab-content
+    #creadit-card.tab-pane{:role => "tabpanel", class: "#{(params[:payment_tab] || 'credit') == 'credit' ? 'active' : ''}"}
+      .container
+        .row
+          %center
+            %table.table.table-bordered
+              %tbody
+                - @payments.map do |payment|
+                  %tr
+                    %td= payment.cc_type.upcase
+                    %td= payment.cc_num
+                    %td= link_to "Edit", edit_patients_payment_path(payment.id, payment_tab: "credit")
+
+    #paypal.tab-pane{:role => "tabpanel", class: "#{params[:payment_tab] == 'paypal' ? 'active' : ''}"}
+      .container
+        %center
+          = image_tag asset_url('paypal-logo.png')
+        .row
+          %center
+            %table.table.table-bordered
+              %tbody
+                - @paypals.map do |paypal|
+                  %tr
+                    %td
+                    %td= paypal.paypal_email
+                    %td= link_to "Edit", edit_patients_payment_path(paypal.id, payment_tab: "paypal")

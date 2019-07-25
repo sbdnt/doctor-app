@@ -1,0 +1,85 @@
+%center
+  .show-map
+    - if session[:not_logged_address].blank?
+      .address.hidden
+        .pull-left
+          = image_tag("address_marker.png")
+        .pull-left#show-address
+        .pull-right
+          = link_to "#", class: "btn-edit-location" do
+            = image_tag("pencil.png", width: "20", height: "20")
+    - else
+      .address-not-logged
+        .pull-left
+          = image_tag("address_marker.png")
+
+        .pull-left#show-address-unlogged
+          = session[:not_logged_address]
+        .pull-right
+          = link_to "#", class: "btn-edit-location" do
+            = image_tag("pencil.png", width: "20", height: "20")
+    #map
+    .make-appointment
+      = form_tag(update_location_patients_maps_path, {:method => :put, class: "form-update-location"}) do
+        = hidden_field_tag "location[address]"
+        = hidden_field_tag "location[lat]", ""
+        = hidden_field_tag "location[lng]", ""
+        = hidden_field_tag "location[is_current]", true
+        = hidden_field_tag "location[next_step]", true
+
+:javascript
+  // if (typeof(objMap) == "undefined") {
+  //   window.objMap = new Map()
+  // }
+
+  localStorage.setItem("check_logged", "#{patient_signed_in?}")
+  window.tab = "#{params[:tab]}"
+  window.doctor_id = "#{@doctor_id}"
+  window.confirm_value = "#{params[:confirm]}"
+  window.current_address = "#{@current_location.try(:address)}"
+  if (confirm_value == "true") {
+    localStorage.setItem("unlogged_lat", "#{session[:lat_lng].try(:first)}")
+    localStorage.setItem("unlogged_lng", "#{session[:lat_lng].try(:last)}")
+  }
+  window.lat = "#{@current_location.try(:latitude)}"
+  window.lng = "#{@current_location.try(:longitude)}"
+  localStorage.setItem("lat", "#{@current_location.try(:latitude)}")
+  localStorage.setItem("lng", "#{@current_location.try(:longitude)}")
+  localStorage.setItem("min_eta", "#{@min_eta.try(:second)}")
+  localStorage.setItem("arrived_time", "#{@arrived_time}")
+  localStorage.setItem("status", "#{@status}")
+  window.handler = Gmaps.build('Google');
+  window.handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    objMap.markers = window.handler.addMarkers(gon.markers[0])
+    console.log(gon.markers[0])
+    // if (tab == "no") {
+    //   window.handler.bounds.extendWith(objMap.markers)
+    //   window.handler.fitMapToBounds()
+    //   window.handler.getMap().setZoom(10)
+    // }
+    return
+
+  });
+  window.ib = new InfoBox()
+  $(function() {
+    $(document).on("ready page:load", function(){
+
+      google.maps.event.addListener(ib, 'closeclick', function() {
+        console.log("click close")
+        if ($(".text-window").parent().length > 1) {
+          $(".text-window").parent()[0].remove();
+        }
+        var text;
+        text = $($(".text-window")[0]).text();
+        if (text === "SET LOCATION") {
+          if (localStorage.getItem("selectedLocation") === 'true')
+            return window.location.href = "/patients/maps/life_threatening";
+          else
+            return window.location.href = "/patients/locations?tab=" + tab;
+        } else {
+          return window.location.href = "/patients/maps/" + doctor_id + "/view_doctor";
+        }
+      });
+    });
+  })
+

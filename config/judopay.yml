@@ -1,0 +1,11 @@
+common: &COMMON
+  host: "partnerapi.judopay-sandbox.com"
+  api_token: "ZLzu2TffbA45wrHa"
+  api_secret: "e49bfedb324637c920a628ebf3461891e8790977b9bf590522cdbfb67d13fd55"
+  judo_id: "100039-783"
+  
+development:
+  <<: *COMMON
+
+production:
+  <<: *COMMON

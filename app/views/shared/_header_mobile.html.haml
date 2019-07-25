@@ -1,0 +1,25 @@
+%nav.navbar.navbar-default.navbar-fixed-top.navbar-mobile
+  / Brand and toggle get grouped for better mobile display
+  .navbar-header
+    %button.navbar-toggle.collapsed{"data-target" => "#bs-navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.sr-only Toggle navigation
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    .logo.pull-left{style: "margin-left:30px; margin-top:10px"}
+      = link_to(image_tag(asset_url('logo.png')), root_path)
+      %span DoctorApp
+  / Collect the nav links, forms, and other content for toggling
+  #bs-navbar-collapse.collapse.navbar-collapse
+    %ul.nav.navbar-nav.menu-right.navbar-right
+      %li.sub-list
+        = link_to "Sign in","#"
+        / %ul.sub-menu
+        /   %li.sub-content
+        /     = "A"
+        /   %li.sub-content
+        /     = "B"
+        /   %li.sub-content
+        /     = "C"
+      %li.sub-list
+        = link_to "Sign up","#"

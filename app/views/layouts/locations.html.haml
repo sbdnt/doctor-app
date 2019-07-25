@@ -1,0 +1,70 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places"
+    = javascript_include_tag "//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"
+    = javascript_include_tag "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+    = include_gon
+    :javascript
+      // This example displays an address form, using the autocomplete feature
+      // of the Google Places API to help users fill in the information.
+      if (typeof(confirm_value) == "undefined")
+        window.confirm_value = "#{params[:confirm]}"
+      var placeSearch, autocomplete;
+      function initialize() {
+        // Create the autocomplete object, restricting the search
+        // to geographical location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            (document.getElementById('location_address')),
+            { types: ['geocode'] });
+        autocomplete.addListener('place_changed', function() {
+          var place = autocomplete.getPlace();
+          console.log(place);
+          console.log(place.geometry.location);
+          $("#location_lat").val(parseFloat(place.geometry.location["G"]).toFixed(8));
+          $("#location_lng").val(parseFloat(place.geometry.location["K"]).toFixed(8));
+          returnIntro();
+        });
+      }
+      function returnIntro() {
+        if (localStorage.getItem("check_logged") === 'true') {
+          $('#bs-location-modal-lg').modal('show');
+        } else {
+          localStorage.setItem("selectedLocation", true);
+          var address = '';
+          var lat =  $("#location_lat").val();
+          var lng =  $("#location_lng").val();
+          localStorage.setItem("choseAddress", JSON.stringify({'address': address, 'lat': lat, 'lng': lng, 'set_billing': false}));
+          var tab = $("#tab").val();
+          window.location.href = "/patients/maps?tab="+tab+"&confirm=true"
+        }
+      }
+
+  %body.patient-web{:onload => "initialize()"}
+    .page-wrap
+      = render "shared/patient_menu"
+      #flash-panel
+        - flash.each do |key, val|
+          - if val.is_a?(Array) && val.any?
+            .alert{:class => "alert-#{key}"}
+              - val.each do |msg|
+                - if msg.present?
+                  %div
+                    = msg
+                    %button.close{"data-dismiss" => "alert", :type => "button"} ×
+          - elsif val.present?
+            %div{:class => "alert alert-#{key}"}
+              = val
+              %button.close{"data-dismiss" => "alert", :type => "button"} ×
+      = yield
+    .footer
+      .container
+        .row.content
+          %span.logo
+            = image_tag asset_url("landing/logo.png"), width: '82px'
+          %span.description.avenir-regular GPDQ provides another choice for NHS or private patients who simply want to see a doctor at short notice in their own home or office.

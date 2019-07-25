@@ -1,0 +1,32 @@
+.row
+  %h2.pull-left Help List
+.row.doctor-management
+  %table.table.table-hover{:border => 2}
+    %thead
+      %tr
+        %th #
+        %th{ class: "#{ params[:sort] == 'name' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+          = link_to "Title", sort: 'title', sort_direction: params[:sort] == 'title' ? params[:sort_direction] : 'desc', query: params[:query]
+          %span.caret
+        %th{ class: "#{ params[:sort] == 'created_at' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+          = link_to "Content", sort: 'created_at', sort_direction: params[:sort] == 'created_at' ? params[:sort_direction] : 'desc', query: params[:query]
+          %span.caret
+        %th{ class: "#{ params[:sort] == 'status' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+          = link_to "Is published", sort: 'is_published', sort_direction: params[:sort] == 'is_published' ? params[:sort_direction] : 'desc', query: params[:query]
+          %span.caret
+        %th{ :width => '120px' }
+          Action
+    %tbody
+      - @helps.each_with_index do |help, index|
+        %tr{ class: "#{ index.odd? ? 'even' : 'odd' }" }
+          %td= index + 1
+          %td= truncate(help.title, length: 40, omission: '..')
+          %td= truncate(help.content, length: 80, omission: '..')
+          %td
+            - if help.is_published
+              %span.status_tag.yes Yes
+            - else
+              %span.status_tag.no No
+          %td
+            .btn-group.btn-group-sm
+              = link_to 'View', agencies_help_path(help.id), :class => 'btn btn-default'

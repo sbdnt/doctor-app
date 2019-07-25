@@ -1,0 +1,56 @@
+.container{style: "padding-top: 10px"}
+  / %h2 FAQ
+  #accordion.panel-group
+    - if @helps.count > 0
+      - @helps.each_with_index do |help, index|
+
+        .panel.panel-default
+          .panel-heading{ class: "collapse-#{index+1}", 'data-id' => "collapse-#{index+1}" }
+            %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{index+1}"}
+              %h4.panel-title
+                / %a{"data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse#{index+1}"}
+                = help.try(:title)
+                %span.glyphicon.pull-right{ class: "#{index == 0 ? "glyphicon-chevron-down" : "glyphicon-chevron-right"}", style: "width: 2%;" }
+          .panel-collapse.collapse{id: "collapse-#{index+1}", class: "#{index == 0 ? "in" : ""}"}
+            .panel-body
+              = raw(help.try(:content))
+
+:javascript
+  $(document).ready(function(){
+    $('.panel-heading').on('click', function(e){
+      e.preventDefault();
+      e.stopPropagation();
+
+      // scroll to page top if there is an oppening tab first,
+      var oppening_panel = $('.panel-collapse.in');
+      if (oppening_panel.length > 0) {
+        $('html,body').scrollTop(0);
+        oppening_panel.collapse('toggle');
+      }
+
+      // then collapse the selected content and srolling again
+      var this_id = $(this).attr('data-id');
+      var this_content = $('#' + this_id);
+      this_content.collapse('toggle');
+    });
+
+    $(".panel-collapse").on("hidden.bs.collapse", function(e){
+      var arrow_field = $(e.target).prev().find('.glyphicon');
+      if ( arrow_field.hasClass('glyphicon-chevron-down') ) {
+        arrow_field.removeClass('glyphicon-chevron-down');
+        arrow_field.addClass('glyphicon-chevron-right');
+      }
+    });
+
+    $(".panel-collapse").on("shown.bs.collapse", function(e){
+      var this_title = $(e.target).prev();
+      var title_height = this_title.offset().top - 6;
+      $('html,body').scrollTop(title_height);
+
+      var arrow_field = this_title.find('.glyphicon');
+      if ( arrow_field.hasClass('glyphicon-chevron-right') ) {
+        arrow_field.removeClass('glyphicon-chevron-right');
+        arrow_field.addClass('glyphicon-chevron-down');
+      }
+    });
+  });

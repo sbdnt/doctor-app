@@ -1,0 +1,103 @@
+// SASS variable overrides must be declared before loading up Active Admin's styles.
+//
+// To view the variables that Active Admin provides, take a look at
+// `app/assets/stylesheets/active_admin/mixins/_variables.css.scss` in the
+// Active Admin source.
+//
+// For example, to change the sidebar width:
+// $sidebar-width: 242px;
+
+// Active Admin's got SASS!
+//@import "active_admin/mixins";
+//@import "active_admin/base";
+@import 'active_admin/override_admin_bootstrap';
+@import 'active_admin/override_active_admin';
+@import 'active_admin/admin_bootstrap';
+@import "select2.min";
+//= require jquery-ui
+
+// Overriding any non-variable SASS must be done after the fact.
+// For example, to change the default status-tag color:
+//
+//   .status_tag { background: #6090DB; }
+.image-preview {
+  width: 200px;
+  width: 200px;
+}
+
+form {
+  input[type=date] {
+    width: calc(80% - 22px);
+  }
+/*  fieldset {
+    ol {
+      fieldset { margin-top: 15px;}
+    }
+    li {
+      label { line-height: 28px; }
+    }
+  }*/
+}
+
+.select2-container {
+  width: 150px !important;
+}
+
+.login-background {
+  /*background: image-url("sign-in-bg.jpg") center center no-repeat !important;*/
+  background: image-url("sign-in-bg.jpg") no-repeat center center fixed !important;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover !important;
+}
+
+.date_picker {
+  input { width: 160px !important; }
+}
+ul.errors, p.inline-errors {
+  color: red;
+}
+
+/*Scope appointment*/
+.admin_appointments {
+  ul.scopes {
+    list-style-type: none;
+    li {
+      display: inline-block;
+      margin-right: 5px;
+      border: 1px solid #ddd;
+      padding: 10px 15px;
+    }
+  }
+}
+
+/* Doctor available */
+.reload-zone-btn {
+  margin-top: 10px;
+}
+table.doctor-available-table {
+  width: 100%;
+  thead > tr > th {
+    background-color: #efefef;
+    background-image: linear-gradient(180deg, #efefef, #dfe1e2);
+
+    &.next-available {
+      width: 100px;
+      max-width: 100px;
+      min-width: 100px;
+    }
+
+    &.available-location {
+      width: 160px;
+      max-width: 160px;
+      min-width: 160px;
+    }
+
+    &.zone-name {
+      width: 60px;
+      max-width: 60px;
+      min-width: 60px;
+    }
+  }
+}

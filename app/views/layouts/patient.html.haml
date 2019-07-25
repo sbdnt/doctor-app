@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = javascript_include_tag "https://maps.googleapis.com/maps/api/js?libraries=places"
+    = javascript_include_tag "//google-maps-utility-library-v3.googlecode.com/svn/tags/markerclustererplus/2.0.14/src/markerclusterer_packed.js"
+    = javascript_include_tag "http://google-maps-utility-library-v3.googlecode.com/svn/trunk/infobox/src/infobox.js"
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body.patient-web
+    .page-wrap
+      = render "shared/patient_menu"
+      #flash-panel
+        - flash.each do |key, val|
+          - if val.is_a?(Array) && val.any?
+            .alert{:class => "alert-#{key}"}
+              - val.each do |msg|
+                - if msg.present?
+                  %div
+                    = msg
+                    %button.close{"data-dismiss" => "alert", :type => "button"} ×
+          - elsif val.present?
+            %div{:class => "alert alert-#{key}"}
+              = val
+              %button.close{"data-dismiss" => "alert", :type => "button"} ×
+      = yield
+    .footer
+      .container
+        .row.content
+          %span.logo
+            = image_tag asset_url("landing/logo.png"), width: '82px'
+          %span.description.avenir-regular GPDQ provides another choice for NHS or private patients who simply want to see a doctor at short notice in their own home or office.

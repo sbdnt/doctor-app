@@ -1,0 +1,100 @@
+#calendar
+
+:javascript
+  window.for_day = true
+  window.for_week = false
+  $('#calendar').fullCalendar({
+    googleCalendarApiKey: 'AIzaSyC3-CKsEvDKu_xMNllAGhaY5WYW0wa-NPw',
+    events: {
+      googleCalendarId: 'thuynt04@gmail.com',
+      className: 'gcal-event'
+    },
+    events: function(start, end, timezone, callback) {
+      $(".main-loading").show()
+      data = { start_time: start._d, end_time: end._d}
+      var diff = end._d - start._d
+      console.log(data)
+      $('#calendar').fullCalendar( 'refresh' )
+      $.ajax({
+        type: 'GET',
+        url: '/agencies/calendars',
+        data: data,
+        dataType: "json"
+        }).
+        success(function(data) {
+          // for week
+          if (diff > 86400000) {
+            window.for_day = false
+            window.for_week = true
+          } else {
+            window.for_day = true
+            window.for_week = false
+          }
+
+          callback(data);
+
+          $(".main-loading").hide()
+        })
+    },
+    eventClick: function(event) {
+      var url;
+      url = "/agencies/calendars/edit_default_schedule";
+
+      $.ajax({
+        type: 'GET',
+        data: {
+          id: event.id,
+          start_at: event.start.toString(),
+          changed_by: "default_common_status",
+          period_id: event.id,
+          wday: event.wday,
+          default_week: window.for_week,
+          agency_period_id: event.agency_period_id
+        },
+        url: url
+      }).done(function(data) {
+        window.for_day = true
+        window.for_week = false
+        return console.log("open" + event.id);
+      });
+      return false;
+    },
+    header: {
+      left: '',
+      center: 'title',
+      right: 'agendaWeek,agendaDay'
+    },
+    titleFormat: '[Default Daily schedule]',
+    columnFormat: {
+      month: 'ddd',
+      week: 'ddd d/M',
+      day: 'dddd'
+    },
+    defaultView: 'agendaDay',
+    firstDay: 1,
+    scrollTime:  "08:00:00",
+    selectable: true,
+    allDaySlot: false,
+    firstHour: 7,
+    timezone: 'UTC',
+    slotDuration: '00:15:00',
+    slotEventOverlap: false,
+    lazyFetching: false,
+    defaultTimedEventDuration: '01:00:00',
+    timeFormat: {
+      agendaDay: '',
+      agendaWeek: '',
+      month: '',
+      '': 'h(:mm)t'
+    }
+  });
+  $(".fc-day-header").html("&nbsp;");
+  $(".fc-button-group").click(function(e) {
+    if ($(e.target).html() == "day"){
+     $(".fc-day-header").html("&nbsp;");
+      $(".fc-center h2").html("Default Daily schedule");
+    }else {
+      $(".fc-center h2").html("Default Weekly schedule");
+    }
+  });
+

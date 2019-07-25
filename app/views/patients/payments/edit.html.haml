@@ -1,0 +1,18 @@
+- active_credit_card = 'active' if params[:method] == 'credit_card' || params[:method].nil?
+- active_paypal = 'active' if params[:method] == 'paypal'
+.container
+  .row
+    .col-lg-12
+      %ul.nav.nav-tabs{:role => "tablist"}
+        %li{:role => "presentation", class: "#{active_credit_card}"}
+          %a.avenir-regular{"aria-controls" => "credit", "data-toggle" => "tab", :href => "#credit-card-form", :role => "tab"} CREDIT CARD
+        %li{:role => "presentation", class: "#{active_paypal}"}
+          %a.avenir-regular{"aria-controls" => "paypal", "data-toggle" => "tab", :href => "#paypal-form", :role => "tab"} PAYPAL
+      .tab-content
+        #credit-card-form.payment-method-form.tab-pane.fade{role: "tabpanel", class: "#{active_credit_card} #{'in if active_credit_card'}" }
+          - if @credit_card
+            = render 'credit_card_form', url: update_credit_card_patients_payment_path
+        #paypal-form.payment-method-form.tab-pane.fade{role: "tabpanel", class: "#{active_paypal} #{'in if active_paypal'}"}
+          - if @paypal
+            = render 'paypal_form', url: update_paypal_patients_payment_path
+          

@@ -1,0 +1,156 @@
+.container{style: "background-color: #f4f4f4;"}
+  - if appointment.status == 'pending'
+    .re-schedule
+      %span=link_to "Auto-scheduling", auto_scheduling_admin_appointment_path(appointment), class: "btn btn-warning", method: :put, data: { confirm: "This appointment will be Auto-scheduling. Are you sure?" }
+      %span=link_to "Manual-scheduling", edit_admin_appointment_path(appointment), class: "btn btn-primary"
+  .detail-appointment
+    %h3 Patient Details
+    - patient = appointment.patient
+
+    %table.table-bordered.pull-left{style: "width: auto;"}
+      %tr
+        %td Name
+        %td.content= patient.name
+      %tr
+        %td Previous appointments
+        %td.content= patient.appointments.count - 1
+      %tr
+        %td Average ratings given
+        %td.content= patient.appointments.blank? ? 0 : patient.appointments.sum(:rating) / patient.appointments.count
+      %tr
+        %td Contact detail upon booking
+        %td.content= patient.phone_number
+
+    %table.table-bordered.pull-left{style: "width: auto;margin-left: 20px;"}
+      %tr
+        %td Customer since
+        %td.content
+      %tr
+        %td Latitude
+        %td.content= appointment.lat
+      %tr
+        %td Longitude
+        %td.content= appointment.lng
+      %tr
+        %td Home address
+        %td.content= patient.address
+      %tr
+        %td Device type used
+        %td.content
+    .clearfix
+    %h3 Appointment Details
+    %table.table-bordered.pull-left{style: "width: auto;"}
+      %tr
+        %td Assigned Time:
+        %td.content= appointment.assigned_time_at.try(:strftime, "%Y-%m-%d %H:%M:%S")
+
+      %tr
+        %td Appt Location:
+        %td.content= patient.address
+
+      %tr
+        %td{colspan: 3}
+          .title Appointment Events:
+
+      - appointment_events_are_processed = AppointmentEvent.includes(:event).where(appointment_id: appointment.id, is_processed: true).order(:created_at)
+      - appointment_events_are_processed.each do |appointment_event|
+        %tr
+          - doctor_name = "- Doctor: #{appointment_event.doctor.name}" if appointment_event.doctor
+          %td= link_to "#{appointment_event.event.name} #{doctor_name}", admin_appointment_event_path(appointment_event.id)
+
+          %td
+            - appointment_event_id = appointment_event.id
+            - if appointment_event.require_manual_process
+              = link_to "Edit", '#', data: { toggle: "modal", target: "#appointment-event-modal-#{appointment_event_id}" }
+              .modal.fade{id: "appointment-event-modal-#{appointment_event_id}", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+                .modal-dialog.modal-lg{:role => "document"}
+                  .modal-content
+                    .modal-header.text-center
+                      %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                        %span{"aria-hidden" => "true"} ×
+                      %h4#myModalLabel.modal-title Edit Event
+                    .modal-body.text-left
+                      = render 'admin/appointment_events/form', object: appointment_event, url: update_manual_admin_appointment_event_path(appointment_event_id), appointment: appointment, form_method: 'patch'
+                    .modal-footer
+                      %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+                      %button.btn.btn-primary{:type => "submit", form: "appointment-event-form-#{appointment_event_id}"} Save changes
+            - else
+              = link_to "View Details", admin_appointment_event_path(appointment_event.id)
+
+          %td.content= appointment_event.created_at.strftime("%Y-%m-%d %H:%M:%S")
+
+      %tr
+        %td{colspan: 3}
+          .title Events Requiring attention:
+      - appointment_events_require_manual_process = AppointmentEvent.includes(:event).where(appointment_id: appointment.id, is_processed: false, require_manual_process: true).order(:created_at)
+      - appointment_events_require_manual_process.each do |appointment_event|
+        %tr
+          - doctor_name = "- Doctor: #{appointment_event.doctor.name}" if appointment_event.doctor
+          %td= link_to "#{appointment_event.event.name} #{doctor_name}", admin_appointment_event_path(appointment_event.id)
+          %td
+            - appointment_event_id = appointment_event.id
+            = link_to "Process", '#', data: { toggle: "modal", target: "#appointment-event-modal-#{appointment_event_id}" }
+            .modal.fade{id: "appointment-event-modal-#{appointment_event_id}", "aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+              .modal-dialog.modal-lg{:role => "document"}
+                .modal-content
+                  .modal-header.text-center
+                    %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                      %span{"aria-hidden" => "true"} ×
+                    %h4#myModalLabel.modal-title Edit Event
+                  .modal-body.text-left
+                    = render 'admin/appointment_events/form', object: appointment_event, url: update_manual_admin_appointment_event_path(appointment_event_id), appointment: appointment, form_method: 'patch'
+                  .modal-footer
+                    %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+                    %button.btn.btn-primary{:type => "submit", form: "appointment-event-form-#{appointment_event_id}"} Save changes
+          %td.content= appointment_event.created_at.strftime("%Y-%m-%d %H:%M:%S")
+
+      %tr
+        %td.text-center{colspan: 3}
+          = link_to "Create Manual Event", '#', class: "btn btn-primary", data: { toggle: "modal", target: "#appointment-event-modal" }
+          / Modal
+          #appointment-event-modal.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+            .modal-dialog.modal-lg{:role => "document"}
+              .modal-content
+                .modal-header.text-center
+                  %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+                    %span{"aria-hidden" => "true"} ×
+                  %h4#myModalLabel.modal-title New Manual Event
+                .modal-body.text-left
+                  - @appointment_event = AppointmentEvent.new
+                  = render 'admin/appointment_events/form', object: @appointment_event, url: create_manual_admin_appointment_events_path, appointment: appointment, form_method: 'post'
+                .modal-footer
+                  %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+                  %button.btn.btn-primary{:type => "submit", form: "appointment-event-form"} Save changes
+
+    - categories = PriceCategory.all
+    %table.table-bordered.pull-left{style: "width: auto;"}
+      %tr
+        %td Duration of appt:
+        %td.content= (appointment.duration.to_s || "30") + " mins"
+      %tr
+        %td Base Fare
+        %td.content
+          - invoices_defaults = ItemsInvoice.joins(:invoice).where("invoices.appointment_id=?", appointment.id).joins(:price_item).where("price_items.is_default = ? and price_items.category_id IN (?)", true, categories.map(&:id))
+          - base_fare = appointment.cal_base_fare
+          / = number_to_currency(base_fare, unit: "£", separator: ",", delimiter: "")
+          = number_to_currency(appointment.cal_base_fare, precision: 2, unit: "£", separator: ".", delimiter: ",")
+
+      - un_default_prices = 0.0
+      - categories.map do |cate|
+        - invoices = ItemsInvoice.joins(:invoice).where("invoices.appointment_id=?", appointment.id).joins(:price_item).where("price_items.is_default = ? and price_items.category_id = ?", false, cate.id)
+        - price_item = invoices.map{|x| x.item_price * x.quantity}.sum
+        - if price_item.to_i != 0 
+          %tr
+            %td= cate.name
+            %td.content
+              - un_default_prices += price_item
+              = number_to_currency(price_item, precision: 2, unit: "£", separator: ".", delimiter: ",")
+
+      %tr
+        %td.title Total
+        %td.content
+          - total = base_fare + un_default_prices
+          = number_to_currency(total, precision: 2, unit: "£", separator: ".", delimiter: ",")
+      %tr
+        %td Time to dispatch from booking
+        %td.content

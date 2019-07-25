@@ -1,0 +1,77 @@
+// Place all the styles related to the patients/sign_in_newregister controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.sign-in-register {
+  .btn-register, .btn-skip {
+    border-radius: 300px;
+    background-color: white !important;
+    border: 1px solid #a998c6 !important;
+    color: #a998c6 !important;
+    font-size: 12px;
+    padding: 13px 28px;
+    margin-right: 15px;
+    font-family: AvenirNext Regular !important;
+    width: 120px;
+  }
+  .signin-patient.btn-sign-in, .btn-sign-in {
+    border-radius: 300px;
+    background-color: #ff284f !important;
+    border: 1px solid #ff284f !important;
+    font-size: 12px;
+    padding: 13px 28px;
+    font-family: AvenirNext Regular !important;
+    margin-right: 15px;
+    width: 120px;
+  }
+  .btn-change-pwd {
+    border-radius: 300px;
+    background-color: #ff284f !important;
+    border: 1px solid #ff284f !important;
+    font-size: 12px;
+    padding: 13px 28px;
+    font-family: AvenirNext Regular !important;
+    text-transform: uppercase;
+    color: white;
+  }
+  .edit-password {
+    margin-top: 40px;
+  }
+  .text-wrapper {
+    .text {
+      font-size: 18px;
+      color: #4a2154;
+    }
+  }
+  .btn-header-group {
+    margin-top: 100px;
+  }
+  .or {
+    margin: 20px 0;
+  }
+  .btn-sign-in-fb {
+    border-radius: 300px;
+    background-color: white !important;
+    border: 1px solid #a998c6 !important;
+    color: #a998c6 !important;
+    font-size: 12px;
+    padding: 13px 28px;
+    font-family: AvenirNext Regular !important;
+  }
+}
+/*Reset password page*/
+.reset-password-patient {
+  .gpdq-logo {
+    margin-top: 20px;
+  }
+  .edit-password {
+    margin-bottom: 20px;
+  }
+  .text {
+    font-size: 18px !important;
+    color: #4a2154 !important;
+  }
+  .btn-change-pwd {
+    margin-top: 30px;
+  }
+}

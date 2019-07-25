@@ -1,0 +1,16 @@
+.row
+  %h2.pull-left Terms and Conditions
+.row.doctor-management
+  %table.table.table-hover{:border => 2}
+    %thead
+      %tr
+        %th
+          = link_to "Content", "#"
+        %th{ :width => '120px' }
+          Action
+    %tbody
+      %tr
+        %td= truncate(@tc.content, length: 160, omission: '..')
+        %td
+          .btn-group.btn-group-sm
+            = link_to 'View', agencies_terms_conditition_path(@tc.id), :class => 'btn btn-default'

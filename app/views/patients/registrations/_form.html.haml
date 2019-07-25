@@ -1,0 +1,104 @@
+.container
+  .row
+    / .form-group
+    /   = form.label :first_name, "First Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    /   .col-md-9.col-lg-9
+    /     = form.input :first_name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+
+    / .form-group
+    /   = form.label :last_name, "Last Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+    /   .col-md-9.col-lg-9
+    /     = form.input :last_name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :fullname, "Full Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+      .col-md-9.col-lg-6
+        = form.input :fullname, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :email, "Email", class: "control-label col-md-3 col-lg-3 label-required"
+      .col-md-9.col-lg-6
+        = form.input :email, required: true, label: false, input_html: {class: "form-control"}
+
+    - if resource.new_record?
+      .form-group
+        = form.label :password, "Password", class: "control-label col-md-3 col-lg-3 label-required"
+        .col-md-9.col-lg-6
+          = form.input :password, required: true, label: false, input_html: {class: "form-control"}
+      .form-group
+        = form.label :password_confirmation, "Password confirmation", class: "control-label col-md-3 col-lg-3 label-required"
+        .col-md-9.col-lg-6
+          = form.input :password_confirmation, required: true, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :phone_number, "Phone Number", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+      .col-md-9.col-lg-6
+        = form.input :phone_number, required: true, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :avatar, "Avatar", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :avatar, label: false, input_html: {class: "form-control photo-upload"}
+        = form.input :avatar_cache, as: :hidden
+      .col-md-9.col-md-offset-3.photo-preview
+        = image_tag(resource.avatar, size: '100x100', class: "existed-image pull-left" ) if !resource.new_record? && resource.avatar.present?
+        .image-preview-wrapper.clearfix{style: "display: none"}
+          %img{src: "#", width: "100px", height: "100px", class: "image-preview"}
+
+    .form-group
+      = form.label :address, "Address", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :address, label: false, placeholder: 'input full address here' , input_html: {class: "form-control"}
+
+    / .form-group
+    /   = form.label :zone_id, "Register Your Zone", class: "control-label col-md-3"
+    /   .col-md-9.col-lg-6
+    /     = form.input :zone_id, label: false, :collection => Zone.order('name'), :label_method => :name, :value_method => :id, :include_blank => false, input_html: {class: "form-control select-tag"}
+
+    .form-group
+      = form.label :account_number, "Account Number", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :account_number, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :bank_name, "Bank Name", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :bank_name, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :sort_code, "Sort Code", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :sort_code, label: false, input_html: {class: "form-control"}
+
+    .form-group
+      = form.label :branch_address, "Branch Address", class: "control-label col-md-3 col-lg-3"
+      .col-md-9.col-lg-6
+        = form.input :branch_address, label: false, input_html: {class: "form-control"}
+
+    - if form.object.new_record?
+      .form-group
+        .col-md-3.col-lg-3.col-md-offset-4
+          / = form.input :over_18, required: true, as: :boolean, inline_label: "I'm over 18", input_html: {class: "form-control acept-checkbox"}
+          = form.input :over_18, as: :boolean, label: "I'm over 18"
+
+      .form-group
+        .col-md-3.col-lg-3.col-md-offset-4
+          / = form.input :terms_of_service, required: true, as: :boolean, inline_label: "I accept Terms & Conditions", input_html: {class: "form-control acept-checkbox"}
+          = form.input :terms_of_service, as: :boolean, label: "I accept Terms & Conditions"
+
+        .col-md-2
+          %button.btn.btn-white.btn-view-tc{"data-target" => "#bs-tc-modal-lg", "data-toggle" => "modal", :type => "button"} View Terms & Conditions
+
+      = form.hidden_field :referred_by, value: @referred_by
+
+#bs-tc-modal-lg.modal{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4#myModalLabel.modal-title Terms & Conditions
+      .modal-body
+        = raw @tc.try(:content)
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

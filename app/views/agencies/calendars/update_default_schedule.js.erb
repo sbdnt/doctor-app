@@ -1,0 +1,25 @@
+$('#cal_event').modal('hide')
+//window.location.reload()
+if ($("#calendar").length != 0) {
+  $('#calendar').fullCalendar( 'refetchEvents' )
+}
+else if ($("#default_calendar").length != 0) {
+  $('#default_calendar').fullCalendar( 'refetchEvents' )
+}
+else if ($("#custom_calendar").length != 0) {
+  $('#custom_calendar').fullCalendar( 'refetchEvents' )
+  $(".apply-schedule").html("<%= escape_javascript(render partial: 'agencies/calendars/apply_default', locals: {doctor_id: @doctor_id}) %>")
+  if (window.current_mode == "day") {
+    $('.btn-week').addClass("hidden")
+    $(".check-box-day").removeClass("hidden")
+    //$(".apply-schedule").removeClass("hidden")
+    $('#start_time').attr("value", localStorage["start_time_day"])
+    $('#end_time').attr("value", localStorage["end_time_day"])
+  } else {
+    $('.btn-week').removeClass("hidden")
+    //$(".apply-schedule").addClass("hidden")
+    $(".check-box-day").addClass("hidden")
+    $('#start_time').attr("value", localStorage["start_time_week"])
+    $('#end_time').attr("value", localStorage["end_time_week"])
+  }
+}

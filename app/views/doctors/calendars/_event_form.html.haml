@@ -1,0 +1,52 @@
+#cal_event.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} ×
+        %h4.modal-title Edit event
+      .modal-body.row{style: "margin: 0"}
+        = simple_form_for period, :url => update_default_schedule_agencies_calendars_path, remote: true, :html => {id: "period_form", method: :put, :class => 'form-horizontal' } do |f|
+          = f.input :agency_id, as: :hidden, input_html: {value: agency_id}
+          .form-group
+            = f.label :starttime_at, "Start at", class: "col-md-3"
+            .col-md-9
+              = f.input :starttime_at, as: :string, label: false, disabled: true, input_html: {class: "form-control", value: start_at.to_datetime.strftime("%H:%M")}
+          .form-group
+            = f.label :endtime_at, "End at", class: "col-md-3"
+            .col-md-9
+              = f.input :endtime_at, as: :string, label: false, disabled: true, input_html: {class: "form-control", value: (start_at.to_datetime + 15.minutes).strftime("%H:%M")}
+          .form-group
+            = f.label :start_at, "Day", class: "col-md-3"
+            .col-md-9
+              = f.input :start_at, as: :string, label: false, disabled: true, input_html: {class: "form-control", value: start_at.to_datetime.name_of_week_day}
+          = f.input :starttime_at, as: :hidden, input_html: {value: start_at.to_datetime.strftime("%H:%M")}
+          = f.input :endtime_at, as: :hidden, input_html: {value: (start_at.to_datetime + 15.minutes).strftime("%H:%M")}
+          = f.input :start_at, as: :hidden, input_html: {value: start_at}
+          = f.input :week_day, as: :hidden, input_html: {value: start_at.to_datetime.wday}
+          = f.input :end_at, as: :hidden, input_html: {value: start_at.to_datetime + 15.minutes}
+          = f.input :doctor_id, as: :hidden, input_html: {value: doctor_id}
+          - if changed_by == "default_common_status"
+            .form-group
+              = f.label :default_common_status, "Status", class: "col-md-3"
+              .col-md-9
+                = f.input :default_common_status, as: :select, label: false, :collection => AgencyPeriod.default_common_status.keys.to_a.map{|a| [a.to_s.split("_").last.upcase, a]}, include_blank: false, input_html: {class: "form-control"}
+          - elsif changed_by == "default_specific_status"
+            .form-group
+              = f.label :default_specific_status, "Status", class: "col-md-3"
+              .col-md-9
+                = f.input :default_specific_status, as: :select, label: false, :collection => AgencyPeriod.default_specific_status.keys.to_a.map{|a| [a.to_s.split("_").last.upcase, a]}, include_blank: false,input_html: {class: "form-control"}
+          - elsif changed_by == "custom_status"
+            .form-group
+              = f.label :custom_status, "Status", class: "col-md-3"
+              .col-md-9
+                = f.input :custom_status, as: :select, label: false, :collection => AgencyPeriod.custom_status.keys.to_a.map{|a| [a.to_s.split("_").last.upcase, a]}, include_blank: false, input_html: {class: "form-control"}
+
+          = f.input :period_id, as: :hidden, input_html: {value: period_id}
+
+          .form-actions
+            = f.submit nil, :class => 'btn btn-primary'
+            .btn.btn-default{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"} Cancel
+      / .modal-footer
+      /   %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close
+      /   %button.btn.btn-primary{:type => "button"} Save changes

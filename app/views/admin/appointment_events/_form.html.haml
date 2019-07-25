@@ -1,0 +1,18 @@
+- form_id = object.new_record? ? "appointment-event-form" : "appointment-event-form-#{object.id}"
+- is_disabled = object.new_record? ? false : true
+
+= semantic_form_for object, url: url, method: form_method, remote: true, html: { id: form_id } do |f|
+  = f.inputs do
+    = hidden_field_tag "appointment_event[appointment_id]", appointment.id
+    = hidden_field_tag "appointment_event[created_manual]", true
+    = hidden_field_tag "appointment_event[patient_id]", appointment.patient_id
+    = hidden_field_tag "appointment_event[doctor_id]", appointment.doctor_id
+
+    = f.input :event, label: "Event type", input_html: { disabled: is_disabled }
+    = f.input :reason_code, input_html: { disabled: is_disabled }
+    = f.input :created_at, label: "Date / time", as: :string, input_html: { value: (object.created_at || Time.zone.now).strftime("%m/%d/%Y"), readonly: true }
+    = f.input :free_text, input_html: { rows: 4, cols: 50 }
+    = f.input :patient_credit, input_html: { disabled: is_disabled }
+    = f.input :patient_fee, label: "Patient cancelation fee", input_html: { disabled: is_disabled }
+    = f.input :doctor_fine
+    = f.input :doctor_credit

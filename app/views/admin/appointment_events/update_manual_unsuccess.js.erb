@@ -1,0 +1,1 @@
+$("#appointment-event-modal-<%= @appointment_event.id %>").find('.modal-body').html("<%= j(render 'admin/appointment_events/form', object: @appointment_event, url: update_manual_admin_appointment_event_path(@appointment_event.id), appointment: @appointment_event.appointment, form_method: 'patch') %>");

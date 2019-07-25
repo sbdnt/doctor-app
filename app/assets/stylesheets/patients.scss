@@ -1,0 +1,232 @@
+.patient-sign-in {
+  /*margin-top: 10%;*/
+  margin-left: 30%;
+}
+
+.patient-sign-up {
+  padding-bottom: 10px;
+  margin: 20px 15%;
+  .select-tag {
+    width: 50%;
+  }
+  .existed_info {
+    margin-top: 20px;
+  }
+  /*Style for two checkbox button*/
+  .patient_over_18, .patient_terms_of_service {
+    .checkbox {
+      min-height: 8px !important;
+    }
+  }
+}
+
+.patient-sign-up, #patient-profile-info {
+  .zones-covered {
+    margin-top: 6px;
+
+    span {
+      padding-right: 8px;
+      display: block;
+      label {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+#patient-profile-info {
+  .profile-items {
+    margin: 15px 0;
+    font-size: 15px;
+  }
+}
+
+#patient-profile-info, #patient-payment-info, #patient-job-info {
+  margin: 40px 0;
+}
+
+.patient-web {
+  .page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -90px;
+    &:after {
+      content: "";
+      display: block;
+    }
+    .navbar-inverse {
+      background-color: white;
+      border: none;
+      border-bottom: 3px solid #b28bcd;
+    }
+    .nav.navbar-nav {
+      li {
+        a {
+          color: #7b7b7b;
+          &:hover {
+            background-color: #8b7ef7;
+            color: white;
+          }
+        }
+      }
+    }
+
+    /*For fogot password*/
+    .forgot-password {
+      padding: 0 30px;
+    }
+  }
+  .footer, .page-wrap:after {
+    height: 90px;
+    .content {
+      padding: 28px 0;
+    }
+  }
+
+  .acept-checkbox {
+    margin: -7px 0 0;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Button new style*/
+.btn-red{
+  border-radius: 300px;
+  background-color: #ff284f !important;
+  border: 1px solid #ff284f !important;
+  font-size: 12px;
+  padding: 13px 28px;
+  font-family: AvenirNext Regular !important;
+  color: white;
+  text-transform: uppercase;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.btn-white {
+  border-radius: 300px;
+  background-color: white !important;
+  border: 1px solid #a998c6 !important;
+  color: #a998c6 !important;
+  font-size: 12px;
+  padding: 13px 28px;
+  font-family: AvenirNext Regular !important;
+  text-transform: uppercase;
+  text-decoration: none;
+  &:hover {
+    text-decoration: none;
+  }
+}
+.btn-view-tc {
+  padding: 5px 10px !important;
+}
+.acept-checkbox-fb {
+  margin: -7px 0 0 -21px !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.bold {
+  font-weight: bold !important;
+}
+.mtop-5 {
+  margin-top: 5px;
+}
+.progress {
+  height: 10px !important;
+}
+.btn:focus {
+  outline: none !important;
+}
+
+.btn-scale-wrap {
+  &:hover {
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+    transform: scale(1.05);
+  }
+}
+.div-inline {
+  display: inline-block;
+}
+
+/*Overide modal bootrap*/
+.modal {
+  border-radius: 1px;
+}
+
+/*life-threatening page*/
+.life-threatening, .warning {
+  .confirm {
+    font-size: 18px;
+    color: #7159a6;
+    margin: 40px 0;
+  }
+  .btn-scale-wrap {
+    display: inline-block;
+    .btn-red {
+      margin-right: 20px;
+      padding: 13px 55px;
+    }
+    .btn-white {
+      padding: 13px 55px;
+    }
+  }
+}
+
+/*Change password page*/
+.edit-password {
+  .progress {
+    margin-bottom: 0;
+  }
+  ul.error-list {
+    list-style-type: none;
+  }
+}
+
+/*Error on payment patient*/
+.voucher-message.error {
+  color: red;
+  display: block;
+  width: 100%;
+}
+.voucher-message.success {
+  color: #26e3cf;
+  display: block;
+  width: 100%;
+}
+
+/*Payment billing address*/
+.billing-select {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 5px 15px;
+  .market-icon {
+    margin-bottom: 2px;
+  }
+  .search-icon {
+    margin-left: 10px;
+  }
+}
+
+.saved-address, .saved-payment-method {
+  padding: 0;
+  clear: both;
+  margin-top: 15px;
+  li {
+    margin-top: 15px;
+    list-style-type: none;
+  }
+}
+
+.payment-method-form {
+  margin-top: 40px;
+}
+
+.credit-card-bill-address {
+  padding: 15px 10px;
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}

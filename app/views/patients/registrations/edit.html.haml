@@ -1,0 +1,30 @@
+- if patient_signed_in?
+  %ul.nav.nav-tabs
+    %li{:role => "presentation"}
+      %a{:href => patient_view_profile_path} Profile
+    %li.active{:role => "presentation"}
+      %a{:href => "#"} Edit Profile
+    %li{:role => "presentation"}
+      %a{:href => patient_appointment_history_path } Appointment History
+    %li{:role => "presentation"}
+      %a{:href => patient_payment_history_path } Payment History
+- else
+  %h2 Edit Profile
+
+#patient-profile-info.password-strength
+  = simple_nested_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
+    = f.error_notification
+    - if resource.errors.any?
+      %ul
+        - resource.errors.full_messages.each do |msg|
+          %li{style: "color: red"}
+            = msg
+
+    = render 'form', form: f
+    .container
+      .row
+        .form-actions
+          .col-md-2.col-md-offset-4.btn-scale-wrap
+            = f.button :submit, "Update", class: "btn btn-primary btn-red"
+          .col-md-3.change-pass-link.btn-scale-wrap
+            = link_to "Change Password", edit_patients_profile_path(resource), class: "btn-white"

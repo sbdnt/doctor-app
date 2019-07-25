@@ -1,0 +1,3 @@
+class PromoCode < Voucher
+
+end

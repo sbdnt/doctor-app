@@ -1,0 +1,58 @@
+%nav.navbar.navbar-inverse
+  .container
+    .row
+      .collapse.navbar-collapse
+        %ul.nav.navbar-nav
+          %li
+            = link_to "Home", root_path
+          - if agency_signed_in?
+            %li
+              = link_to "Create doctor", new_doctor_registration_path
+            %li
+              = link_to "Doctors Management", doctors_path
+            %li
+              = link_to "Calendars Management", doctor_list_agencies_calendars_path
+            %li.btn-group{:role => "group"}
+              %a.dropdown-toggle{"aria-expanded" => "false", "data-toggle" => "dropdown", href: "#"}
+                Document Management
+                %span.caret
+              %ul.dropdown-menu{:role => "menu"}
+                %li
+                  %a{:href => agencies_helps_path} Help
+                %li
+                  %a{:href => agencies_terms_condititions_path} Terms Conditions
+            %li
+              = link_to "Appointment List", agencies_appointments_path
+
+          - if doctor_signed_in?
+            %li
+              = link_to "View profile", doctor_view_profile_path
+            %li
+              = link_to "My Schedules", doctors_calendar_path(current_doctor.id)
+            %li
+              = link_to "Appointment List", doctors_appointments_path
+
+          - if patient_signed_in?
+            %li
+              = link_to "View profile", patient_view_profile_path
+            %li
+              = link_to "Appointment List", patients_appointments_path
+            %li
+              = link_to "Make a booking request", show_make_request_patients_maps_path, class: "show_make_request"#patients_maps_path
+        - if agency_signed_in?
+          .pull-right.log-out-menu
+            %span{style: "color: white; margin-right: 10px"}
+              = link_to "Welcome #{current_agency.name}", edit_agency_registration_path
+            %a.pull-right{href: "/agencies/logout", data: {method: 'delete'}} Logout
+
+        - if doctor_signed_in?
+          .pull-right.log-out-menu
+            %span{style: "color: white; margin-right: 10px"}
+              = link_to "Welcome #{current_doctor.name}", doctor_view_profile_path
+            %a.pull-right{href: "/doctors/logout", data: {method: 'delete'}} Logout
+
+        - if patient_signed_in?
+          .pull-right.log-out-menu
+            %span{style: "color: white; margin-right: 10px"}
+              = link_to "Welcome #{current_patient.name}", patient_view_profile_path
+            %a.pull-right{href: "/patients/logout", data: {method: 'delete'}} Logout

@@ -1,0 +1,12 @@
+.help-wrapper
+  %h5
+    Help Center
+  - unless @helps.count == 0
+    - @helps.each do |help|
+      .row
+        .col-md-12
+          .h5
+            = "Question: #{help.try(:title)}"
+        .col-md-12
+          %span Answer:
+          = raw help.try(:content)

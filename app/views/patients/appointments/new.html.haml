@@ -1,0 +1,60 @@
+
+.container-fluid
+  .row
+    .col-lg-12
+      - if @appointment.errors
+        %ul
+          - @appointment.errors.full_messages.each do |error|
+            %li= error
+
+      - if @voucher_error_message.present?
+        %ul
+          %li= @voucher_error_message
+
+      #appointment-map
+
+      = form_for @appointment, url: patients_appointments_path, html: { class: "form-horizontal" } do |f|
+        .form-group
+          = label_tag :appointment_fee, "Appointment Fee", class: "avenir-regular col-lg-2 text-right"
+          .col-lg-3
+            %span.control-label.avenir-regular= number_to_currency(@appointment_fee, precision: 2, unit: "£", separator: ".", delimiter: ",")
+        .form-group
+          = label_tag :payment, "Payment", class: "avenir-regular col-lg-2 control-label"
+          .col-lg-3
+            = select_tag :payment, options_for_select(current_patient.payments), class: "avenir-regular form-control"
+        .form-group
+          = label_tag :voucher_code, "Voucher code", class: "control-label avenir-regular col-lg-2"
+          .col-lg-3
+            = text_field_tag :voucher_code, params[:voucher_code], class: "avenir-regular form-control"
+            %p#voucher-valid-message
+          .col-lg-2
+            = button_tag "Apply", class: "btn btn-primary btn-apply-voucher-code disabled"
+        .form-group
+          = f.hidden_field :lat, value: 51.521223
+          = f.hidden_field :lng, value: -0.0433301
+          = f.hidden_field :address, value: "22 Ernest St, London E1 4LS, UK"
+          = f.hidden_field :lat_bill_address, value: 51.521223
+          = f.hidden_field :lng_bill_address, value: -0.0433301
+          = f.hidden_field :bill_address, value: "22 Ernest St, London E1 4LS, UK"
+          = hidden_field_tag :same_bill_address, false
+        .form-group
+          .col-lg-3.col-lg-offset-2
+            = f.submit "Confirm", class: "btn btn-primary btn-red"
+
+:javascript
+  //Set appointment & billing address
+  var choseAddress = JSON.parse(localStorage.getItem('choseAddress'));
+  var choseBillAddress = JSON.parse(localStorage.getItem('choseBillAddress'));
+  if (Object.keys(choseBillAddress).length > 0 ) {
+    $("#appointment_bill_address").val(choseBillAddress['address']);
+    $("#appointment_lat_bill_address").val(choseBillAddress['lat']);
+    $("#appointment_lng_bill_address").val(choseBillAddress['lng']);
+  } else {
+    $("#appointment_bill_address").val("");
+    $("#appointment_lat_bill_address").val("");
+    $("#appointment_lng_bill_address").val("");
+    $("#same_bill_address").val(true);
+  }
+  $("#appointment_address").val(choseAddress['address']);
+  $("#appointment_lat").val(choseAddress['lat']);
+  $("#appointment_lng").val(choseAddress['lng']);

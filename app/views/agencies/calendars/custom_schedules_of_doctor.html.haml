@@ -1,0 +1,252 @@
+- if agency_signed_in?
+  - doctor_id = params[:doctor_id]
+- else
+  - doctor_id = params[:id]
+%div{style: "position: relative"}
+  .apply-schedule
+    = render :partial => "agencies/calendars/apply_default", locals: {doctor_id: doctor_id}
+#custom_calendar
+  #edit-event
+
+:javascript
+  $(".main-loading").show()
+  localStorage.clear()
+  window.apply_for_week = false
+  window.apply_for_day = true
+  window.for_day = true
+  window.for_week = false
+  window.current_mode = "day"
+  $('#custom_calendar').fullCalendar({
+    googleCalendarApiKey: 'AIzaSyC3-CKsEvDKu_xMNllAGhaY5WYW0wa-NPw',
+    events: {
+      googleCalendarId: 'thuynt04@gmail.com',
+      className: 'gcal-event'
+    },
+    events: function(start, end, timezone, callback) {
+      $(".main-loading").show()
+      data = { start_time: start._d, end_time: end._d }
+      var start_time = start._d.toString()
+      var end_time = end._d.toString()
+      var diff = end._d - start._d
+      $('#custom_calendar').fullCalendar( 'refresh' )
+      $.ajax({
+        type: 'GET',
+        data: data,
+        url: '/agencies/calendars/#{doctor_id}/custom_schedules_of_doctor'
+        }).
+        success(function(data) {
+          callback(data["events"]);
+          console.log(diff)
+
+          $("#start_time").attr("value", start_time)
+          if (diff > 86400000 && diff < 3628800000) {
+            //$("#is_apply_week").attr("value", true)
+            console.log(data["is_apply_week"])
+            window.apply_for_week = true
+            window.apply_for_day = false
+            $("#apply_default_schedule").find("input").prop("checked", data["is_apply_week"])
+            window.for_day = false
+            window.for_week = true
+            $('.apply-in-week').removeClass("hidden")
+            localStorage.setItem("start_time_week", start_time);
+            localStorage.setItem("end_time_week", end_time);
+          } else {
+            localStorage.setItem("start_time_day", start_time);
+            localStorage.setItem("end_time_day", end_time);
+            window.apply_for_day = true
+            $("#week_day").attr("value", start._d)
+            $("#apply_default_schedule").find("input").prop("checked", data["is_apply"])
+            window.for_day = true
+            window.for_week = false
+            $('.apply-in-week').addClass("hidden")
+          }
+
+          $(".main-loading").hide()
+        })
+    },
+    eventClick: function(event) {
+
+      var url;
+      url = "/agencies/calendars/edit_default_schedule";
+
+      $.ajax({
+        type: 'GET',
+        data: {
+          id: event.id,
+          start_at: event.start.toString(),
+          doctor_id: event.doctor_id,
+          changed_by: "custom_status",
+          period_id: event.id,
+          default_week: window.for_week,
+          appointment_id: event.appointment_id,
+          agency_period_id: event.agency_period_id
+        },
+        url: url
+      }).done(function(data) {
+        return console.log("open" + event.status);
+      });
+
+      return false;
+    },
+
+    header: {
+      left: 'prev, next, today',
+      center: 'title',
+      right: 'month,agendaWeek,agendaDay'
+    },
+    columnFormat: {
+      month: 'ddd',
+      week: 'ddd',
+      day: 'dddd'
+    },
+    defaultView: 'agendaDay',
+
+    firstDay: 1,
+    scrollTime:  "08:00:00",
+    selectable: true,
+    allDaySlot: false,
+    firstHour: 7,
+    timezone: 'UTC',
+    slotDuration: '00:15:00',
+    slotEventOverlap: false,
+    defaultTimedEventDuration: '01:00:00',
+    timeFormat: {
+      agendaDay: '',
+      agendaWeek: '',
+      month: '',
+      '': 'h(:mm)t'
+    }
+  });
+
+
+  $(".apply-schedule").delegate("#apply_default_day", "change", function(){
+    is_checked = $(this).is(":checked")
+    if (is_checked) {
+      $(".btn-day").removeClass("disabled")
+    } else {
+      $(".btn-day").addClass("disabled")
+    }
+  })
+
+  $(".apply-schedule").delegate(".default-day", "click", function(){
+    checkbox = $(this).find("input:checked");
+    checked_cbk = $(".default-day").find("input:checked");
+    $('#start_time').attr("value", localStorage["start_time_week"])
+    $('#end_time').attr("value", localStorage["end_time_week"])
+    console.log(checked_cbk.length)
+    if (checked_cbk.length == 7) {
+      console.log("aa")
+      $(".btn-week").removeClass("disabled")
+      $(".btn-day").addClass("disabled")
+    } else {
+      $(".btn-day").removeClass("disabled")
+      $(".btn-week").addClass("disabled")
+    }
+
+  })
+  $(".apply-schedule").delegate(".btn-week", "click", function(){
+    //$('#start_time').attr("value", localStorage["start_time_week"])
+    $('#is_default_week').attr("value", true)
+    $(".apply-form").submit();
+  })
+
+  $(".apply-schedule").delegate(".btn-day", "click", function(){
+    //$('#start_time').attr("value", localStorage["start_time_week"])
+    $('#is_default_week').attr("value", false)
+    $(".apply-form").submit();
+  })
+
+
+  $(".fc-button-group").click(function(e) {
+    if ($(e.target).html() == "day"){
+      $("#apply_default_day").prop('checked', false)
+      window.current_mode = "day"
+      $('.apply-in-week').addClass("hidden")
+      $('.apply-schedule').removeClass("hidden")
+      $('.btn-week').addClass("hidden")
+      $(".btn-day").removeClass("hidden")
+      $('.buttons').removeClass("hidden")
+      $(".btn-day").addClass("tab_day")
+      $(".check-box-day").removeClass("hidden")
+      $('#start_time').attr("value", localStorage["start_time_day"])
+      $('#end_time').attr("value", localStorage["end_time_day"])
+      $(".check-box-day").removeClass("hidden")
+      if ($("#apply_default_day").is(":checked")) {
+        $(".btn-day").removeClass("disabled")
+      } else {
+        $(".btn-day").addClass("disabled")
+      }
+    }else {
+      if ($(e.target).html() == "week") {
+        window.current_mode = "week"
+        $(".apply-in-week").find("input[type='checkbox'][class!='select_all']").prop('checked', false)
+        $(".select_all").prop('checked', false)
+        $('.buttons').removeClass("hidden")
+        $('.btn-week').removeClass("hidden")
+        $(".btn-day").removeClass("tab_day")
+        $(".check-box-day").addClass("hidden")
+        checked_cbk = $(".default-day").find("input:checked");
+        if (checked_cbk.length < 7 && checked_cbk.length >= 1) {
+          $('.btn-day').removeClass("disabled")
+
+        } else {
+          if (checked_cbk.length == 7) {
+            $('.btn-week').removeClass("disabled")
+          } else {
+            $('.btn-day').addClass("disabled")
+            $('.btn-week').addClass("disabled")
+          }
+        }
+        $('.apply-in-week').removeClass("hidden")
+        $('.apply-schedule').removeClass("hidden")
+        $('#start_time').attr("value", localStorage["start_time_week"])
+        $('#end_time').attr("value", localStorage["end_time_week"])
+      } else {//for month
+        $('.buttons').addClass("hidden")
+        $('.apply-in-week').addClass("hidden")
+        $('.apply-schedule').addClass("hidden")
+        $(".check-box-day").addClass("hidden")
+      }
+
+    }
+  });
+
+  $(".fc-next-button").click(function(){
+    console.log("click next")
+    $(".apply-in-week").find("input[type='checkbox'][class!='select_all']").prop('checked', false)
+    $("#apply_default_day").prop('checked', false)
+    $(".select_all").prop('checked', false)
+    if (window.current_mode == "day") {
+      $('#start_time').attr("value", localStorage["start_time_day"])
+      $('#end_time').attr("value", localStorage["end_time_day"])
+      $(".btn-day").addClass("disabled")
+    } else {
+      $('#start_time').attr("value", localStorage["start_time_week"])
+      $('#end_time').attr("value", localStorage["end_time_week"])
+      $('.btn-week').addClass("disabled")
+    }
+  })
+  $(".fc-prev-button").click(function(){
+    console.log("click prev")
+    $(".apply-in-week").find("input[type='checkbox'][class!='select_all']").prop('checked', false)
+    $("#apply_default_day").prop('checked', false)
+    $(".select_all").prop('checked', false)
+    if (window.current_mode == "day") {
+      $('#start_time').attr("value", localStorage["start_time_day"])
+      $('#end_time').attr("value", localStorage["end_time_day"])
+      $(".btn-day").addClass("disabled")
+    } else {
+      $('#start_time').attr("value", localStorage["start_time_week"])
+      $('#end_time').attr("value", localStorage["end_time_week"])
+      $('.btn-week').addClass("disabled")
+    }
+  })
+
+
+
+  if (window.calendar == undefined) {
+    window.calendar = new Calendar()
+    window.calendar.clickSelectAllCheckboxes()
+  } else {
+    window.calendar.clickSelectAllCheckboxes()
+  }

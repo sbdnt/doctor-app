@@ -1,0 +1,6 @@
+---
+:verbose: false
+:concurrency:  25
+:queues:
+  - [api, 7]
+  - [default, 5]

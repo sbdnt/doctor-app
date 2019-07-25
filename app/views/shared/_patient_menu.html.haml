@@ -1,0 +1,33 @@
+%nav.navbar.navbar-inverse
+  .container
+    .row
+      .collapse.navbar-collapse
+        - if patient_signed_in?
+          %ul.nav.navbar-nav
+            %li
+              = link_to'Home', "/patients/maps?tab=yes", data: { no_turbolink: true }
+            - if patient_signed_in?
+              %li
+                = link_to "View profile", patient_view_profile_path
+              %li
+                = link_to "Appointment List", patients_appointments_path
+              %li
+                = link_to "Make a booking request", show_make_request_patients_maps_path, class: "show_make_request"#patients_maps_path
+
+          .pull-right.log-out-menu
+            %span{style: "color: white; margin-right: 10px"}
+              = link_to "Welcome #{current_patient.name}", patient_view_profile_path
+            %a.pull-right{href: "/patients/logout", data: {method: 'delete'}} Logout
+        - else
+          %ul.nav.navbar-nav
+            %li
+              = link_to "Sign up", new_patient_registration_path
+            %li
+              = link_to "Make a booking request", show_make_request_patients_maps_path, class: "show_make_request"
+
+:javascript
+  $(".show_make_request").click(function() {
+    localStorage.setItem("selectedLocation", false);
+    localStorage.setItem("choseAddress", "{}");
+    localStorage.setItem("choseBillAddress", "{}");
+  });

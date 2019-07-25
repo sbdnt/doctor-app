@@ -1,0 +1,153 @@
+.login-background {
+  /*background: image-url("sign-in-bg.jpg") no-repeat;*/
+  background: image-url("sign-in-bg.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.fix-body-height {
+  height: 463px;
+}
+.doctor-sign-up {
+  padding-bottom: 10px;
+  margin: 20px 15%;
+  .select-tag {
+    width: 50%;
+  }
+  .agency-default {
+    margin-top: 5px;
+  }
+}
+
+.photo-preview {
+  .image-preview {
+    border: 1px solid grey;
+    margin-top: 5px;
+  }
+  .existed-image {
+    border: 1px solid blue;
+    margin-right: 5px;
+  }
+}
+
+.document-link {
+  margin-top: 5px;
+}
+
+.change-pass-link{
+  margin: 10px 0;
+}
+
+.doctor-sign-in {
+  margin-top: 10%;
+  margin-left: 30%;
+}
+
+.doctor-sign-up, #doctor-profile-info {
+  .zones-covered {
+    margin-top: 6px;
+
+    span {
+      padding-right: 8px;
+      display: block;
+      label {
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+#doctor-profile-info, #doctor-payment-info, #doctor-job-info {
+  margin: 40px 0;
+}
+
+.doctor-management {
+  thead {
+    tr {
+      background-color: #A2A2A2;
+      th { border: 2px solid #000; }
+    }
+  }
+  tbody {
+    tr {
+      &.odd {
+        background-color: #DCDCDC;
+      }
+      td { border-left: 2px solid #000; }
+    }
+  }
+}
+
+.add-new-doctor-management {
+  margin-top: 10px;
+}
+
+.edit-doctor-profile-btn {
+  margin-bottom: 20px;
+}
+
+.field_with_errors {
+  input { border-color: red; }
+}
+
+.status {
+  .collection_radio_buttons {
+    margin-right: 10px;
+    margin-left: 3px;
+    margin-top: 7px;
+  }
+}
+
+.search-doctor-field {
+  margin-right: 20px;
+  margin-top: 18px;
+  text-indent: 8px;
+  border-radius: 6px;
+  border: 2px solid #9a9a9a;
+}
+
+#doctor-profile-info {
+  .profile-items {
+    margin: 15px 0;
+    font-size: 15px;
+  }
+
+  .extra-title-field {
+    .extra-label {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.select2-container {
+  width: 150px !important;
+}
+
+.add-zone, .remove-zone {
+  margin-bottom: 5px;
+}
+
+.edit-default-schedule {
+  margin-top: 12px;
+}
+
+.detail-appointment {
+  background-color: #f4f4f4;
+  table {
+    tr {
+      height: 30px;
+      td {
+        padding: 0 10px;
+      }
+    }
+    .content {
+      background-color: white;
+    }
+
+    .title {
+      font-weight: bold; 
+      font-size: 10.5pt;
+    }
+  }
+}

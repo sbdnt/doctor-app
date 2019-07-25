@@ -1,0 +1,17 @@
+.row
+  %h2.pull-left Help Detail
+.row.agency-help-detail
+  %table.table.table-hover{:border => 0}
+    %tr
+      %th Title
+      %td= raw @help.title
+    %tr
+      %th Content
+      %td= raw @help.content
+    %tr
+      %th Is published
+      %td
+        - if @help.is_published
+          %span.status_tag.yes Yes
+        - else
+          %span.status_tag.no No

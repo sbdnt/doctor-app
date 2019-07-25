@@ -1,0 +1,13 @@
+.container.life-threatening
+  .row
+    .col-md-10.col-md-offset-1.text-center
+      = link_to (image_tag asset_url("gpdq-icon.png"), width: "150px", height: "180px"), root_path
+      %p.avenir-regular.confirm Is this a life-threatening medical emergency?
+      .btn-action-group
+        .btn-scale-wrap
+          - if patient_signed_in?
+            = link_to "No", new_patients_appointment_path, 'data-no-turbolink' => true, class: "btn btn-red"
+          - else
+            = link_to "No", "/patients/sign_in_newregister", class: "btn btn-red"
+        .btn-scale-wrap
+          = link_to "Yes", warning_patients_maps_path, class: "btn btn-white"

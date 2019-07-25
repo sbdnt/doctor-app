@@ -1,0 +1,12 @@
+%ul.nav.nav-tabs
+  %li{:role => "presentation"}
+    %a{:href => doctor_view_profile_path} Profile
+  %li{:role => "presentation"}
+    %a{:href => edit_doctor_registration_path } Edit Profile
+  %li{:role => "presentation"}
+    %a{:href => doctor_job_history_path } Job History
+  %li.active{:role => "presentation"}
+    %a{:href => '#' } Payment History
+
+#doctor-payment-info
+  %p No payments recorded

@@ -1,0 +1,12 @@
+%ul.nav.nav-tabs
+  %li{:role => "presentation"}
+    %a{:href => patient_view_profile_path} Profile
+  %li{:role => "presentation"}
+    %a{:href => edit_patient_registration_path } Edit Profile
+  %li.active{:role => "presentation"}
+    %a{:href => '#' } Appointment History
+  %li{:role => "presentation"}
+    %a{:href => patient_payment_history_path } Payment History
+
+#patient-job-info
+  %p No appointments recorded

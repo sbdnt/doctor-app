@@ -1,0 +1,15 @@
+.forgot-password
+  .row
+    %h2.col-md-10.col-md-offset-2 Change your password
+  = simple_form_for(@agency, url: agencies_profile_path(@agency), html: { method: :put, class: "form-horizontal" }) do |f|
+    = f.error_notification
+    .form-group
+      = f.label :password, "New password", class: "control-label col-md-2 text-left"
+      .col-md-10
+        = f.input :password, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+    .form-group
+      = f.label :password_confirmation, "Confirm your new password", class: "control-label col-md-2 text-left"
+      .col-md-10
+        = f.input :password_confirmation, required: true, label: false, input_html: {class: "form-control"}
+    .form-actions
+      = f.button :submit, "Change my password", class: "btn btn-primary"

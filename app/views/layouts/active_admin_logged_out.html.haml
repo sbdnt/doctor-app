@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=utf-8", "http-equiv" => "Content-type"}
+      %title= [@page_title, render_or_call_method_or_proc_on(self, ActiveAdmin.application.site_title)].compact.join(" | ")
+      - ActiveAdmin.application.stylesheets.each do |style, options|
+        = stylesheet_link_tag style, options
+      - ActiveAdmin.application.javascripts.each do |path|
+        = javascript_include_tag path
+      = favicon_link_tag ActiveAdmin.application.favicon if ActiveAdmin.application.favicon
+      - ActiveAdmin.application.meta_tags_for_logged_out_pages.each do |name, content|
+        = tag(:meta, name: name, content: content)
+      = csrf_meta_tag
+  %body{:class => "active_admin logged_out #{controller.action_name} #{controller.action_name == 'new' ? 'login-background' : '' }"}
+    #wrapper
+      #content_wrapper
+        - flash_messages.each do |type, message|
+          = content_tag :div, message, class: "flash flash_#{type}"
+        #active_admin_content
+          = yield
+      #footer
+        = yield :footer

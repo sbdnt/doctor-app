@@ -1,0 +1,321 @@
+.payment-method.payment-method-index
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li{:role => "presentation", class: "#{(params[:payment_tab] || 'credit') == 'credit' ? 'active' : ''}"}
+      %a.avenir-regular{"aria-controls" => "home", "data-toggle" => "tab", :href => "#creadit-card", :role => "tab"} CREDIT CARD
+    %li{:role => "presentation", class: "#{params[:payment_tab] == 'paypal' ? 'active' : ''}"}
+      %a.avenir-regular{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#paypal", :role => "tab"} PAYPAL
+  / Tab panes
+  .tab-content
+    #creadit-card.tab-pane{:role => "tabpanel", class: "#{(params[:payment_tab] || 'credit') == 'credit' ? 'active' : ''}"}
+      .container
+        .row
+          = simple_form_for @cc_payment, url: {controller: "payments", action: "create"}, html: { method: :post, class: "form-horizontal", id: "cc-form" } do |form|
+            = form.error_notification
+            = form.input :patient_id, as: :hidden, input_html: {value: current_patient.try(:id)}
+            = form.input :cc_type, as: :hidden, input_html: {value: ""}
+            / = hidden_field_tag "appointment[patient_id]", current_patient.try(:id)
+            / = hidden_field_tag "appointment[doctor_id]", @min_eta.first
+            / = hidden_field_tag "appointment[status]", "assigned"
+            / = hidden_field_tag "appointment[assigned_time_at]", Time.zone.now
+            = hidden_field_tag "appointment[voucher_code]", ""
+            = hidden_field_tag :payment_tab, "credit"
+            .form-group
+              .col-md-4.col-md-offset-1.text-left.avenir-regular
+                %span Appointment Fee:
+                %span.apt-fee £120
+
+            .form-group
+              = form.label :cc_num, "Card Number", class: "control-label avenir-regular col-md-3 col-md-offset-1 text-left"
+              .col-md-4
+                = form.input :cc_num, required: true, autofocus: true, label: false, :placeholder => "---- ---- ---- ----", as: :tel, input_html: {class: "col-md-4 form-control avenir-regular"}
+              .col-md-3
+                %small.avenir-regular
+                  Type:
+                  %strong#ccnum-type invalid
+
+            .form-group
+              = form.label :expiry, "Expiration", class: "control-label avenir-regular col-md-3 col-md-offset-1 text-left"
+              .col-md-4
+                = form.input :expiry, required: true, autofocus: true, label: false, :placeholder => "-- / --", as: :tel, input_html: {class: "col-md-4 form-control avenir-regular"}
+              .cvc.col-md-4
+                .row
+                  = form.label :cvc, "CVC", class: "control-label avenir-regular col-md-3 text-left"
+                  .col-md-4
+                    = form.input :cvc, required: true, autofocus: true, label: false, :placeholder => "---", as: :password, input_html: {class: "col-md-4 form-control avenir-regular"}
+
+            .form-group
+              .col-md-4.col-md-offset-4
+                .billing-select
+                  %span
+                    = image_tag asset_url("address_marker.png"), class: "market-icon"
+                  %span#show-address-unlogged.avenir-regular
+                    / = session[:not_logged_address]
+                    - if @current_billing.nil?
+                      %span.billing-address
+                        Select a billing address
+                    - else
+                      %span.billing-address
+                        =@current_billing.try(:address)
+                  %span
+                    = link_to "#", class: "select-billing" do
+                      = image_tag asset_url("search-icon.png"), width: "20", height: "20", class: "search-icon"
+
+            .row.text-center.save-payment
+              %label.avenir-regular.col-md-6.text-left.col-md-offset-4
+                = check_box_tag 'same_as_apt', 'yes', false, class: ''
+                Same as appointment adress
+
+            .row.text-center.save-payment
+              %label.avenir-regular.col-md-6.text-left.col-md-offset-1
+                / %input{:name => "save_for_furture", :type => "checkbox", :value => ""}
+                = check_box_tag 'save_for_furture', 'yes', false, class: ''
+                Save Payment Method for future use
+
+            %h4.avenir-regular.text-center{style: "margin-top: 30px"} HAVE A VOUCHER?
+
+            .form-group
+              %label.avenir-regular.col-md-3.col-md-offset-1.text-left{:for => "voucher_code"} Voucher code
+              .col-md-6
+                %input#voucher_code.form-control-custom.col-md-8.avenir-regular{:name => "voucher_code", :placeholder => 'Enter code', :size => "21", :type => "text", :value => ""}
+                = link_to 'Apply', apply_voucher_patients_payments_url, remote: true, class: "btn btn-apply-voucher pull-left"
+                .col-md-12.voucher-message
+
+            .text-center{style: "margin-top: 20px"}
+              = link_to "Confirm", "#", class: "btn btn-red", id: "submit"
+              / %button#submit.btn.btn-red Confirm
+              #result.emoji
+
+    #paypal.tab-pane{:role => "tabpanel", class: "#{params[:payment_tab] == 'paypal' ? 'active' : ''}"}
+      .container
+        %center
+          = image_tag asset_url('paypal-logo.png')
+        .row
+          = simple_form_for @payment, url: {controller: "payments", action: "create"}, html: { method: :post, class: "form-horizontal" } do |f|
+            = f.error_notification
+            = f.input :patient_id, as: :hidden, input_html: {value: current_patient.try(:id)}
+            / = hidden_field_tag "appointment[patient_id]", current_patient.try(:id)
+            / = hidden_field_tag "appointment[doctor_id]", @min_eta.first
+            / = hidden_field_tag "appointment[status]", "assigned"
+            / = hidden_field_tag "appointment[assigned_time_at]", Time.zone.now
+            = hidden_field_tag "appointment[voucher_code]", ""
+            = hidden_field_tag :payment_tab, "paypal"
+
+            .form-group
+              .col-md-4.col-md-offset-1.text-left.avenir-regular
+                %span Appointment Fee:
+                %span.apt-fee £120
+
+            .form-group
+              = f.label :paypal_email, "Paypal Email", class: "control-label avenir-regular col-md-3 col-md-offset-1 text-left"
+              .col-md-6
+                = f.input :paypal_email, required: true, autofocus: true, label: false, :placeholder => "Email", input_html: {class: "form-control avenir-regular"}
+
+            .form-group
+              = f.label :password, "Paypal Password", class: "control-label avenir-regular col-md-3 col-md-offset-1 text-left"
+              .col-md-6
+                = f.input :password, required: true, autofocus: true, label: false, :placeholder => "Paypal password", input_html: {class: "form-control avenir-regular"}
+
+            .form-group
+              .col-md-4.col-md-offset-4
+                .billing-select
+                  %span
+                    = image_tag asset_url("address_marker.png"), class: "market-icon"
+                  %span#show-address-unlogged.avenir-regular
+                    / = session[:not_logged_address]
+                    - if @current_billing.nil?
+                      Select a billing address
+                    - else
+                      = @current_billing.try(:address)
+                  %span
+                    = link_to '#', class: "select-billing" do
+                      = image_tag asset_url("search-icon.png"), width: "20", height: "20", class: "search-icon"
+
+            .row.text-center.save-payment
+              %label.avenir-regular.col-md-6.text-left.col-md-offset-1
+                / %input{:name => "save_for_furture", :type => "checkbox", :value => ""}
+                = check_box_tag 'save_for_furture', 'yes', false, class: ''
+                Save Payment Method for future use
+
+            %h4.avenir-regular.text-center{style: "margin-top: 30px"} HAVE A VOUCHER?
+
+            .form-group
+              %label.avenir-regular.col-md-3.col-md-offset-1.text-left{:for => "voucher_code"} Voucher code
+              .col-md-6
+                %input#voucher_code.form-control-custom.col-md-8.avenir-regular{:name => "voucher_code", :placeholder => 'Enter code', :size => "21", :type => "text", :value => ""}
+                = link_to 'Apply', apply_voucher_patients_payments_url, remote: true, class: "btn btn-apply-voucher pull-left"
+                .col-md-12.voucher-message
+
+            .text-center{style: "margin-top: 20px"}
+              = f.submit 'Confirm', class: "btn btn-red"
+
+:javascript
+
+  var ready;
+  ready = function() {
+    if($(".payment-method-index").length > 0) {
+      var origin = $(".tab-pane.active .btn-apply-voucher").prop("href");
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        $(".tab-pane.active #voucher_code")[0].focus();
+        var target = $(e.target).attr("href") // activated tab
+        if (target == "#paypal") {
+          focusoutVoucher();
+          validateVoucher();
+
+          $(".tab-pane.active a.select-billing").click(function() {
+            var save = ($('#save_for_furture:checked').length > 0) ? true : false;
+            var email = $("#patient_paypal_payment_paypal_email").val();
+            var dataToStore = JSON.stringify({paypal_email: email, save_payment: save});
+            localStorage.setItem("paramsPaypalStore", dataToStore);
+            window.location.href = "/patients/locations?select_billing=true&tab=paypal"
+          });
+        }
+      });
+      $(".tab-pane.active a.select-billing").click(function() {
+        if ($('#creadit-card').hasClass("active")) {
+          var save = $('#save_for_furture:checked').length > 0 ? true : false;
+          var ccNum = $("#patient_credit_payment_cc_num").val();
+          var exp = $("#patient_credit_payment_expiry").val();
+          var dataToStore = JSON.stringify({ccNum: ccNum, exp: exp, save_payment: save});
+          localStorage.setItem("paramsCcStore", dataToStore);
+          window.location.href = "/patients/locations?select_billing=true&tab=credit"
+        }
+      });
+
+      focusoutVoucher();
+      validateVoucher();
+      selectSameApt();
+
+      function focusoutVoucher() {
+        $(".tab-pane.active #voucher_code").focusout(function(e) {
+          console.log(111);
+          var voucherCode = $.trim($(".tab-pane.active #voucher_code").val());
+          if (voucherCode !== "") {
+            $(".btn-apply-voucher").attr("href", origin+"?voucher_code="+voucherCode);
+          }else{
+            $(".btn-apply-voucher").attr("href", origin);
+          }
+        });
+      }
+
+      function validateVoucher() {
+        $('.tab-pane.active .btn-apply-voucher').bind('ajax:complete', function(e, data, status, xhr) {
+          if (data.status == 200) {
+            res = jQuery.parseJSON(data.responseText);
+            console.log(res.success);
+            if (res.success == true) {
+              $(e.target).next().removeClass("error");
+              $(e.target).next().addClass("success");
+              $(".tab-pane.active #appointment_voucher_code").val(res.voucher_code);
+              $(e.target).next().html(res.message);
+            }else {
+              $(e.target).next().addClass("error");
+              $(e.target).next().removeClass("success");
+              $(".tab-pane.active #appointment_voucher_code").val("");
+              $(e.target).next().html(res.message);
+            }
+          }
+        });
+      }
+
+      var ccnum  = document.getElementById('patient_credit_payment_cc_num'),
+        type   = document.getElementById('ccnum-type')
+        expiry = document.getElementById('patient_credit_payment_expiry'),
+        cvc    = document.getElementById('patient_credit_payment_cvc'),
+        form   = document.getElementById('cc-form'),
+        submit = document.getElementById('submit');
+
+      autoRefill();
+
+      payform.cardNumberInput(ccnum);
+      payform.expiryInput(expiry);
+      payform.cvcInput(cvc);
+      $('#patient_credit_payment_cc_num').payform('formatCardNumber');
+      $('#patient_credit_payment_expiry').payform('formatCardExpiry');
+      $('#patient_credit_payment_cvc').payform('formatCardCVC');
+      ccnum.addEventListener('input',   updateType);
+      submit.addEventListener('click', function() {
+        var valid     = [],
+            expiryObj = payform.parseCardExpiry(expiry.value);
+
+        valid.push(fieldStatus(ccnum,  payform.validateCardNumber(ccnum.value)));
+        valid.push(fieldStatus(expiry, payform.validateCardExpiry(expiryObj)));
+        valid.push(fieldStatus(cvc,    payform.validateCardCVC(cvc.value, type.innerHTML)));
+        if (payform.validateCardNumber(ccnum.value) && payform.validateCardExpiry(expiryObj) && payform.validateCardCVC(cvc.value, type.innerHTML)) {
+          $("#patient_credit_payment_cc_type").val($("#ccnum-type")[0].innerHTML.toLowerCase());
+          form.submit();
+        }
+
+      });
+      function fieldStatus(input, valid) {
+        if (valid) {
+          removeClass(input.parentNode, 'error');
+        } else {
+          addClass(input.parentNode.parentNode.parentNode, 'error');
+        }
+        return valid;
+      }
+      function addClass(ele, _class) {
+        if (ele.className.indexOf(_class) === -1) {
+          ele.className += ' ' + _class;
+        }
+      }
+
+      function removeClass(ele, _class) {
+        if (ele.className.indexOf(_class) !== -1) {
+          ele.className = ele.className.replace(_class, '');
+        }
+      }
+
+      function updateType(e) {
+        var cardType = payform.parseCardType(e.target.value);
+        type.innerHTML = cardType || 'invalid';
+      }
+
+      function selectSameApt() {
+        $('#same_as_apt').change(function(e) {
+          target = e.target
+          if($(target).is(":checked")) {
+            console.log("selected");
+            $(".tab-pane.active span.billing-address").html("#{@current_apt_location.try(:address)}");
+            $.ajax({
+              type: 'POST',
+              data: {address: "#{@current_apt_location.try(:address)}"},
+              url: '/patients/locations/create_billing_address'
+
+            }).done(function(data){
+              console.log(data);
+            });
+            console.log("#{@current_apt_location.try(:address)}");
+          }
+        });
+      }
+
+      function autoRefill() {
+        if ("#{params[:back]}" == 'true') {
+          console.log("from back");
+          if("#{params[:payment_tab]}" == 'credit') {
+            var hash = {};
+            hash = JSON.parse(localStorage.getItem("paramsCcStore"));
+            $("#patient_credit_payment_cc_num").val(hash.ccNum);
+            $("#patient_credit_payment_expiry").val(hash.exp);
+            if (hash.save_payment) {
+              $(".tab-pane.active #save_for_furture").prop("checked", "checked");
+            }
+            updateTypeCard(ccnum.value);
+          }else {
+            var hash = JSON.parse(localStorage.getItem("paramsPaypalStore"));
+            $("#patient_paypal_payment_paypal_email").val(hash.paypal_email);
+            if (hash.save_payment == true) {
+              $(".tab-pane.active #save_for_furture").prop("checked", "checked");
+            }
+          }
+        }
+      }
+
+      function updateTypeCard(card) {
+        var cardType = payform.parseCardType(card);
+        type.innerHTML = cardType || 'invalid';
+      }
+    }
+  };
+  $(document).ready(ready);

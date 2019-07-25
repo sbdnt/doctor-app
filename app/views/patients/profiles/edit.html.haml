@@ -1,0 +1,17 @@
+.forgot-password.change-password.container
+  .row
+    %h2.col-md-10.col-md-offset-2 Change your password
+  .row
+    = simple_form_for(@patient, url: patients_profile_path(@patient), html: { method: :put, class: "form-horizontal" }) do |f|
+      = f.error_notification
+      .form-group
+        = f.label :current_password, "Current password", class: "control-label col-md-2 text-left"
+        .col-md-10
+          = f.input :current_password, required: true, autofocus: true, label: false, input_html: { class: "form-control" }
+      .form-group
+        = f.label :password, "New password", class: "control-label col-md-2 text-left"
+        .col-md-10
+          = f.input :password, required: true, label: false, input_html: {class: "form-control"}
+      .form-actions
+        .col-md-2.col-md-offset-2.btn-scale-wrap
+          = f.button :submit, "Change my password", class: "btn btn-primary btn-red"

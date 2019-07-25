@@ -1,0 +1,68 @@
+/ !!!
+/ %html
+/   %head
+/     %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+/     %title DoctorApp
+/     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+/     = javascript_include_tag 'application', 'data-turbolinks-track' => true
+/     = csrf_meta_tags
+
+/   %body.landing-page
+/     %center.sign-in-register
+/       = image_tag asset_url("landing/logo.png"), width: '25%'
+/       .text-wrapper
+/         .text.avenir-regular
+/           A Doctor. Delivered quick.
+/       .container
+/         .row.forgot-password.edit-password
+/           %h3 Enter and confirm your new password to sign in
+
+/           = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
+/             = f.error_notification
+/             = f.input :reset_password_token, as: :hidden
+/             = f.full_error :reset_password_token
+/             .form-group
+/               / = f.label :password, "New password", class: "control-label col-md-2 col-md-offset-2 text-left"
+/               .col-md-6
+/                 = f.input :password, required: true, autofocus: true, label: false, placeholder: "Enter new password", input_html: {class: "form-control"}
+/             .form-group
+/               / = f.label :password_confirmation, "Confirm your new password", class: "control-label col-md-2 col-md-offset-2 text-left"
+/               .col-md-6
+/                 = f.input :password_confirmation, required: true, label: false, placeholder: "Confirm new password", input_html: {class: "form-control"}
+/             .form-actions
+/               = f.button :submit, "SIGN IN", class: "btn btn-change-pwd"
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body
+    .container.sign-in-register.reset-password-patient
+      .row.gpdq-logo
+        .col-xs-6.col-xs-offset-3.col-md-4.col-md-offset-4.col-lg-2.col-md-offset-5
+          = image_tag asset_url("landing/logo.png"), width: '100%'
+        .text.avenir-regular.col-xs-10.col-xs-offset-1.text-center
+          A Doctor. Delivered quick.
+      .row.forgot-password.edit-password
+        .col-xs-10.col-xs-offset-1.col-md-8.col-md-offset-2.text.text-center
+          Enter and confirm your new password to sign in.
+      .row
+        .col-xs-12.col-xs-offset-0.col-md-10.col-md-offset-1
+          = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "form-horizontal" }) do |f|
+            = f.error_notification
+            = f.input :reset_password_token, as: :hidden
+            = f.full_error :reset_password_token
+            .form-group
+              / = f.label :password, "New password", class: "control-label col-md-2 col-md-offset-2 text-left"
+              .col-xs-10.col-xs-offset-1.col-md-8.col-md-offset-2
+                = f.input :password, required: true, autofocus: true, label: false, placeholder: "Enter new password", input_html: {class: "form-control"}
+            .form-group
+              / = f.label :password_confirmation, "Confirm your new password", class: "control-label col-md-2 col-md-offset-2 text-left"
+              .col-xs-10.col-xs-offset-1.col-md-8.col-md-offset-2
+                = f.input :password_confirmation, required: true, label: false, placeholder: "Confirm new password", input_html: {class: "form-control"}
+            .form-actions.text-center
+              = f.button :submit, "Change password", class: "btn btn-change-pwd"

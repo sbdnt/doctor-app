@@ -1,0 +1,81 @@
+.row
+  .patient-sign-up
+    .row
+      - if @patient_existed == true && @current_patient.present?
+        - if @from_fb_sign_in == false
+          .h4.col-md-9.col-md-offset-3.col-lg-9.col-lg-offset-3 Your email address or contact number is on our database
+        .col-md-12.existed_info
+          = render 'existed_info'
+      -else
+        .h4.col-md-9.col-md-offset-3.col-lg-9.col-lg-offset-3 Please provide the infomations below to create your account
+        .col-md-12
+          .row
+            = simple_form_for(@patient, url: patients_facebooks_path(@patient), html: {method: :post, class: "form-horizontal"}) do |f|
+              = f.error_notification
+              - if @patient.errors.any?
+                %ul
+                  - @patient.errors.full_messages.each do |msg|
+                    %li{style: "color: red"}
+                      = msg
+              .form-group
+                = f.label :fullname, "Full Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+                .col-md-9.col-lg-9
+                  = f.input :fullname, required: true, label: false, disabled: @patient_info['first_name'].nil? ? false : true, input_html: {class: "form-control", value: @patient_info['first_name'].nil? && @patient_info['last_name'].nil? ? "" : "#{@patient_info['first_name']} #{@patient_info['last_name']}"}
+
+              / .form-group
+              /   = f.label :first_name, "First Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+              /   .col-md-9.col-lg-9
+              /     = f.input :first_name, required: true, label: false, disabled: @patient_info['first_name'].nil? ? false : true, input_html: {class: "form-control", value: @patient_info['first_name'].nil? ? "" : @patient_info['first_name']}
+
+              / .form-group
+              /   = f.label :last_name, "Last Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+              /   .col-md-9.col-lg-9
+              /     = f.input :last_name, required: true, label: false, disabled: @patient_info['last_name'].nil? ? false : true, input_html: {class: "form-control", value: @patient_info['last_name'].nil? ? "" : @patient_info['last_name']}
+
+              .form-group
+                = f.label :email, "Email", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+                .col-md-9.col-lg-9
+                  = f.input :email, required: true, label: false, disabled: @patient_info['email'].nil? ? false : true, input_html: {class: "form-control", value: @patient_info['email'].nil? ? "" : @patient_info['email']}
+
+              .form-group
+                = f.label :phone_number, "Phone Number", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+                .col-md-9.col-lg-9
+                  = f.input :phone_number, required: true, label: false, input_html: {class: "form-control"}
+
+              .form-group
+                = f.label :address, "Address", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+                .col-md-9.col-lg-9
+                  = f.input :address, required: true, label: false, placeholder: 'input full address here' , input_html: {class: "form-control"}
+
+              .form-group
+                = f.label :zone_id, "Register Your Zone", class: "control-label col-md-3 label-required"
+                .col-md-9.col-lg-9
+                  = f.input :zone_id, label: false, :collection => Zone.order('name'), :label_method => :name, :value_method => :id, :include_blank => false, input_html: {class: "form-control select-tag"}
+
+              .form-group
+                .col-md-3.col-lg-3.col-md-offset-4
+                  = f.input :over_18, required: true, as: :boolean, inline_label: "I'm over 18", input_html: {class: "form-control acept-checkbox-fb"}
+
+              .form-group
+                .col-md-3.col-lg-3.col-md-offset-4
+                  = f.input :terms_of_service, required: true, as: :boolean, inline_label: "I accept Terms & Conditions", input_html: {class: "form-control acept-checkbox-fb"}
+                .col-md-2
+                  %button.btn.btn-white.btn-view-tc{"data-target" => "#bs-tc-modal-lg", "data-toggle" => "modal", :type => "button"} View Terms & Conditions
+
+              .form-actions
+                .col-md-2.col-md-offset-4.col-lg-2.col-lg-offset-4.btn-scale-wrap{style: "padding-left: 0"}
+                  = f.button :submit, "Sign up", class: "btn btn-primary btn-red"
+
+              = f.hidden_field :referred_by, value: @referred_by
+
+#bs-tc-modal-lg.modal.fade{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4#myModalLabel.modal-title Terms & Conditions
+      .modal-body
+        = raw @tc.try(:content)
+      .modal-footer
+        %button.btn.btn-default{"data-dismiss" => "modal", :type => "button"} Close

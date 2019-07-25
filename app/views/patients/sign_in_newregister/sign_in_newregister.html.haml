@@ -1,0 +1,23 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body.landing-page
+    %center.sign-in-register
+      = image_tag asset_url("landing/logo.png"), width: '25%'
+      .text-wrapper
+        .text.avenir-regular
+          A Doctor. Delivered quick.
+      .btn-header-group
+        .div-inline.btn-scale-wrap
+          = link_to "REGISTER", new_patient_registration_path, class: "btn btn-primary btn-register page-scroll"
+        .div-inline.btn-scale-wrap
+          = link_to "SIGN IN", new_patient_session_path, class: "btn btn-primary btn-sign-in"
+        - if session[:not_logged_address].nil?
+          .div-inline.btn-scale-wrap
+            = link_to "SKIP", patients_dashboards_path, class: "btn btn-primary btn-skip"

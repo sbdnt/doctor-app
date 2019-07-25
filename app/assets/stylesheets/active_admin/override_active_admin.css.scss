@@ -1,0 +1,761 @@
+body.logged_out {
+  #content_wrapper {
+    width: 500px;
+    margin: 70px auto;
+    #active_admin_content {
+      box-shadow: 0 1px 2px rgba(0,0,0,0.37);
+      background: #fff;
+      padding: 13px 30px;
+      li#admin_remember_me_input {
+        label{
+          width: 100%;
+          padding-left: 20%;
+          #admin_remember_me {
+            margin: 0;
+            padding: 0;
+            float: left;
+            width: 6%;
+          }
+        }
+      }
+    }
+    .flash {
+      box-shadow: none;
+      text-shadow: #fff 0 1px 0;
+      background: none;
+      color: #666;
+      font-weight: bold;
+      line-height: 1.0em;
+      padding: 0;
+      margin-bottom: 8px;
+    }
+  }
+  h2 {
+    background-color: #efefef;
+    background-image: linear-gradient(180deg, #efefef, #dfe1e2);
+    text-shadow: #fff 0 1px 0;
+    border: solid 1px #cdcdcd;
+    border-color: #d4d4d4;
+    border-top-color: #e6e6e6;
+    border-right-color: #d4d4d4;
+    border-bottom-color: #cdcdcd;
+    border-left-color: #d4d4d4;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12),0 0 1px #FFF inset;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 18px;
+    margin-bottom: 0.5em;
+    color: #5E6469;
+    padding: 5px 10px 3px 10px;
+    background-color: #6a7176;
+    background-image: linear-gradient(180deg, #6a7176, #4d5256);
+    border-bottom: 1px solid #44484b;
+    text-shadow: #000 0 1px 0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    border: none;
+    color: #fff;
+    margin: -13px -30px 20px -30px;
+  }
+  #login {
+    a {
+      float: right;
+      margin-top: -32px;
+    }
+    form fieldset li {
+      padding: 10px 0;
+    }
+  }
+}
+body.logged_in {
+  .flash {
+    background-color: #f7f1d3;
+    background-image: linear-gradient(180deg, #f7f1d3, #f5edc5);
+    text-shadow: #fafafa 0 1px 0;
+    border-bottom: 1px solid #eee098;
+    color: #cb9810;
+    font-weight: bold;
+    font-size: 1.1em;
+    line-height: 1.0em;
+    padding: 13px 30px 11px;
+    position: relative;
+  }
+  .flash.flash_notice {
+    background-color: #dce9dd;
+    background-image: linear-gradient(180deg, #dce9dd, #ccdfcd);
+    border-bottom: 1px solid #adcbaf;
+    color: #416347;
+  }
+  #title_bar {
+    background-color: #efefef;
+    background-image: linear-gradient(180deg, #efefef, #dfe1e2);
+    text-shadow: #fff 0 1px 0;
+    border: solid 1px #cdcdcd;
+    border-color: #d4d4d4;
+    border-top-color: #e6e6e6;
+    border-right-color: #d4d4d4;
+    border-bottom-color: #cdcdcd;
+    border-left-color: #d4d4d4;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12),0 0 1px #FFF inset;
+    font-size: 1em;
+    font-weight: bold;
+    line-height: 18px;
+    margin-bottom: 0.5em;
+    color: #5E6469;
+    padding: 5px 10px 3px 10px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.37);
+    display: table;
+    border-bottom-color: #EEE;
+    width: 100%;
+    position: relative;
+    margin: 0;
+    padding: 10px 30px;
+    z-index: 0;
+    .breadcrumb {
+      display: block;
+      font-size: 0.9em;
+      font-weight: normal;
+      line-height: 1.0em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      padding: 0;
+      border-radius: 0;
+      background-color: transparent !important;
+    }
+    h2#page_title {
+      margin: 0;
+      padding: 0;
+      line-height: 100%;
+      font-weight: bold;
+    }
+  }
+  .navbar, #header {
+    margin-bottom: 0;
+  }
+  #active_admin_content.with_sidebar {
+    margin: 0;
+    padding: 10px 8px !important;
+  }
+  #active_admin_content {
+    margin-right: 0px;
+    margin-left: 0px;
+    padding: 10px 30px;
+    #main_content_wrapper {
+      padding-right: 0px;
+      padding-left: 0px;
+    }
+  }
+}
+.admin_dashboard  .blank_slate_container {
+  clear: both;
+  text-align: center;
+  .blank_slate {
+    margin-top: 40px;
+    margin-bottom: 40px;
+
+    border-radius: 3px;
+    border: 1px dashed #DADADA;
+    color: #AAA;
+    display: inline-block;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 14px 25px;
+    text-align: center;
+  }
+}
+
+table.index_table th.sortable a {
+  background: url(/assets/active_admin/orderable-29374dbb55b0012d78a37c614d573bb3474f0779849b478a147d0f1845ca6617.png) no-repeat 0 4px;
+  padding-left: 13px;
+}
+
+#active_admin_content {
+  margin: 0;
+  padding: 30px;
+  #main_content_wrapper {
+    float: left;
+    width: 100% !important;
+    #main_content {
+      margin-right: 0px;
+    }
+  }
+  .sidebar_section {
+    h3 {
+      margin-top: 0;
+      padding: 11px 10px;
+      background-color: #efefef;
+      font-size: 12px;
+    }
+    label {
+      display: block;
+      text-transform: uppercase;
+      color: #5E6469;
+      font-size: 10px;
+      font-weight: bold;
+      width: 100%;
+      float: none;
+    }
+  }
+  #sidebar {
+    float: left;
+    width: 100% !important;
+    margin-left: 0px;
+/*    width: 270px !important;
+    margin-left: -270px;*/
+    padding-left: 22px !important;
+    padding-right: 22px !important;
+  }
+}
+
+#active_admin_content.without_sidebar #main_content_wrapper #main_content {
+  margin-right: 0;
+}
+
+form.filter_form {
+  .filter_form_field.filter_date_range {
+    input[type=text] {
+      background: #fff url(/assets/active_admin/datepicker/datepicker-input-icon-d9c2bb73769af777c8a71720d29741f3a499aebd5a043e9a119bd0d9597aed47.png) no-repeat 100% 7px;
+      padding-right: 27px;
+      width: 93px;
+      display: inline-block;
+    }
+    .seperator {
+      display: inline-block;
+      text-align: center;
+      width: 12px;
+    }
+  }
+  .filter_form_field.select_and_search {
+    select {
+      width: 100px;
+      float: left;
+      height: 20px;
+      font-size: 11px;
+      margin-top: 6px;
+      margin-right: 3px;
+    }
+    input[type=text] {
+      width: 104px;
+      height: 30px;
+    }
+  }
+  .filter_form_field {
+    margin-bottom: 10px;
+    /*clear: both;*/
+    display: inline-block;
+    margin-right: 15px;
+    padding: 5px;
+    border: 1px solid #bcbcbc;
+    border-radius: 5px;
+  }
+}
+
+form .inputs ol, form .actions ol {
+  margin-left: 0 !important;
+}
+
+select{
+  background-color: rgb(248, 248, 248);
+  border: 1px solid rgb(166, 166, 166) !important;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+}
+/*Table*/
+.status_tag {
+  background: #cacaca;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 3px 5px 2px 5px;
+  font-size: 0.8em;
+}
+.status_tag.no {
+  background: grey;
+}
+.status_tag.yes {
+  background: #6090DB;
+}
+table.index_table {
+  th {
+    background-color: #efefef;
+    background-image: linear-gradient(180deg, #efefef, #dfe1e2);
+    text-shadow: #fff 0 1px 0;
+    border: solid 1px #cdcdcd;
+    border-color: #d4d4d4;
+    border-top-color: #e6e6e6;
+    border-right-color: #d4d4d4;
+    border-bottom-color: #cdcdcd;
+    border-left-color: #d4d4d4;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 18px;
+    margin-bottom: 0.5em;
+    color: #5E6469;
+    padding: 5px 10px 3px 10px;
+    border-right: none;
+    text-align: left;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  tr td {
+    font-size: 12px;
+  }
+}
+thead th {
+  background: #c3d9ff;
+}
+.table > thead > tr > th, .index_table > thead > tr > th, .attributes_table table > thead > tr > th, table > thead > tr > th {
+  vertical-align: middle !important;
+  border-bottom: 2px solid #ddd;
+  text-align: center;
+}
+/*Show radio label*/
+fieldset.choices {
+  margin-left: 0;
+  input[type="radio"] {
+    width: 16px !important;
+  }
+}
+legend.label {
+  width: 20%;
+  label {
+    display: block;
+    width: 20%;
+    float: left;
+    font-size: 1.35em;
+    font-weight: bold;
+    color: black;
+    text-align: left;
+    padding-left: 0;
+  }
+}
+form fieldset > ol > li {
+  fieldset:not(.has_many_fields) ol {
+    float: left;
+    width: 74%;
+    margin: 0;
+    padding: 0 0 0 20%;
+  }
+  fieldset legend {
+    position: absolute;
+    width: 95%;
+    padding-top: 0.1em;
+    left: 0px;
+    font-size: 100%;
+    font-weight: normal;
+  }
+}
+legend {
+  border-bottom: none !important;
+}
+
+/*Fix label checkox inline*/
+.label-fix-inline {
+  width: 100%;
+  padding-left: 20%;
+}
+.checkbox-fix-inline {
+  margin: 0;
+  padding: 0;
+  float: left;
+  width: 2% !important;
+}
+/*Panel search*/
+.panel {
+  margin-bottom: 20px;
+  background-color: #f4f4f4 !important;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  h3 {
+    background-image: linear-gradient(180deg, #efefef, #dfe1e2);
+  }
+}
+/*Terms and conditions page*/
+.attributes_table.terms_condition {
+  table {
+    border: none !important;
+  }
+}
+/*Date picker*/
+.ui-datepicker {
+  background: #fff;
+  background-clip: padding-box;
+  color: #fff;
+  display: none;
+  margin-top: 2px;
+  padding: 0;
+  text-align: center;
+  width: 160px;
+  a {
+    text-decoration: none;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  .ui-datepicker-header {
+    height: 30px;
+    background-color: #6a7176;
+    background-image: linear-gradient(180deg, #6a7176, #4d5256);
+    border-bottom: 1px solid #44484b;
+    padding: 12px 5px 7px 4px;
+    margin: 0px 0px 2px 2px;
+    width: 156px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    position: relative;
+    z-index: 2000;
+    &:before {
+      content: "";
+      position: absolute;
+      right: 45%;
+      top: -6px;
+      width: 0px;
+      height: 0px;
+      border-left: 8.5px solid transparent;
+      border-right: 8.5px solid transparent;
+      border-bottom: 10px solid #676e73;
+    }
+    .ui-datepicker-title {
+      text-shadow: #000 0 1px 0;
+      color: #fff;
+      display: block;
+      font-size: 1.1em;
+      font-weight: bold;
+      line-height: 0.8em;
+      text-align: center;
+      .ui-datepicker-month {
+        margin: -4px 0 0 0;
+      }
+      .ui-datepicker-year {
+        margin: -4px 0 0 0;
+      }
+    }
+    a {
+      color: #fff;
+      display: block;
+      height: 19px;
+      margin-top: -4px;
+      width: 10px;
+      span {
+        display: none;
+      }
+    }
+    a.ui-datepicker-prev {
+      float: left;
+      width: 0;
+      height: 0;
+      margin: 0px 0px 0px 4px;
+      border-top: 5px solid transparent;
+      border-right: 5px solid white;
+      border-bottom: 5px solid transparent;
+    }
+    a.ui-datepicker-next {
+      float: right;
+      width: 0;
+      height: 0;
+      margin: 0px 4px 0px 0px;
+      border-top: 5px solid transparent;
+      border-left: 5px solid white;
+      border-bottom: 5px solid transparent;
+    }
+  }
+  table.ui-datepicker-calendar {
+    border-radius: 0;
+    border-bottom-right-radius: 3px;
+    border-bottom-left-radius: 3px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.26);
+    background-color: #f4f4f4;
+    border: solid 1px #63686e;
+    left: 2px;
+    margin-bottom: 0px;
+    position: relative;
+    top: -2px;
+    width: 156px;
+    td, th {
+      padding: 0px;
+      text-align: center;
+    }
+    thead th {
+      background-color: #dbdddf;
+      color: #333333;
+      font-weight: normal;
+      font-size: 0.8em;
+      padding-top: 1px;
+    }
+    tbody {
+      color: #666666;
+      td {
+        border: none;
+        height: 24px;
+        width: 22px;
+        a {
+          border-radius: 3px;
+          color: #666666;
+          font-weight: bold;
+          font-size: 0.85em;
+          padding: 4px;
+        }
+        a.ui-state-active {
+          background-color: #5a5f64;
+          color: #fff;
+        }
+        a.ui-state-active.ui-state-hover {
+          background-color: #5a5f64;
+          color: #fff;
+        }
+        a.ui-state-hover {
+          background-color: #eceef0;
+        }
+        a.ui-state-highlight {
+          background-color: #dbdddf;
+        }
+      }
+    }
+  }
+}
+form .buttons, form .actions {
+  margin-top: 15px;
+}
+form .buttons input[type=submit] {
+  margin-right: 10px;
+}
+.sidebar_section > div {
+  padding: 3px 15px 15px 15px;
+}
+/*Off text shadow button*/
+.action_items {
+  .action_item {
+    a {
+      text-shadow: none;
+    }
+  }
+}
+/*End*/
+/*Fix issue enter row incase long text label*/
+form fieldset ol li.input {
+  margin: 15px 0 !important;
+}
+/*End*/
+form fieldset li label {
+  line-height: 28px;
+}
+input, input[type="password" i], input[type="search" i] {
+  -webkit-appearance: textfield;
+  padding: 1px;
+  background-color: white;
+  border: 2px inset;
+  border-image-source: initial;
+  border-image-slice: initial;
+  border-image-width: initial;
+  border-image-outset: initial;
+  border-image-repeat: initial;
+  -webkit-rtl-ordering: logical;
+  -webkit-user-select: text;
+  cursor: auto;
+}
+input, textarea, keygen, select, button {
+  margin: 0em;
+  font: normal normal normal 11px/normal '.HelveticaNeueDeskInterface-Regular';
+  text-rendering: auto;
+  color: initial;
+  letter-spacing: normal;
+  word-spacing: normal;
+  text-transform: none;
+  text-indent: 0px;
+  text-shadow: none;
+  display: inline-block;
+  text-align: start;
+}
+input[type="checkbox"], input[type="radio"] {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #555555;
+  background-color: #fff;
+  background-image: none;
+  border: none !important;
+  border-radius: 0 !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition: none !important;
+  -o-transition: none !important;
+  transition: none !important;
+  margin-top: -3px !important;
+}
+#header {
+  #utility_nav {
+    float: right;
+  }
+  #logout {
+    margin-right: 25px;
+  }
+}
+
+.invoice-form {
+  label.label {
+    width: 155px;
+    line-height: 30px;
+  }
+  #invoice_status_input {
+    margin-bottom: 0 !important;
+    legend.label {
+      padding: 0;
+      margin-bottom: 0;
+    }
+    .choices-group {
+      padding-left: 155px;
+      .choice {
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+.invoice-has-many {
+  margin-left: 0;
+  ol {
+    margin-left: 0 !important;
+  }
+  fieldset.has_many_fields {
+    margin-left: 0;
+    ol > li {
+      display: inline-block;
+      width: 25%;
+      input[type="checkbox"] {
+        margin-right: 10px;
+      }
+      label.label {
+        width: auto;
+        margin-right: 10px;
+        line-height: 30px;
+      }
+      label.label-fix-inline{
+        padding-left: 0;
+        line-height: 30px;
+      }
+    }
+  }
+}
+.panel_contents {
+  table.invoice-table {
+    margin-bottom: 0;
+  }
+  select {
+    padding: 2px 12px !important;
+  }
+/*  #q_status, #q_first_name, #q_last_name, #q_address, #q_email, #q_phone_mobile,
+  #q_phone_landline, #q_phone_number, #q_kind, #q_appointment_id, #q_category_id,
+  #q_content, #q_is_published {
+    display: inline-block;
+  }*/
+}
+
+.rating-image {
+  width: 15px;
+  height: 15px;
+}
+
+/*Index content*/
+.index_content {
+  table {
+    td {
+      vertical-align: middle !important;
+    }
+    td.col-actions {
+      padding: 0;
+    }
+    .btn-appt-cancel {
+      margin-right: 0;
+      padding: 3px 6px;
+      margin-top: 1px;
+    }
+    .appointment-view {
+      margin-right: 3px;
+    }
+  }
+}
+
+.with_sidebar {
+  #main_content {
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+}
+
+/*Style for Firefox only*/
+@-moz-document url-prefix() {
+  input[type="file"] {
+    height: 26px !important;
+    padding: 0px 12px !important;
+  }
+}
+/*End*/
+
+/*For invoice page*/
+.price-input, .quantity {
+  width: 80px !important;
+}
+
+/* For filter side bar */
+#sidebar {
+  #filters_sidebar_section {
+    float: left;
+    width: 80%;
+  }
+
+  #search_status_sidebar_section {
+    float: left;
+    margin-left: 2%;
+    width: 18%;
+  }
+
+  .buttons {
+    display: inline-block;
+  }
+}
+
+/* For the doctor available tracking page */
+.admin_doctor_zones.active_admin, .admin_patient_doctors.active_admin {
+  .table-responsive {
+    margin-bottom: 20px;
+  }
+  .pagination_information { 
+    display: none;
+  }
+}
+
+.admin_patient_doctors.active_admin {
+  .title {
+    margin: 20px 0;
+    display: block;
+  }
+
+  .patient_doctor_patient_id, .patient_doctor_latitude, .patient_doctor_longitude {
+    margin: 10px 0;
+    display: inline-block;
+
+    label {
+      margin-right: 20px;
+    }
+  }
+
+  .patient_doctor_latitude, .patient_doctor_longitude {
+    input {
+      border-radius: 5px;
+      margin-right: 20px;
+    }
+    label {
+      margin-right: 10px;
+    }
+  }
+
+  .calculate-btn {
+    display: block;
+  }
+
+}

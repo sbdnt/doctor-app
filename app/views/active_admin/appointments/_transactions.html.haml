@@ -1,0 +1,22 @@
+.container
+  .detail-appointment
+    %table.table-bordered
+      %thead
+        %tr
+          %th Payment Type
+          %th Amount
+          %th Status
+          %th Currency
+          %th Receipt Id
+          %th Card Type
+          %th Created At
+      %tbody
+        - appointment.judo_transactions.map do |tran|
+          %tr
+            %td= tran.payment_type
+            %td= number_to_currency(tran.amount, precision: 2, unit: "£", separator: ".", delimiter: ",")
+            %td= tran.status
+            %td= tran.currency
+            %td= tran.receipt_id
+            %td= tran.card_type
+            %td= tran.created_at

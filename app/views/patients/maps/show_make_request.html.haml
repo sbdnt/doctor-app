@@ -1,0 +1,17 @@
+.modal.fade#confirmModal
+  .modal-dialog
+    .modal-content
+      .modal-body
+        %p Do you allow GPDQ to access to your location ?
+      .modal-footer
+        %button.btn.btn-default#btn-no{"data-dismiss" => "modal", :type => "button"} No
+        %button.btn.btn-primary#btn-yes{:type => "button"} Yes
+
+:javascript
+  $('#confirmModal').modal('show')
+  $("#btn-no").click(function(){
+    window.location.href = "#{patients_maps_path}?tab=no"
+  })
+  $("#btn-yes").click(function(){
+    window.location.href = "#{patients_maps_path}?tab=yes"
+  })

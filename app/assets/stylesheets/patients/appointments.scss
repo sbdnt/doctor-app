@@ -1,0 +1,22 @@
+// Place all the styles related to the patients/appointments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+#voucher-valid-message {
+  margin-top: 10px;
+
+  &.success { color: green; }
+  &.error { color: red; }
+}
+
+#appointment-map {
+  width: 800px;
+  height: 400px;
+  margin: 0 auto;
+}
+
+#track-doctor-map {
+  width: 700px;
+  height: 400px;
+  margin: 30px auto;
+}

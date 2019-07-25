@@ -1,0 +1,267 @@
+%center
+  .list-address
+    .current
+      = form_tag(update_location_patients_maps_path, {:method => :put, class: "form-update-location"}) do
+        .location-search.clearfix
+          .market-icon.pull-left
+            = image_tag asset_url("address_marker.png"), width: '18px'
+          .pull-left.input-location
+            .text.text-left Actual location
+            = text_field_tag("location[address]", nil, "onfocus" => "geolocate()", placeholder: "Enter your address")#
+        = hidden_field_tag "location[lat]", ""
+        = hidden_field_tag "location[lng]", ""
+        = hidden_field_tag "location[is_bill_address]", ""
+        = hidden_field_tag "location[address_type]", ""
+        = hidden_field_tag "tab", params[:tab]
+
+    .history.last-saved_address
+      - @locations.each_with_index do |location, index|
+        - cl = (index != 0) ? 'line-top' : ''
+        .address-row{"data-address" => location.address}
+          .icon.pull-left.text-left.select_address
+            - if location.address_type == 'home'
+              = image_tag(asset_url("icons/home.png"), width: "18px", class: "pull-left")
+            - else
+              = image_tag(asset_url("icons/work.png"), width: "18px", class: "pull-left")
+          .val.pull-left{class: cl, data: {lat: location.latitude, lng: location.longitude}}= location.address
+          %span
+            = image_tag(asset_url("icons/unset-billing.png"), width: "25px", class: 'set-as-billing')
+          .clearfix
+  .show-map
+    - if session[:not_logged_address].blank?
+      .address.hidden
+        .pull-left
+          = image_tag("address_marker.png")
+        .pull-left#show-address
+        .pull-right
+          = link_to "#", class: "btn-edit-location" do
+            = image_tag("pencil.png", width: "20", height: "20")
+    - else
+      .address-not-logged
+        .pull-left
+          = image_tag("address_marker.png")
+
+        .pull-left#show-address-unlogged
+          = session[:not_logged_address]
+        .pull-right
+          = link_to "#", class: "btn-edit-location" do
+            = image_tag("pencil.png", width: "20", height: "20")
+    #map
+    .make-appointment
+      = form_tag(update_location_patients_maps_path, {:method => :put, class: "form-update-location"}) do
+        = hidden_field_tag "location[address]"
+        = hidden_field_tag "location[lat]", ""
+        = hidden_field_tag "location[lng]", ""
+        = hidden_field_tag "location[is_current]", true
+        = hidden_field_tag "location[next_step]", true
+
+#bs-location-modal-lg.modal{"aria-labelledby" => "myModalLabel", :role => "dialog", :tabindex => "-1"}
+  .modal-dialog{:role => "document"}
+    .modal-content
+      .modal-header
+        %button.close{"aria-label" => "Close", "data-dismiss" => "modal", :type => "button"}
+          %span{"aria-hidden" => "true"} &times;
+        %h4#myModalLabel.modal-title.text-center Would you like to save this as a future contact address?
+        .market-icon.text-center
+          = image_tag(asset_url("address_marker.png"), width: "18px")
+        .address.text-center
+      .modal-body
+        .set-home.clearfix{style: "padding: 0 15px"}
+          .pull-left
+            = image_tag(asset_url("icons/home-grey.png"), width: "25px", class: 'set-as-home')
+          .pull-left{style: "margin-left: 30px"} Home
+          .pull-right.set-billing
+            = image_tag(asset_url("icons/unset-billing.png"), width: "25px", class: 'set-as-billing')
+          .pull-right{style: "margin-right: 15px"} Set billing address
+        .set-work.clearfix{style: "padding: 0 15px; margin-top: 10px"}
+          .pull-left
+            = image_tag(asset_url("icons/work-grey.png"), width: "25px", class: 'set-as-work')
+          .pull-left{style: "margin-left: 30px"} Work
+          .pull-right.set-billing
+            = image_tag(asset_url("icons/unset-billing.png"), width: "25px", class: 'set-as-billing')
+          .pull-right{style: "margin-right: 15px"} Set billing address
+      .modal-footer.text-center
+        %button.btn.btn-default.btn-no-save{"data-dismiss" => "modal", :type => "button"} NO
+        %button.btn.btn-primary.btn-save-location{:type => "button"} SAVE AND CONTINUE
+
+:javascript
+  var handler = Gmaps.build('Google');
+  handler.buildMap({ provider: {}, internal: {id: 'map'}}, function(){
+    //objMap.markers = window.handler.addMarkers(gon.markers[0])
+    //console.log(gon.markers[0])
+    // if (tab == "no") {
+    //   window.handler.bounds.extendWith(objMap.markers)
+    //   window.handler.fitMapToBounds()
+    //   window.handler.getMap().setZoom(10)
+    // }
+    return
+
+  });
+  var lat, lng;
+  var choseAdd = JSON.parse(localStorage.getItem("choseAddress"));
+  lat = choseAdd["lat"];
+  lng = choseAdd["lng"];
+  var pos = new (google.maps.LatLng)(lat, lng);
+
+  //var marker = new (google.maps.Marker)( map: handler.getMap(), position: pos, icon: "/assets/patient_marker.png");
+
+  function geolocate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        var geolocation = new google.maps.LatLng(
+            position.coords.latitude, position.coords.longitude);
+        var circle = new google.maps.Circle({
+          center: geolocation,
+          radius: position.coords.accuracy
+        });
+
+        if (typeof(autocomplete) != "undefined")
+          autocomplete.setBounds(circle.getBounds());
+      });
+    }
+
+  }
+  geolocate()
+  if (typeof(objMap) == "undefined") {
+    window.objMap = new Map()
+  }
+
+  if (_.isEmpty(localStorage.getItem("address"))) {
+    if (typeof(current_address) != "undefined")
+      console.log('11111');
+      $("#location_address").val(current_address);
+  } else {
+    console.log('22222');
+    $("#location_address").val(localStorage.getItem("address"));
+  }
+  // Fill selected location to modal's body
+  $('#bs-location-modal-lg').on('show.bs.modal', function (event) {
+    $(".modal-header .address").text($("#location_address").val())
+  })
+
+  //Set as home address
+  $("#bs-location-modal-lg .set-as-home").click(function(e) {
+    var target = e.target;
+    if ($(target).hasClass('active')) {
+      $(target).removeClass("active");
+      $(target).attr('src', "/assets/icons/home-grey.png");
+    } else {
+      $(target).attr('src', '/assets/icons/home.png');
+      $(target).addClass("active");
+      $(".set-home .set-as-billing").removeClass("disable");
+      $(".set-home .set-as-billing").addClass("enable");
+      //Uncheck set as Work
+      $("#bs-location-modal-lg .set-as-work").attr('src', "/assets/icons/work-grey.png");
+      $("#bs-location-modal-lg .set-as-work").removeClass("active");
+      $(".set-work .set-as-billing").removeClass("active");
+      $(".set-work .set-as-billing").removeClass("enable");
+      $(".set-work .set-as-billing").addClass("disable");
+      $(".set-work .set-as-billing").attr('src', "/assets/icons/unset-billing.png");
+
+    }
+  });
+
+  //Set as work address
+  $("#bs-location-modal-lg .set-as-work").click(function(e) {
+    var target = e.target;
+    if ($(target).hasClass('active')) {
+      $(target).removeClass("active");
+      $(target).attr('src', "/assets/icons/work-grey.png");
+    } else {
+      $(target).attr('src', '/assets/icons/work.png');
+      $(target).addClass("active");
+      $(".set-work .set-as-billing").removeClass("disable");
+      $(".set-work .set-as-billing").addClass("enable");
+      //Uncheck set as Home
+      $("#bs-location-modal-lg .set-as-home").attr('src', "/assets/icons/home-grey.png");
+      $("#bs-location-modal-lg .set-as-home").removeClass("active");
+      $(".set-home .set-as-billing").removeClass("active");
+      $(".set-home .set-as-billing").removeClass("enable");
+      $(".set-home .set-as-billing").addClass("disable");
+      $(".set-home .set-as-billing").attr('src', "/assets/icons/unset-billing.png");
+    }
+  });
+
+  //Set address is billing address
+  $(".set-as-billing").click(function(e) {
+    var target = e.target;
+    if ($(target).hasClass('enable')) {
+      if ($(target).hasClass('active')) {
+        $(target).removeClass("active");
+        $(target).attr('src', "/assets/icons/unset-billing.png");
+      } else {
+        $(".set-as-billing").removeClass("active");
+        $(".set-as-billing").attr('src', '/assets/icons/unset-billing.png');
+        $(target).addClass("active");
+        $(target).attr('src', '/assets/icons/set-billing.png');
+      }
+    }
+  });
+
+  //Patient save location and continue
+  $("#bs-location-modal-lg .btn-save-location").click(function() {
+    if($("#bs-location-modal-lg .set-as-home").hasClass("active") || $("#bs-location-modal-lg .set-as-work").hasClass("active")) {
+      var address = $("#location_address").val();
+      var lat = $("#location_lat").val();
+      var lng = $("#location_lng").val();
+      var set_billing = $("#bs-location-modal-lg .set-as-billing").hasClass('active');
+      $.ajax({
+        url: '/api/v1/patients/maps/save_address',
+        type: 'PUT',
+        data: {auth_token: "#{session[:patient_auth_token]}",
+               address: address,
+               latitude: lat,
+               longitude: lng,
+               address_type: $("#bs-location-modal-lg .set-as-home").hasClass("active") ? 'home' : 'work',
+               is_bill_address: set_billing
+        },
+      }).success(function(res) {
+        $('#bs-location-modal-lg').modal('hide');
+        var tab = $("#tab").val();
+        localStorage.setItem("selectedLocation", true);
+        localStorage.setItem("choseAddress", JSON.stringify({'address': address, 'lat': lat, 'lng': lng, 'set_billing': set_billing}));
+        if (set_billing){
+          localStorage.setItem("choseBillAddress", JSON.stringify({'address': address, 'lat': lat, 'lng': lng}));
+        } else {
+          localStorage.setItem("choseBillAddress", "{}");
+        }
+        window.location.href = '/patients/maps?tab=' + tab +'&confirm=true';
+      }).fail(function(){
+        alert("Some thing went wrong! Please retry");
+      });
+    }else {
+      alert("Please select address type!");
+    }
+  });
+
+  //Patient choose no save location
+  $("#bs-location-modal-lg .btn-no-save").click(function() {
+    var tab = $("#tab").val();
+    localStorage.setItem("selectedLocation", true);
+    var address = $("#location_address").val();
+    var lat = $("#location_lat").val();
+    var lng = $("#location_lng").val();
+    var set_billing = false;
+    localStorage.setItem("choseAddress", JSON.stringify({'address': address, 'lat': lat, 'lng': lng, 'set_billing': set_billing}));
+    localStorage.setItem("choseBillAddress", "{}");
+    window.location.href = '/patients/maps?tab=' + tab +'&confirm=true';
+  });
+
+  //Set as billing for existed address
+  $(".last-saved_address .set-as-billing").click(function(e) {
+    var target = e.target;
+    if ($(target).hasClass('active')) {
+      $(target).removeClass("active");
+      $(target).attr('src', "/assets/icons/unset-billing.png");
+      localStorage.setItem("choseBillAddress", "{}");
+    } else {
+      $(".last-saved_address .set-as-billing").removeClass("active");
+      $(".last-saved_address .set-as-billing").attr('src', '/assets/icons/unset-billing.png');
+      $(target).addClass("active");
+      $(target).attr('src', '/assets/icons/set-billing.png');
+      var address = $(target).parent().prev().text();
+      var lat = $(target).parent().prev().data('lat');
+      var lng = $(target).parent().prev().data('lng');
+      localStorage.setItem("choseBillAddress", JSON.stringify({'address': address, 'lat': lat, 'lng': lng}))
+    }
+  });

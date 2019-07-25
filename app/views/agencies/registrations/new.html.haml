@@ -1,0 +1,142 @@
+- if session[:live].blank? && params[:live].blank?
+  = render template: "agencies/registrations/real_new"
+- else
+  .signup-now
+    %nav#mainNav.navbar.navbar-default.navbar-fixed-top
+      .navbar-header
+        %button.navbar-toggle.collapsed{"data-target" => "#dr-navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+          %span.sr-only Toggle navigation
+          %span.icon-bar
+          %span.icon-bar
+          %span.icon-bar
+        %a.navbar-brand{:href => root_path}
+          = image_tag asset_url("landing/logo.png"), class: "image-responsive"
+      / Collect the nav links, forms, and other content for toggling
+      #dr-navbar-collapse.collapse.navbar-collapse
+        %ul.nav.navbar-nav.navbar-right
+          %li
+            %a{:href => "/#about-gpdq"} What Is GPDQ?
+          %li
+            %a{:href => "/#about-gpdq"} Tell Me More
+    .header
+      .container
+        .row
+          .header-content
+            .slick-header
+              .slider-image
+                = image_tag asset_url("landing/sign-up-banner.jpg"), width: '100%'
+                .wrapper-over
+                  .title  How GPs Can Get Involved
+                  .description The UK's first doctor on-demand app - register today
+                  .btn-header-group
+                    = link_to "REGISTER NOW", "#sign-up-now", class: "btn btn-primary btn-get-involved page-scroll"
+                  / .arrow-down
+                  /   = link_to "#sign-up-now" do
+                  /     = image_tag asset_url("landing/arrow-down.png")
+
+
+    %section#sign-up-now.bg-about-gpdq
+      .container
+        .row
+          .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2.text-center
+            %h2.section-heading Why Register?
+        .row
+          %h4.text-center.title
+          .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+            .row
+              .col-lg-12.col-md-12.col-sm-12.col-xs-12.text-center.description
+                GPDQ works with experienced doctors who are provided additional training to work to GPDQ's exacting standard. Register today to receive further information.
+
+        .row.row-mg-top
+          .col-lg-6.col-lg-offset-3.col-md-6.col-md-offset-3.col-sm-6.col-sm-offset-3.col-xs-6.col-xs-offset-3{style: "background-color: #EFEFEF"}
+            = simple_form_for(resource, as: resource_name, url: agency_registration_path, html: {class: "form-horizontal agency-doctor-form"}) do |f|
+              = f.error_notification
+              - password = rand(1234567890)
+              = f.input :password, as: :hidden, input_html: {value: "password"}
+              = f.input :password_confirmation, as: :hidden, input_html: {value: "password"}
+              = f.input "live", as: :hidden, input_html: {value: true}
+              .row.mg-top
+                %center
+                  .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                    .row
+                      .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                        = f.input :first_name, required: true, placeholder: "First Name", autofocus: true, label: false, input_html: {class: "form-control input-double"}
+                      .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                        = f.input :last_name, placeholder: "Last Name", required: true, label: false, input_html: {class: "form-control input-double"}
+              .row.mg-top
+                .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                  .row
+                    .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                      = f.input :email, placeholder: "Email", required: true, label: false, input_html: {class: "form-control input-double", value: params[:email]}
+                    .col-lg-6.col-md-6.col-sm-6.col-xs-6
+                      = f.input :gender, required: true, label: false, collection: Agency.genders.keys, include_blank: "Gender", input_html: {class: "form-control input-double"}
+              .row.mg-top
+                .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                  .row
+                    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+                      = f.input :phone_number, placeholder: "Phone Number", required: true, label: false, input_html: {class: "form-control input-double input-single"}
+              .row.mg-top
+                .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                  .row
+                    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+                      = f.input :company_name, placeholder: "Company Name", required: true, label: false, input_html: {class: "form-control input-double input-single"}
+              .row.mg-top
+                .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                  .row
+                    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+                      = f.input :answer_about_us, placeholder: "", required: true, label: false, collection: AboutUsQuestion.all.pluck(:content), include_blank: "How did you hear about us?", input_html: { class: "form-control input-double input-single" }
+              .row.mg-top
+                .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2
+                  .row
+                    .col-lg-12.col-md-12.col-sm-12.col-xs-12
+                      = f.input :role, placeholder: "", required: true, label: false, collection: Agency.roles.keys, include_blank: "I'm a...", input_html: {class: "form-control input-double input-single"}
+              .row.mg-top
+                .col-lg-10.col-md-10.col-sm-10.col-xs-10
+                  .pull-right= f.button :submit, "OK", class: "btn btn-primary btn-ok"
+
+:javascript
+
+  $('a.page-scroll').bind('click', function(event) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+        scrollTop: ($($anchor.attr('href')).offset().top)
+    }, 500, 'easeInOutExpo');
+    event.preventDefault();
+  });
+
+  // Highlight the top nav as scrolling occurs
+  $('body').scrollspy({
+    target: '.navbar-fixed-top',
+    offset: 51
+  });
+
+  // Closes the Responsive Menu on Menu Item Click
+  $('.navbar-collapse ul li a').click(function() {
+    $('.navbar-toggle:visible').click();
+  });
+
+  // Fit Text Plugin for Main Header
+  $("h1").fitText(
+    1.2, {
+        minFontSize: '35px',
+        maxFontSize: '65px'
+    }
+  );
+
+  // Offset for Main Navigation
+  $('#mainNav').affix({
+    offset: {
+        top: 100
+    }
+  });
+
+  // Initialize WOW.js Scrolling Animations
+  new WOW().init();
+
+  // scroll the page to the right section
+  var $anchor = $(window.location.hash)
+  if ( $anchor.length > 0 ) {
+    $('html, body').stop().animate({
+        scrollTop: ($anchor.offset().top - 88)
+    }, 500, 'easeInOutExpo');
+  }

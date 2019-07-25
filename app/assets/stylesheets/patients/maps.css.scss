@@ -1,0 +1,138 @@
+.show-map {
+  width: 800px;
+  position: relative;
+  height: 50px;
+  #show-address, #show-address-unlogged {
+    padding-top: 2px;
+    margin-left: 15px;
+  }
+  .btn-edit-location {
+    padding: 5px;
+  }
+  .address, .address-not-logged {
+    position: absolute;
+    top: 3px;
+    left: 135px;
+    z-index: 9999;
+    border: 1px solid #B3D1FF;
+    padding: 10px;
+    background-color: white;
+    width: 70%;
+  }
+  #map {
+    width: 800px;
+    height: 400px;
+  }
+}
+.make-appointment {
+  margin-top: 10px;
+}
+.list-address {
+  background-color: #eeeeee;
+  height: auto;
+  width: 800px;
+  margin-top: 20px;
+  padding: 20px;
+  .current {
+    #location_address {
+      width: 480px;
+      /*padding: 10px;*/
+      border: none !important;
+    }
+  }
+  .location-search {
+    width: 80%;
+    background-color: white;
+    padding: 10px;
+    .market-icon {
+      padding-left: 10px;
+      padding-top: 10px;
+    }
+    .input-location {
+      margin-left: 20px;
+      .text {
+        font-size: 12px;
+        font-weight: bold;
+      }
+    }
+  }
+  .history {
+    width: 80%;
+    border: 1px solid #DCDCDC;
+    margin-top: 5px;
+    background-color: #fff;
+    .icon {
+      width: 8%;
+      padding-left: 20px;
+    }
+
+    .select_address {
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .val {
+      width: 80%;
+      padding: 10px 10px 10px 0;
+      text-align: left;
+      margin-left: 12px;
+
+    }
+    .set-as-billing {
+      margin-top: 8px;
+      cursor: pointer;
+    }
+    .line-top {
+      border-top: 1px solid #B6B6B6;
+    }
+  }
+  .save_location {
+    margin-top: 10px;
+  }
+}
+
+/*Modal set location as Home/Work*/
+#bs-location-modal-lg {
+  .set-as-home, .set-as-work, .set-as-billing {
+    cursor: pointer;
+  }
+}
+
+.top10 {
+  margin-top: 10px;
+}
+
+.circle {
+  padding-top: 2px;
+  height: 38px;
+  -moz-border-radius: 75px;
+  -webkit-border-radius: 75px;
+  width: 38px;
+  border: 1px solid white;
+  text-align: center;
+  font-size: 6pt;
+  /*margin-left: 6px;*/
+  /*margin-bottom: 6px;*/
+}
+.text-window {
+  padding-top: 12px;
+  padding-left: 12px;
+  font-size: 12px;
+  .text-window-link {
+    text-decoration: none;
+    color: white;
+  }
+}
+.min-eta {
+  padding-top: 3px;
+  font-size: 13px;
+  margin-bottom: -2px;
+}
+.infoBox {
+  cursor: pointer;
+}
+.mg-top10 {
+  margin-top: 10px;
+}
+.mg-top-5 {
+  margin-top: 5px;
+}

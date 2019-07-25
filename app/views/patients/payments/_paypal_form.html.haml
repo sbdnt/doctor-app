@@ -1,0 +1,19 @@
+
+- if @paypal.errors
+  %ul
+    - @paypal.errors.full_messages.each do |error|
+      %li= error
+= form_for @paypal, url: url, html: { class: "form-horizontal" } do |f|
+  .form-group
+    = hidden_field_tag :method, 'paypal'
+  .form-group
+    = f.label :paypal_email, class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.text_field :paypal_email, class: "form-control avenir-regular"
+  .form-group
+    = f.label :password, class: "control-label avenir-regular col-lg-2"
+    .col-lg-3
+      = f.password_field :password, class: "form-control avenir-regular"
+  .form-group
+    .col-lg-3.col-lg-offset-2
+      = f.submit "Confirm", class: "btn btn-primary btn-red"

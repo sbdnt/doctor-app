@@ -1,0 +1,90 @@
+%ul.nav.nav-tabs
+  %li.active{:role => "presentation"}
+    %a{:href => '#'} Profile
+  %li{:role => "presentation"}
+    %a{:href => edit_doctor_registration_path} Edit Profile
+  %li{:role => "presentation"}
+    %a{:href => doctor_job_history_path } Job History
+  %li{:role => "presentation"}
+    %a{:href => doctor_payment_history_path } Payment History
+
+#doctor-profile-info
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Name:
+    .col-md-9.col-lg-9= current_doctor.name
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Email:
+    .col-md-9.col-lg-9= current_doctor.email
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Mobile phone:
+    .col-md-9.col-lg-9= current_doctor.phone_number
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Landline phone:
+    .col-md-9.col-lg-9= current_doctor.phone_landline
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Agency:
+    .col-md-9.col-lg-9= current_doctor.agency.try(:name) || 'None'
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Avatar:
+    .col-md-9.col-lg-9
+      = image_tag(current_doctor.avatar, size: '100x100') if current_doctor.avatar.present?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right GMC certificate:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('gmc_cert'), current_doctor.gmc_cert.url unless current_doctor.gmc_cert.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right GMC certificate expiration date:
+    .col-md-9.col-lg-9= current_doctor.gmc_cert_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right DBS certificate:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('dbs_cert'), current_doctor.dbs_cert.url unless current_doctor.dbs_cert.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right DBS certificate expiration date:
+    .col-md-9.col-lg-9= current_doctor.dbs_cert_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right MDU/MPS certificate:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('mdu_mps_cert'), current_doctor.mdu_mps_cert.url unless current_doctor.mdu_mps_cert.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right MDU/MPS certificate expiration date:
+    .col-md-9.col-lg-9= current_doctor.mdu_mps_cert_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Passport scan:
+    .col-md-9.col-lg-9
+      = image_tag(current_doctor.passport, size: '100x100') if current_doctor.passport.present?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Appraisal summary:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('last_appraisal_summary'), current_doctor.last_appraisal_summary.url unless current_doctor.last_appraisal_summary.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Appraisal summary expiration date:
+    .col-md-9.col-lg-9= current_doctor.last_appraisal_summary_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Reference from another GP:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('reference_gp'), current_doctor.reference_gp.url unless current_doctor.reference_gp.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Hepatitis B status:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('hepatitis_b_status'), current_doctor.hepatitis_b_status.url unless current_doctor.hepatitis_b_status.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Hepatitis B status expiration date:
+    .col-md-9.col-lg-9= current_doctor.hepatitis_b_status_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Child protection certificate:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('child_protection_cert'), current_doctor.child_protection_cert.url unless current_doctor.child_protection_cert.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Child protection certificate expiration date:
+    .col-md-9.col-lg-9= current_doctor.child_protection_cert_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Adult safeguarding certificate:
+    .col-md-9.col-lg-9= link_to current_doctor.get_document_link('adult_safeguarding_cert'), current_doctor.adult_safeguarding_cert.url unless current_doctor.adult_safeguarding_cert.url.blank?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Adult safeguarding certificate expiration date:
+    .col-md-9.col-lg-9= current_doctor.adult_safeguarding_cert_exp
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Working Zones:
+    .col-md-9.col-lg-9= current_doctor.doctor_zone_list
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Default start location:
+    .col-md-9.col-lg-9= current_doctor.default_start_location
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Status:
+    .col-md-9.col-lg-9= current_doctor.status
+
+

@@ -1,0 +1,32 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title DoctorApp
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body{class: "#{controller.action_name == 'new' && controller.controller_name == 'sessions' || controller.controller_name == 'passwords' || controller.controller_name == 'terms_conditions' || (controller.controller_name == 'helps'  && !agency_signed_in?) ? "login-background" : '' }"}
+    .wrapper
+      - if agency_signed_in? || doctor_signed_in? || patient_signed_in?
+        = render "shared/menu"
+      .container
+        #flash-panel
+          - flash.each do |key, val|
+            - if val.is_a?(Array) && val.any?
+              .alert{:class => "alert-#{key}"}
+                - val.each do |msg|
+                  - if msg.present?
+                    %div
+                      = msg
+                      %button.close{"data-dismiss" => "alert", :type => "button"} ×
+            - elsif val.present?
+              %div{:class => "alert alert-#{key}"}
+                = val
+                %button.close{"data-dismiss" => "alert", :type => "button"} ×
+        %div
+          = yield
+        .push
+    .main-loading= image_tag(asset_url("ajax/loader.gif"))
+    = render "shared/footer"

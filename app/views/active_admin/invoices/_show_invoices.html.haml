@@ -1,0 +1,43 @@
+%table.table-hover.table-bordered.table-striped.invoice-table
+  %thead
+    %tr
+    %th Category
+    %th Items
+    %th PricePerUnit
+    %th Quantity
+    %th Total
+    / %th VAT
+    / %th Price
+  - ItemsInvoice.where( invoice_id: invoice.id ).order("item_price ASC").each do |item|
+    / - price_before = item.item_price*item.quantity
+    / - price_after = price_before + price_before*Invoice::VAT/100
+    - price_before = item.item_price*item.quantity
+    %tr
+      %td= item.price_item.try(:price_category).try(:name)
+      %td= item.price_item.try(:name)
+      %td= number_to_currency(item.item_price, precision: 2, unit: "£", separator: ".", delimiter: ",")
+      %td= item.quantity
+      / %td= "#{Invoice::VAT}%"
+      / %td= number_to_currency(price_before*Invoice::VAT/100, precision: 2, unit: "£", separator: ".", delimiter: ",")
+      %td= number_to_currency(price_before, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  / %tr
+  /   %td{colspan: '5'} VAT
+  /   %td{colspan: '2'}= number_to_currency(invoice.vat, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  %tr
+    %td{colspan: '1'} 
+    %td{colspan: '4'}
+  %tr
+    %td{colspan: '4'} AppointmentFee
+    %td{colspan: '1'}= number_to_currency(invoice.appointment.try(:appointment_fee).to_f, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  %tr
+    %td{colspan: '4'} ExtensionFee
+    %td{colspan: '1'}= number_to_currency(invoice.appointment.get_extra_fee.to_f, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  %tr
+    %td{colspan: '4'} Discount
+    %td{colspan: '1'}= number_to_currency(invoice.discount, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  / %tr
+  /   %td{colspan: '4'} Total Extra
+  /   %td{colspan: '1'}= number_to_currency(invoice.total_extra, precision: 2, unit: "£", separator: ".", delimiter: ",")
+  %tr
+    %td{colspan: '4'} Total Prices
+    %td{colspan: '1'}= number_to_currency(invoice.total_prices, precision: 2, unit: "£", separator: ".", delimiter: ",")

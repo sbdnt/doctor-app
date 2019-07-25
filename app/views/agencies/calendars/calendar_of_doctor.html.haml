@@ -1,0 +1,150 @@
+.tabbable
+  %ul.nav.nav-tabs{style: "margin-bottom: 15px"}
+    %li.active
+      %a.default_calendar{"data-toggle" => "tab", href: "#default_calendar"} Default schedule
+    %li
+      %a.custom_calendar{"data-toggle" => "tab", href: "#custom_calendar"} Custom schedule
+
+  .tab-content
+    .fields.tab-pane.active
+      %label{ for: "apply_default_schedule", id: 'apply_default_schedule' }
+        = check_box_tag 'apply_default_schedule'#, @checked, @checked
+        Apply the default schedule
+      #default_calendar
+
+    .fields#custom_calendar.tab-pane
+
+
+:javascript
+  loadDefaultSchedule();
+  $("a.default_calendar").click(function(e) {
+    loadDefaultSchedule()
+  });
+  $("a.custom_calendar").click(function(e) {
+    loadCustomSchedule()
+  });
+
+  function loadDefaultSchedule() {
+    $(".main-loading").show()
+    $.ajax({
+      type: 'GET',
+      url: '/agencies/calendars/#{params[:doctor_id]}/default_schedules_of_doctor'
+    }).done(function(data) {
+      var events;
+      events = data;
+      console.log(events)
+      $('#default_calendar').fullCalendar({
+        googleCalendarApiKey: 'AIzaSyC3-CKsEvDKu_xMNllAGhaY5WYW0wa-NPw',
+        events: {
+          googleCalendarId: 'thuynt04@gmail.com',
+          className: 'gcal-event'
+        },
+        events: events,
+        eventClick: function(event) {
+          var url;
+          url = "/agencies/calendars/edit_default_schedule";
+          $.ajax({
+            type: 'GET',
+            data: {
+              id: event.id,
+              start_at: event.start.toString(),
+              doctor_id: event.doctor_id,
+              changed_by: "default_specific_status",
+              period_id: event.id,
+              agency_period_id: event.agency_period_id
+            },
+            url: url
+          }).done(function(data) {
+            return console.log("open" + event.id);
+          });
+          return false;
+        },
+        header: {
+          left: 'prev, next, today',
+          center: 'title',
+          right: 'month,agendaWeek,agendaDay'
+        },
+        columnFormat: {
+          month: 'ddd',
+          week: 'ddd d/M',
+          day: 'dddd d/M'
+        },
+        defaultView: 'agendaDay',
+        firstDay: 1,
+        selectable: true,
+        allDaySlot: false,
+        firstHour: 7,
+        timeFormat: {
+          agendaDay: '',
+          agendaWeek: '',
+          month: '',
+          '': 'h(:mm)t'
+        }
+      });
+      $(".main-loading").hide()
+      return data;
+    });
+  }
+
+  function loadCustomSchedule() {
+    $(".main-loading").show()
+    $.ajax({
+    type: 'GET',
+    url: '/agencies/calendars/#{params[:doctor_id]}/custom_schedules_of_doctor'
+  }).done(function(data) {
+    var events;
+    events = data;
+    console.log(events)
+    $('#custom_calendar').fullCalendar({
+      googleCalendarApiKey: 'AIzaSyC3-CKsEvDKu_xMNllAGhaY5WYW0wa-NPw',
+      events: {
+        googleCalendarId: 'thuynt04@gmail.com',
+        className: 'gcal-event'
+      },
+      events: events,
+      eventClick: function(event) {
+        var url;
+        url = "/agencies/calendars/edit_default_schedule";
+        $.ajax({
+          type: 'GET',
+          data: {
+            id: event.id,
+            start_at: event.start.toString(),
+            doctor_id: event.doctor_id,
+            changed_by: "custom_status",
+            period_id: event.id,
+            agency_period_id: event.agency_period_id
+          },
+          url: url
+        }).done(function(data) {
+          return console.log("open" + event.doctor_id);
+        });
+        return false;
+      },
+      header: {
+        left: 'prev, next, today',
+        center: 'title',
+        right: 'month,agendaWeek,agendaDay'
+      },
+      columnFormat: {
+        month: 'ddd',
+        week: 'ddd d/M',
+        day: 'dddd d/M'
+      },
+      defaultView: 'agendaDay',
+      firstDay: 1,
+      selectable: true,
+      allDaySlot: false,
+      firstHour: 7,
+      timezone: 'UTC',
+      timeFormat: {
+        agendaDay: '',
+        agendaWeek: '',
+        month: '',
+        '': 'h(:mm)t'
+      }
+    });
+      $(".main-loading").hide()
+      return data;
+    });
+  }

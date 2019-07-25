@@ -1,0 +1,34 @@
+!!!
+%html
+  %head
+    %meta{:name => "viewport", :content => "width=device-width, initial-scale=1.0"}
+    %title GPDQ
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body.landing-page
+
+    #flash-panel
+      - flash.each do |key, val|
+        - if val.is_a?(Array) && val.any?
+          .alert{:class => "alert-#{key}"}
+            - val.each do |msg|
+              - if msg.present?
+                %div
+                  = msg
+                  %button.close{"data-dismiss" => "alert", :type => "button"} ×
+        - elsif val.present?
+          %div{:class => "alert alert-#{key}"}
+            = val
+            %button.close{"data-dismiss" => "alert", :type => "button"} ×
+    = yield
+    - if session[:live].blank?
+      = render "shared/footer"
+    - else
+      .footer
+        .container
+          .row.content
+            %span.logo
+              = image_tag asset_url("landing/logo.png"), width: '82px'
+            %span.description.avenir-regular GPDQ provides another choice for NHS or private patients who simply want to see a doctor at short notice in their own home or office.

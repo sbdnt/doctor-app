@@ -1,0 +1,165 @@
+// Place all the styles related to the agencies controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+/*Fix fotter stick to bottom*/
+html, body {
+  height: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -40px; /* the bottom margin is the negative value of the footer's height */
+}
+.footer, .push {
+  height: 40px; /* .push must be the same height as .footer */
+}
+/*End*/
+.signin-agency, .signin-doctor, .signin-patient{
+  .form-group {
+    input[type=tel], input[type=password], input[type=file], input[type=text], input[type=email] {
+      width: 50%;
+    }
+  }
+  .text-left {
+    text-align: left !important;
+  }
+}
+.forgot-password {
+  .form-group {
+    .email {
+      width: 50%;
+    }
+  }
+  .text-left {
+    text-align: left !important;
+  }
+}
+.log-out-menu {
+  margin-top: 12px;
+}
+/*For error notifications*/
+form {
+  span.error {
+    color: red;
+  }
+  .error_notification {
+    margin-bottom: 8px;
+  }
+}
+#flash-panel {
+  .alert{
+    padding: 8px 35px 8px 14px;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.5);
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+  }
+}
+
+.change-pass {
+  margin-top: 10px;
+}
+
+.label-change-pass {
+  width: 11%
+}
+
+.agency-sign-in {
+  margin-left: 30%;
+  margin-top: 10%;
+}
+
+.agency-sign-up {
+  margin: 20px 15%;
+}
+
+.label-required {
+  &:after {
+    content: ' (*)'
+  }
+}
+
+.footer {
+  /*position: absolute;
+  bottom: 0;
+  text-align: center;*/
+}
+/*For terms-conditions page*/
+.terms-conditions {
+  /*height: 83vh;*/
+  /*overflow-y: scroll;*/
+  margin: 30px 0;
+}
+.main-loading{
+  position: absolute;
+  left: 50%;
+  top: 5%;
+  margin-left: -32px; /* -1 * image width / 2 */
+  margin-top: -32px;  /* -1 * image height / 2 */
+  display: none;
+  z-index: 10;
+  img{
+    margin-top: 400px;
+  }
+}
+
+/*Document Management*/
+.agency-help-detail, .agency-tc-detail {
+  td {
+    border-left: none;
+  }
+}
+.status_tag {
+  background: #cacaca;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 3px 5px 2px 5px;
+  font-size: 0.8em;
+}
+.status_tag.yes {
+  background: #6090DB;
+}
+.status_tag.no {
+  background: grey;
+}
+th {
+  vertical-align: middle !important;
+}
+
+/*Style checkbox calendar*/
+@media(max-width: 1300px) {
+  form.apply-form {
+    .apply-in-week {
+      .select-all {
+        margin-right: 2.7vw;
+      }
+      .default-day.last {
+        margin-right: 12vw;
+        margin-left: 2px;
+      }
+      .default-day {
+        margin-right: 11.8vw;
+      }
+    }
+  }
+}
+@media(min-width: 1301px) {
+  form.apply-form {
+    .apply-in-week {
+      .select-all {
+        margin-right: 2.05vw;
+      }
+      .default-day.last {
+        margin-right: 12.6vw;
+        margin-left: 2px;
+      }
+      .default-day {
+        margin-right: 12.6vw;
+      }
+    }
+  }
+}

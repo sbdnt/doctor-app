@@ -1,0 +1,61 @@
+.container-fluid
+  .row
+    .agency-sign-up
+      .row
+        .h4.col-md-9.col-md-offset-3.col-lg-9.col-lg-offset-3 Don't have an account, sign up now with one click
+      = simple_form_for(resource, as: resource_name, url: agency_registration_path, html: {class: "form-horizontal"}) do |f|
+        = f.error_notification
+        .form-group
+          = f.label :name, "Agency Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :first_name, "First Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :first_name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :last_name, "Last Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :last_name, required: true, autofocus: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :role, "Role", class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :role, required: true, label: false, collection: Agency.roles.keys.select{|a| a != "GP"}, include_blank: false, input_html: {class: "form-control input-double input-single"}
+        .form-group
+          = f.label :email, "Email", class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :email, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :password, "Password", class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :password, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :password_confirmation, "Password confirmation", class: "control-label col-md-3 col-lg-3"
+          .col-md-9.col-lg-9
+            = f.input :password_confirmation, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :address, "Address", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :address, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :phone_number, "Phone Number", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :phone_number, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :account_number, "Account Number", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :account_number, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :bank_name, "Bank Name", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :bank_name, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :branch_address, "Branch Address", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :branch_address, required: true, label: false, input_html: {class: "form-control"}
+        .form-group
+          = f.label :sort_code, "Sort Code", required: true, class: "control-label col-md-3 col-lg-3 label-required"
+          .col-md-9.col-lg-9
+            = f.input :sort_code, required: true, label: false, input_html: {class: "form-control"}
+        .form-actions
+          = f.button :submit, "Sign up", class: "btn btn-primary"

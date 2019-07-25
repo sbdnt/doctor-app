@@ -1,0 +1,82 @@
+%ul.nav.nav-tabs
+  %li.active{:role => "presentation"}
+    %a{:href => '#'} Profile
+  %li{:role => "presentation"}
+    %a{:href => edit_patient_registration_path} Edit Profile
+  %li{:role => "presentation"}
+    %a{:href => patient_appointment_history_path } Appointment History
+  %li{:role => "presentation"}
+    %a{:href => edit_histories_patients_payments_path } Payment History
+.pull-right.col-md-2.mg-top-5
+  = link_to "Make a booking request", show_make_request_patients_maps_path, class: "btn btn-primary"
+#patient-profile-info
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Full Name:
+    .col-md-9.col-lg-9= current_patient.try(:fullname)
+  / .row.profile-items
+  /   .col-md-3.col-lg-3.text-right First Name:
+  /   .col-md-9.col-lg-9= current_patient.first_name
+  / .row.profile-items
+  /   .col-md-3.col-lg-3.text-right Last Name:
+  /   .col-md-9.col-lg-9= current_patient.last_name
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Email:
+    .col-md-9.col-lg-9= current_patient.email
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Avatar:
+    .col-md-9.col-lg-9
+      = image_tag(current_patient.avatar, size: '100x100') if current_patient.avatar.present?
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Address:
+    .col-md-9.col-lg-9= current_patient.address
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Your Zone:
+    .col-md-9.col-lg-9= current_patient.try(:zone).try(:name)
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Phone Number:
+    .col-md-9.col-lg-9= current_patient.phone_number
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Account Number:
+    .col-md-9.col-lg-9= current_patient.account_number
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Bank Name:
+    .col-md-9.col-lg-9= current_patient.bank_name
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Sort Code:
+    .col-md-9.col-lg-9= current_patient.sort_code
+  .row.profile-items
+    .col-md-3.col-lg-3.text-right Branch Address:
+    .col-md-9.col-lg-9= current_patient.branch_address
+
+  .row
+    .col-lg-6.col-lg-offset-3
+      .page-header.bold.text-center.text-uppercase
+        Saved payment methods
+      = link_to "New payment method", new_patients_payment_path, class: "btn btn-primary btn-red pull-right", "data-no-turbolink" => true
+      %ul.saved-payment-method.clearfix
+        - @credit_cards.each do |card|
+          %li
+            = card.masking_credit_number
+            = " #{card.cc_type.upcase}"
+            |
+            = link_to "Edit", edit_patients_payment_path(card, method: "credit_card"), 'data-no-turbolink' => true
+        - if @paypal
+          %li
+            = @paypal.paypal_email
+            = "PAYPAL"
+            |
+            = link_to "Edit", edit_patients_payment_path(@paypal, method: "paypal")
+  .row
+    .col-lg-6.col-lg-offset-3
+      .page-header.bold.text-center.text-uppercase
+        Saved addresses
+      = link_to "New address", new_patients_location_path, class: "btn btn-primary btn-red pull-right", 'data-no-turbolink' => true
+      %ul.saved-address.clearfix
+        - @last_saved_addresses.each do |address|
+          %li
+            %span.glyphicon{class: "#{address.address_type == 'home' ? 'glyphicon-home' : 'glyphicon-briefcase'}"}
+            = address.address
+            \-
+            %span.glyphicon{class: "#{address.is_bill_address? ? 'glyphicon-gbp' : ''}"}
+            |
+            = link_to "Edit", edit_patients_location_path(address), 'data-no-turbolink' => true

@@ -1,0 +1,127 @@
+= render template: "agencies/calendars/custom_schedules_of_doctor"
+/ = form_tag('/doctors/calendars/apply_default_schedule', remote: true, method: :put, class: "apply-form") do
+/   = hidden_field_tag 'is_apply'
+/   = hidden_field_tag 'week_day'
+/   = hidden_field_tag 'is_apply_week'
+/   = hidden_field_tag 'is_apply_day'
+/   = hidden_field_tag :doctor_id, params[:id]
+/   = hidden_field_tag :agency_id, current_doctor.agency_id
+/ - apply = ApplySchedule.where(week_day: Date.today.wday).where(doctor_id: params[:doctor_id], agency_id: current_doctor.agency_id).first
+/ %label{ for: "apply_default_schedule", id: 'apply_default_schedule' }
+/   = check_box_tag 'apply_default_schedule', apply.try(:is_apply_day), apply.try(:is_apply_day)
+/   Apply the default schedule
+
+/ #custom_calendar
+/   - doctor_id = params[:id]
+
+/ :javascript
+/   $(".main-loading").show()
+/   window.apply_for_week = false
+/   window.apply_for_day = true
+/   $('#custom_calendar').fullCalendar({
+/     googleCalendarApiKey: 'AIzaSyC3-CKsEvDKu_xMNllAGhaY5WYW0wa-NPw',
+/     events: {
+/       googleCalendarId: 'thuynt04@gmail.com',
+/       className: 'gcal-event'
+/     },
+/     events: function(start, end, timezone, callback) {
+/       $(".main-loading").show()
+/       data = { start_time: start._d.toString(), end_time: end._d.toString() }
+/       var diff = end._d - start._d
+/       $.ajax({
+/         type: 'GET',
+/         data: data,
+/         url: '/doctors/calendars/#{doctor_id}'
+/         }).
+/         success(function(data) {
+/           callback(data["events"]);
+/           console.log(diff)
+/           if (diff > 86400000) {
+/             //$("#is_apply_week").attr("value", true)
+/             console.log(data["is_apply_week"])
+/             window.apply_for_week = true
+/             window.apply_for_day = false
+/             $("#apply_default_schedule").find("input").prop("checked", data["is_apply_week"])
+/           } else {
+/             window.apply_for_day = true
+/             $("#week_day").attr("value", start._d)
+/             $("#apply_default_schedule").find("input").prop("checked", data["is_apply"])
+/           }
+/           $(".main-loading").hide()
+/         })
+/     },
+/     eventClick: function(event) {
+/       var url;
+/       url = "/doctors/calendars/edit_event";
+/       $.ajax({
+/         type: 'GET',
+/         data: {
+/           id: event.id,
+/           start_at: event.start.toString(),
+/           doctor_id: "#{doctor_id}",
+/           changed_by: "custom_status",
+/           period_id: event.id,
+/           agency_period_id: event.agency_period_id
+/         },
+/         url: url
+/       }).done(function(data) {
+/         return console.log("open" + event.doctor_id);
+/       });
+/       return false;
+/     },
+/     header: {
+/       left: 'prev, next, today',
+/       center: 'title',
+/       right: 'month,agendaWeek,agendaDay'
+/     },
+/     columnFormat: {
+/       month: 'ddd',
+/       week: 'ddd d/M',
+/       day: 'dddd d/M'
+/     },
+/     defaultView: 'agendaDay',
+/     firstDay: 1,
+/     scrollTime:  "08:00:00",
+/     selectable: true,
+/     allDaySlot: false,
+/     firstHour: 7,
+/     timezone: 'UTC',
+/     slotDuration: '00:15:00',
+/     slotEventOverlap: false,
+/     defaultTimedEventDuration: '01:00:00',
+/     timeFormat: {
+/       agendaDay: '',
+/       agendaWeek: '',
+/       month: '',
+/       '': 'h(:mm)t'
+/     }
+/   });
+
+/   $("#apply_default_schedule").change(function() {
+/     var checkbox, value;
+/     checkbox = $("#apply_default_schedule").find("input:checked");
+/     if (checkbox.length !== 0) {
+/       $("#is_apply").attr("value", true);
+/       console.log(window.apply_for_week == "true")
+/       console.log(window.apply_for_week)
+/       if (window.apply_for_week == true) {
+/         $("#is_apply_week").attr("value", true)
+/       } 
+/       if (window.apply_for_day == true) {
+/         $("#is_apply_day").attr("value", true)
+/       } 
+/       value = 1;
+/     } else {
+/       value = 0;
+/       if (window.apply_for_week == true) {
+/         $("#is_apply_week").attr("value", false)
+/       } 
+/       if (window.apply_for_day == true) {
+/         $("#is_apply_day").attr("value", false)
+/       } 
+/       $("#is_apply").attr("value", false);
+/     }
+/     $(".apply-form").submit();
+/     window.apply_for_week = false
+/     window.apply_for_day = false
+/   });

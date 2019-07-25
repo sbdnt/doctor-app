@@ -1,0 +1,35 @@
+.voucher-form
+  = semantic_form_for [:admin, @voucher] do |f|
+    = f.inputs :voucher_code, label: "Reference"
+    = f.inputs :description, label: "Description"
+    = f.inputs :amount, lable: "Amount"
+    = f.input :discount_type, :as => :radio, :collection => ["GDP Amount", "Percentange"]
+    / = f.inputs :amount, label: "Amount"
+    / = f.inputs :percent, label: "Percent"
+    = f.input :started_date, :as => :string, label: "Start Date"
+    = f.input :ended_date, :as => :string, label: "End Date"
+    / = link_to "Generate code", generate_code_admin_vouchers_path, remote: true, class: "btn btn-default generate-code"
+  	
+		        
+
+/     = f.actions
+
+/ :javascript
+/   var ready;
+/   ready = function() {
+/     / $("#voucher_voucher_code").prop("readonly", true);
+/     $('.generate-code').bind('ajax:complete', function(e, data, status, xhr) {
+/       if (data.status == 200) {
+/         console.log(data.responseText);
+/         $("#voucher_voucher_code").val(data.responseText);
+/       }
+/     });
+/   }
+/   $(document).ready(ready);
+/   $(document).on('page:load', ready);
+
+
+
+
+
+

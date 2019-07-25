@@ -1,0 +1,313 @@
+
+%nav.navbar.navbar-default.navbar-fixed-top
+  .navbar-header
+    %button.navbar-toggle.collapsed{"data-target" => "#dr-navbar-collapse", "data-toggle" => "collapse", :type => "button"}
+      %span.sr-only Toggle navigation
+      %span.icon-bar
+      %span.icon-bar
+      %span.icon-bar
+    %a.navbar-brand.page-scroll{:href => "#page-top"}
+      = image_tag asset_url("landing/logo.png"), class: "image-responsive"
+  / Collect the nav links, forms, and other content for toggling
+  #dr-navbar-collapse.collapse.navbar-collapse
+    %ul.nav.navbar-nav.navbar-right
+      %li
+        %a.page-scroll{:href => "#gpdq-is-for"}
+          Who GPDQ Is For
+      %li
+        %a.page-scroll{:href => "#about-gpdq"}
+          Tell Me More
+.header#page-top
+  .container
+    .row
+      .header-content
+        .slick-header
+          .slider-image
+            = image_tag asset_url("landing/carousel-header.jpg"), width: '100%'
+            .wrapper-over
+              .title
+                A Doctor. Delivered Quick.
+              .description
+                The UK's first doctor on-demand app.
+              .btn-header-group
+                = link_to "TELL ME MORE", "#about-gpdq", class: "btn btn-primary btn-tell-me-more page-scroll"
+                = link_to "GET INVOLVED", new_agency_registration_path+"?live=true", class: "btn btn-primary btn-get-involved"
+%section#about-gpdq.bg-about-gpdq
+  .container
+    .row
+      .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2.text-center
+        %h2.section-heading
+          What Is GPDQ?
+    .row
+      .col-lg-10.col-lg-offset-1.col-md-10.col-md-offset-1.col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1.text-center
+        = image_tag asset_url("landing/intro-icons.jpg"), width: '100%'
+    .row
+      %h4.text-center.title
+        GPDQ Is The UK's first Doctor On-Demand App.
+      .col-lg-6.col-lg-offset-3.col-md-6.col-md-offset-3.col-sm-6.col-sm-offset-3.col-xs-6.col-xs-offset-3
+        .row
+          .col-lg-6.col-md-6.col-sm-6.col-xs-6.text-center.description
+            The UK's first On-Demand Doctor App connecting patients to high quality GPs within minutes.
+          .col-lg-6.col-md-6.col-sm-6.col-xs-6.border-left.text-center.description
+            GPDQ gives GPs the ability to have maximum work flexibility as they create their own virtual private practice.
+%section#gps-involved.bg-gps-involved
+  .container
+    .top-row.row
+      .col-lg-8.col-lg-offset-2.col-md-8.col-md-offset-2.col-sm-8.col-sm-offset-2.col-xs-8.col-xs-offset-2.text-center
+        %h2.section-heading
+          How GPs Can Get Involved
+      .col-lg-10.col-lg-offset-1.col-md-10.col-md-offset-1.col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1.text-center.steps
+        %span.step
+          = image_tag asset_url("landing/step-active-icon")
+          %span.number-over 1
+          %span.text Register
+        %span.step
+          = image_tag asset_url("landing/step-active-icon")
+          %span.number-over 2
+          %span.text Submit Docs
+        %span.step
+          = image_tag asset_url("landing/step-active-icon")
+          %span.number-over 3
+          %span.text Background Screening
+        %span.step
+          = image_tag asset_url("landing/step-active-icon")
+          %span.number-over 4
+          %span.text Interview With Chief Med Officer
+        %span.step
+          = image_tag asset_url("landing/step-active-icon")
+          %span.number-over 5
+          %span.text Acceptance
+    .slider-row.row
+      .slick-header.col-lg-10.col-lg-offset-1.col-md-10.col-md-offset-1.col-sm-10.col-sm-offset-1.col-xs-10.col-xs-offset-1.text-center
+        .slider-image.first.col-lg-12.col-md-12.col-sm-12.col-xs-12
+          .col-lg-5.col-lg-offset-1.col-md-5.col-md-offset-1.col-sm-5.col-sm-offset-1.col-xs-5.col-xs-offset-1.text-left.pass-left
+            %p.title.avenir-bold
+              A Doctor. Delivered Quick.
+            .description.avenir-bold
+              GPDQ Is The UK's first Doctor On-Demand App.
+            %ul
+              %li.avenir-regular
+                The UK's first On-Demand Doctor App connecting patients to high quality GPs within minutes.
+              %li.avenir-regular
+                GPDQ gives GPs the ability to have maximum work flexibility as they create their own virtual private practice.
+
+
+%section#gpdq-is-for
+  .container
+    .row
+      .col-lg-3.col-md-3.col-sm-3.col-xs-3.who-user-left
+        = image_tag asset_url("landing/who-use-left.jpg"), width: '100%'
+      .col-lg-7.col-lg-offset-1.col-md-7.col-md-offset-1.col-sm-7.col-sm-offset-1.col-xs-7.col-xs-offset-1
+        .top-title
+          .title.color-magenta.avenir-bold
+            A Doctor. Delivered Quick.
+          .description.avenir-regular
+            GPDQ enables patients to arrange a home or office visit from a qualified GP in seconds. GPs will dispense standard prescriptions on site and will be leveraging the UK’s quickest delivery service for more specialised medications.
+        .bellow-title
+          .row
+            .col-lg-6.col-md-6.col-sm-6.col-xs-6.item
+              .title.color-magenta.avenir-bold
+                Locum Agencies
+              .description.avenir-regular
+                GPDQ works with a selection of the UK's best quality locum agencies to ensure supply meets the level of demand for appointments at all times.
+            .col-lg-6.col-md-6.col-sm-6.col-xs-6.item
+              .title.color-magenta.avenir-bold
+                Doctors
+              .description.avenir-regular
+                GPDQ works only with the best, fully-trained doctors, who are given additional training to work to the high GPDQ standard.
+        .bellow-title
+          .row
+            .col-lg-6.col-md-6.col-sm-6.col-xs-6.item
+              .title.color-magenta.avenir-bold
+                Patients
+              .description.avenir-regular
+                GPDQ provides another choice for NHS or private patients who simply want to see a doctor at short notice in their own home or office.
+            .col-lg-6.col-md-6.col-sm-6.col-xs-6.item
+              .title.color-magenta.avenir-bold
+                Current GP Provider Organisations
+              .description.avenir-regular
+                GPDQ welcomes all current GP providers of home visits to also express their interest to increase their patient throughflow.
+%section#register.bg-register
+  .container
+    .row
+      = image_tag asset_url("landing/sign-up-landing.jpg"), width: '100%'
+      .col-lg-6.col-md-6.col-sm-6.col-xs-6.wrapper-over.text-center
+        .title.avenir-bold
+          I'm a doctor And I want To register
+        .description.avenir-regular
+          UK-based, qualified GPs are welcome to register their interest.
+        .description.avenir-regular
+          We'll be in touch with next steps.
+        .btn-header-group
+          = link_to "REGISTER NOW", new_agency_registration_path+"?live=true" + '#sign-up-now' , class: "btn btn-primary btn-sign-up"
+%section#screens.bg-screens
+  .slick-screens
+    .slider-image
+      .row.top-tip
+        .col-lg-2.col-lg-offset-3.col-md-2.col-md-offset-3.col-sm-2.col-sm-offset-3.col-xs-2.col-xs-offset-3.arrow.top-arrow
+          = image_tag asset_url("landing/top-arrow-tip.png")
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Doctors simply turn on their app to receive bookings
+      = image_tag asset_url("landing/screens-1st.jpg"), class: "center-block screen-img"
+      .row.bot-tip
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Patients pay immediately for the appointment on the app
+        .col-lg-2.col-md-2.col-sm-2.col-xs-2.arrow.bot-arrow
+          = image_tag asset_url("landing/bot-arrow-tip.png"), class: "pull-left"
+    .slider-image
+      .row.top-tip
+        .col-lg-2.col-lg-offset-3.col-md-2.col-md-offset-3.col-sm-2.col-sm-offset-3.col-xs-2.col-xs-offset-3.arrow.top-arrow
+          = image_tag asset_url("landing/top-arrow-tip.png")
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Doctors simply turn on their app to receive bookings
+      = image_tag asset_url("landing/screens-2nd.jpg"), class: "center-block screen-img"
+      .row.bot-tip
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Patients pay immediately for the appointment on the app
+        .col-lg-2.col-md-2.col-sm-2.col-xs-2.arrow.bot-arrow
+          = image_tag asset_url("landing/bot-arrow-tip.png"), class: "pull-left"
+    .slider-image
+      .row.top-tip
+        .col-lg-2.col-lg-offset-3.col-md-2.col-md-offset-3.col-sm-2.col-sm-offset-3.col-xs-2.col-xs-offset-3.arrow.top-arrow
+          = image_tag asset_url("landing/top-arrow-tip.png")
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Doctors simply turn on their app to receive bookings
+      = image_tag asset_url("landing/screens-3rd.jpg"), class: "center-block screen-img"
+      .row.bot-tip
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Patients pay immediately for the appointment on the app
+        .col-lg-2.col-md-2.col-sm-2.col-xs-2.arrow.bot-arrow
+          = image_tag asset_url("landing/bot-arrow-tip.png"), class: "pull-left"
+    .slider-image
+      .row.top-tip
+        .col-lg-2.col-lg-offset-3.col-md-2.col-md-offset-3.col-sm-2.col-sm-offset-3.col-xs-2.col-xs-offset-3.arrow.top-arrow
+          = image_tag asset_url("landing/top-arrow-tip.png")
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Doctors simply turn on their app to receive bookings
+      = image_tag asset_url("landing/screens-4th.jpg"), class: "center-block screen-img"
+      .row.bot-tip
+        .text.col-lg-7.col-md-7.col-sm-7.col-xs-7
+          .title.avenir-bold
+            Easy To Use
+          .description.avenir-regular
+            Patients pay immediately for the appointment on the app
+        .col-lg-2.col-md-2.col-sm-2.col-xs-2.arrow.bot-arrow
+          = image_tag asset_url("landing/bot-arrow-tip.png"), class: "pull-left"
+%section#tell-me-more.bg-tell-me-more
+  .container
+    .row
+      .col-lg-7.col-md-7.col-sm-7.col-xs-7
+        .row
+          .col-lg-6.col-md-6.col-sm-6.col-xs-6.device-image
+            = image_tag asset_url("landing/available-device.png")
+          .col-lg-6.col-md-6.col-sm-6.col-xs-6.available
+            .right-content
+              .title.avenir-bold
+                Available On
+              .description.avenir-regular
+                It is available across the UK via the Apple and Google Play app stores. A back office feature is accessible to all registered GPs to manage bookings and receive payments.
+              .store-group
+                %span.first
+                  = image_tag asset_url("landing/app-store-icon.png")
+                %span
+                  = image_tag asset_url("landing/gplay-icon.png")
+      .col-lg-5.col-md-5.col-sm-5.col-xs-5
+        .row
+          .col-lg-11.col-lg-offset-1.col-md-11.col-md-offset-1.col-sm-11.col-sm-offset-1.col-xs-11.col-xs-offset-1.email-form
+            .title.avenir-bold
+              Keep Me Posted
+            .description.avenir-regular Simply enter your email address for more information
+            = form_tag(new_agency_registration_path, {:method => :get}) do
+              = text_field_tag "email", nil, placeholder: "your email"
+              = hidden_field_tag "live", true, placeholder: "your email"
+              = submit_tag "GO", class: "btn btn-primary btn-email-go"
+
+:javascript
+  $(".slick-header").slick({
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    arrows: false,
+    autoplay: true,
+    responsive: [
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1
+        }
+      }
+    ]
+  });
+  $(".slick-screens").slick({
+    centerMode: true,
+    centerPadding: '20px',
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: false,
+    arrows: true,
+  });
+  $('a.page-scroll').on('click', function(event) {
+    var $anchor = $(this);
+    $('html, body').stop().animate({
+        scrollTop: ($($anchor.attr('href')).offset().top - 86)
+    }, 500, 'easeInOutExpo');
+    event.preventDefault();
+  });
+
+  // Highlight the top nav as scrolling occurs
+  $('body').scrollspy({
+    target: '.navbar-fixed-top',
+    offset: 87
+  });
+
+  // Closes the Responsive Menu on Menu Item Click
+  $('.navbar-collapse ul li a').click(function() {
+    $('.navbar-toggle:visible').click();
+  });
+
+  // Fit Text Plugin for Main Header
+  $("h1").fitText(
+    1.2, {
+        minFontSize: '35px',
+        maxFontSize: '65px'
+    }
+  );
+
+  // Offset for Main Navigation
+  $('#mainNav').affix({
+    offset: {
+        top: 100
+    }
+  });
+
+  // Initialize WOW.js Scrolling Animations
+  new WOW().init();
+
+  // scroll the page to the right section
+  var $anchor = $(window.location.hash)
+  if ( $anchor.length > 0 ) {
+    $('html, body').stop().animate({
+        scrollTop: ($anchor.offset().top - 86)
+    }, 500, 'easeInOutExpo');
+  }

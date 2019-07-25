@@ -1,0 +1,27 @@
+.row
+  .col-md-2.col-md-offset-3.bold
+    Email
+  .col-md-6
+    = @current_patient.email
+.row.mtop-5
+  .col-md-2.col-md-offset-3.bold
+    Phone number
+  .col-md-6
+    = @current_patient.phone_number
+.row.mtop-5
+  .col-md-2.col-md-offset-3.bold
+    Address
+  .col-md-6
+    = @current_patient.address
+.row.mtop-5
+  .col-md-2.col-md-offset-3.bold
+    Your Zone
+  .col-md-6
+    = Zone.find_by_id(@current_patient.zone_id).try(:name)
+%center.mtop-5
+  = link_to "Go to Dashboard", "#", class: "btn btn-primary btn-red btn-go-dashboard"
+
+:javascript
+  $(".btn-go-dashboard").click(function(){
+    window.location.href = "/patients/dashboards?tab=yes"
+  })

@@ -1,0 +1,109 @@
+.row
+  %h2.pull-left List of Appointment
+- if @live_appointments.present?
+  %ul.nav.nav-tabs{:role => "tablist"}
+    %li{:role => "presentation", class: "#{(params[:tab] || 'live') == 'live' ? 'active' : ''}"}
+      %a{"aria-controls" => "home", "data-toggle" => "tab", :href => "#all-apt", :role => "tab"} Live appointments
+    %li{:role => "presentation", class: "#{params[:tab] == 'past' ? 'active' : ''}"}
+      %a{"aria-controls" => "profile", "data-toggle" => "tab", :href => "#last-apt", :role => "tab"} Past appointments
+  / Tab panes
+  .tab-content
+    #all-apt.tab-pane{:role => "tabpanel", class: "#{(params[:tab] || 'live') == 'live' ? 'active' : ''}"}
+      .row.doctor-management
+        %table.table.table-hover{:border => 2}
+          %thead
+            %tr
+              %th Id
+              %th{ class: "#{ params[:sort] == 'doctor_id' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "Doctor", sort: 'doctor_id', sort_direction: params[:sort] == 'doctor_id' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th{ class: "#{ params[:sort] == 'patient_id' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "Patient", sort: 'patient_id', sort_direction: params[:sort] == 'patient_id' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th
+                Patient Location
+              %th{ class: "#{ params[:sort] == 'apm_type' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "Type", sort: 'apm_type', sort_direction: params[:sort] == 'apm_type' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th{ class: "#{ params[:sort] == 'start_at' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "Start at", sort: 'start_at', sort_direction: params[:sort] == 'start_at' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th{ class: "#{ params[:sort] == 'end_at' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "End at", sort: 'end_at', sort_direction: params[:sort] == 'end_at' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th{ class: "#{ params[:sort] == 'rating' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                = link_to "Rating", sort: 'rating', sort_direction: params[:sort] == 'rating' ? params[:sort_direction] : 'desc', tab: 'live', query: params[:query]
+                %span.caret
+              %th
+                Total Invoice
+
+          %tbody
+            - @live_appointments.each_with_index do |appointment, index|
+              %tr{ class: "#{ index.odd? ? 'even' : 'odd' }" }
+                %td= appointment.id
+                %td
+                  %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Name : #{appointment.doctor.try(:name)} <br/>Tel: #{appointment.doctor.try(:phone_number)} <br/>Agency: #{appointment.doctor.try(:agency).try(:name).nil? ? "Blank" : appointment.doctor.try(:agency).try(:name)}"}=appointment.doctor.try(:name)
+                %td
+                  %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Name : #{appointment.patient.try(:name)} <br/>Tel: #{appointment.patient.try(:phone_number)} <br/>Location: #{appointment.patient.try(:address)}"}=appointment.patient.try(:name)
+                %td= appointment.patient.try(:address)
+                %td= appointment.apm_type
+                %td= appointment.start_at
+                %td= appointment.end_at
+                %td
+                  %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "#{strip_html(appointment.try(:feedback))}"}
+                    - if appointment.try(:rating).present?
+                      - appointment.try(:rating).times do
+                        = image_tag(asset_url("mid-star.png"), size: '15x15')
+                %td= appointment.invoice.try(:total_prices)
+    #last-apt.tab-pane{:role => "tabpanel", class: "#{params[:tab] == 'past' ? 'active' : ''}"}
+      - if @past_appointments.present?
+        .row.doctor-management
+          %table.table.table-hover{:border => 2}
+            %thead
+              %tr
+                %th Id
+                %th{ class: "#{ params[:sort] == 'doctor_id' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "Doctor", sort: 'doctor_id', sort_direction: params[:sort] == 'doctor_id' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th{ class: "#{ params[:sort] == 'patient_id' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "Patient", sort: 'patient_id', sort_direction: params[:sort] == 'patient_id' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th
+                  Patient Location
+                %th{ class: "#{ params[:sort] == 'apm_type' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "Type", sort: 'apm_type', sort_direction: params[:sort] == 'apm_type' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th{ class: "#{ params[:sort] == 'start_at' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "Start at", sort: 'start_at', sort_direction: params[:sort] == 'start_at' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th{ class: "#{ params[:sort] == 'end_at' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "End at", sort: 'end_at', sort_direction: params[:sort] == 'end_at' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th{ class: "#{ params[:sort] == 'rating' && params[:sort_direction] == 'asc' ? 'dropup' : '' }" }
+                  = link_to "Rating", sort: 'rating', sort_direction: params[:sort] == 'rating' ? params[:sort_direction] : 'desc', tab: 'past', query: params[:query]
+                  %span.caret
+                %th
+                  Total Invoice
+
+            %tbody
+              - @past_appointments.each_with_index do |appointment, index|
+                %tr{ class: "#{ index.odd? ? 'even' : 'odd' }" }
+                  %td= appointment.id
+                  %td
+                    %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Name : #{appointment.doctor.try(:name)} <br/>Tel: #{appointment.doctor.try(:phone_number)} <br/>Agency: #{appointment.doctor.try(:agency).try(:name).nil? ? "Blank" : appointment.doctor.try(:agency).try(:name)}"}=appointment.doctor.try(:name)
+                  %td
+                    %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "Name : #{appointment.patient.try(:name)} <br/>Tel: #{appointment.patient.try(:phone_number)} <br/>Location: #{appointment.patient.try(:address)}"}=appointment.patient.try(:name)
+                  %td= appointment.patient.try(:address)
+                  %td= appointment.apm_type
+                  %td= appointment.start_at
+                  %td= appointment.end_at
+                  %td
+                    %span{"data-placement" => "top", "data-toggle" => "tooltip", :title => "#{strip_html(appointment.try(:feedback))}"}
+                      - if appointment.try(:rating).present?
+                        - appointment.try(:rating).times do
+                          = image_tag(asset_url("mid-star.png"), size: '15x15')
+                  %td= appointment.invoice.try(:total_prices)
+      - else
+        %h4 No appointment found
+- else
+  %h4 No appointment found

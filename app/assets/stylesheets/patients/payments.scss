@@ -1,0 +1,84 @@
+// Place all the styles related to the patients/payments controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.payment-method {
+  font-size: 17px;
+  /*For tab style*/
+  ul.nav.nav-tabs {
+    li.active{
+      a {
+        background-color: #815fc2;
+        color: white;
+      }
+    }
+  }
+
+  .tab-content {
+    padding-bottom: 10px;
+    margin: 20px 15%;
+  }
+  .field {
+    font-size: 20px;
+    margin-top: 10px;
+    display: inline-block;
+  }
+  .error {
+    label, input {
+      color: red;
+    }
+  }
+  #ccnum-type {
+    text-transform: uppercase;
+  }
+  .form-control-custom {
+    display: block;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    &:focus {
+      border-color: #66afe9;
+      outline: 0;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+    }
+  }
+  label {
+    margin-bottom: 0;
+    margin-top: 5px;
+  }
+  .btn-apply-voucher {
+    /*border-radius: 300px;*/
+    background-color: white !important;
+    border: 1px solid #a998c6 !important;
+    color: #a998c6 !important;
+    font-size: 12px;
+    padding: 8px 15px;
+    font-family: AvenirNext Regular !important;
+    /*text-transform: uppercase;*/
+    text-decoration: none;
+  }
+  .save-payment {
+    margin-top: 10px;
+  }
+  #creadit-card {
+    #voucher_code {
+      /*margin-left: 4.333333%;*/
+    }
+  }
+  .text-left {
+    text-align: left !important;
+  }
+}
+
+.credit-card-last-bill-addresses { display: none; }

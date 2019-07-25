@@ -1,0 +1,35 @@
+= form_tag('/agencies/calendars/apply_default_schedule', remote: true, method: :put, class: "apply-form") do
+  = #hidden_field_tag 'is_apply'
+  = #hidden_field_tag 'week_day'
+  = #hidden_field_tag 'is_apply_week'
+  = #hidden_field_tag 'is_apply_day'
+  = hidden_field_tag 'wday'
+  = hidden_field_tag 'start_time'
+  = hidden_field_tag 'end_time'
+  = hidden_field_tag 'is_default_week'
+  = hidden_field_tag :doctor_id, doctor_id
+  = hidden_field_tag :agency_id, agency_signed_in? ? current_agency.id : current_doctor.agency_id
+  / %label{ for: "apply_default_schedule", id: 'apply_default_schedule' }
+  /   = check_box_tag 'apply_default_schedule'
+  /   Apply the default schedule
+
+  .apply-in-week.hidden{style: "position: absolute; top: 96px; z-index: 9999"}
+    %span.select-all{style: "margin-left: 2px"}= check_box_tag '', '', false, class: "select_all"
+    - (0..6).to_a.map do |wday|
+      - if wday == 6
+        %span.default-day.last
+          - wday += 1
+          - wday = 0
+          = #wday
+          = #check_box_tag "apply_for_#{wday}", wday
+          = check_box_tag 'selected_days[]', wday
+      - else
+        %span.default-day
+          - wday += 1
+          = #wday
+          = #check_box_tag "apply_for_#{wday}", wday
+          = check_box_tag 'selected_days[]', wday
+  .buttons{style: "margin-bottom: 10px;"}
+    = link_to "Apply for Week", "#", class: "btn btn-primary btn-week disabled hidden"
+    %span.check-box-day= check_box_tag 'apply_default_day'
+    = link_to "Apply for Day", "#", class: "btn btn-primary btn-day disabled"
